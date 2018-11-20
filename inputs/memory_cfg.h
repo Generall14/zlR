@@ -14,6 +14,8 @@
 #ifndef MEMORY_CFG_H_
 #define MEMORY_CFG_H_
 
+; tego typu luźno wiszące stałe będą podmieniane jak w zwykłym preprocesorze
+; tego może być więcej typów?
 #define MAIN_STACK_SIZE                     1024
 #define PROCESS_STACK_SIZE                  1024
 
@@ -44,7 +46,7 @@
  * Max number of regions 20 <0..19>
  *
  **********************************************************************************************************/
-
+; tu jakiś dodatkowy znacznik
 #define REGION_0            ROM          , RX        , 0x08000000    , 2M
 #define REGION_1            RAM          , RWX       , 0x20000000    , 112k
 #define REGION_2            RAM1         , RWX       , 0x2001C000    , 16k
@@ -71,7 +73,7 @@
  *
  *                          NAME            LMA_ADDR    VMA_ADDR        TYPE        KEEP    NOLOAD
  **********************************************************************************************************/
-
+; tu jakiś dodatkowy znacznik
 #define SECTION_0           FUNC_RAM      , ROM         , RAM           , DATA      ,       ,
 #define SECTION_1           SRAM          , SRAM        , SRAM          , NOINIT    ,       , NOLOAD
 
