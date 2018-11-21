@@ -17,7 +17,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        maingui.cpp
+        maingui.cpp \
+    src/Data.cpp \
+    src/DataRegion.cpp \
+    src/DataSection.cpp \
+    src/DataI.cpp
 
 HEADERS += \
-        maingui.hpp
+        maingui.hpp \
+    src/Data.hpp \
+    src/DataRegion.hpp \
+    src/DataSection.hpp \
+    src/DataI.hpp
