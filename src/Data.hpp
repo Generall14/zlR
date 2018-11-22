@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QObject>
+#include <src/DataRegion.hpp>
+#include <QSharedPointer>
 
 class Data : public QObject
 {
@@ -10,16 +12,21 @@ class Data : public QObject
 public:
     Data();
     Data(QString adr);
+    ~Data();
 
     void Load(QString adr);
     void Save(QString adr);
     void Make(QString temp, QString out);
+
+    QSharedPointer<DataRegion> GetRegions() const;
 
 public slots:
     void CheckAll();
 
 private:
     void Clear();
+
+    QSharedPointer<DataRegion> _reg;
 };
 
 #endif

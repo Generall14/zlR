@@ -8,9 +8,12 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <stdexcept>
+#include <QDebug>
+#include <src/Data.hpp>
 
-MainGUI::MainGUI(QWidget *parent)
-    : QMainWindow(parent)
+MainGUI::MainGUI(QSharedPointer<Data> dat, QWidget *parent):
+    QMainWindow(parent),
+    _dat(dat)
 {
     InitGUI();
     InitMenu();
@@ -18,7 +21,7 @@ MainGUI::MainGUI(QWidget *parent)
 
 MainGUI::~MainGUI()
 {
-
+    qDebug() << "MainGUI::~MainGUI()";
 }
 
 void MainGUI::InitGUI()
@@ -34,6 +37,7 @@ void MainGUI::InitGUI()
     regGB->setLayout(new QVBoxLayout());
 
     regTBV = new QTableView();
+    regTBV->setModel(_dat.data()->GetRegions().data());
     regGB->layout()->addWidget(regTBV);
 
     QHBoxLayout* regBL = new QHBoxLayout();

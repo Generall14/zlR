@@ -1,8 +1,15 @@
 #include "Data.hpp"
+#include <QDebug>
 
 Data::Data()
 {
+    _reg = QSharedPointer<DataRegion>(new DataRegion());
     Clear();
+}
+
+Data::~Data()
+{
+    qDebug() << "Data::~Data()";
 }
 
 Data::Data(QString adr):
@@ -34,4 +41,9 @@ void Data::Make(QString temp, QString out)
 void Data::Clear()
 {
     //<TODO>
+}
+
+QSharedPointer<DataRegion> Data::GetRegions() const
+{
+    return _reg;
 }

@@ -3,13 +3,17 @@
 #include <stdexcept>
 #include <iostream>
 #include <QMessageBox>
+#include <src/Data.hpp>
+#include <QSharedPointer>
 
 int RunGUI(QApplication &a)
 {
-    MainGUI w;
+    QSharedPointer<Data> dat = QSharedPointer<Data>(new Data());
+
+    MainGUI w(dat);
     w.show();
 
-   return a.exec();
+    return a.exec();
 }
 
 int main(int argc, char *argv[])
