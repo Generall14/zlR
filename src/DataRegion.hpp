@@ -21,6 +21,8 @@ public:
     bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
 
 public slots:
+    virtual void Add();
+    virtual void Remove(int index);
     virtual void Check();
 
 private:

@@ -26,6 +26,10 @@ public:
     virtual void Clear() = 0;
 
 public slots:
+    /**Dodaje nową pozycję do danych.*/
+    virtual void Add() = 0;
+    /**Usuwa pozycję z danych.*/
+    virtual void Remove(int index) = 0;
     virtual void Check() = 0;
 
 signals:

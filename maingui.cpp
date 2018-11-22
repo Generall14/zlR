@@ -37,6 +37,7 @@ void MainGUI::InitGUI()
     regGB->setLayout(new QVBoxLayout());
 
     regTBV = new QTableView();
+    regTBV->setSelectionMode(QAbstractItemView::SingleSelection	);
     regTBV->setModel((_dat->GetRegions()).data());
     regGB->layout()->addWidget(regTBV);
 
@@ -45,8 +46,10 @@ void MainGUI::InitGUI()
 
     regBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     QPushButton* btn = new QPushButton("Dodaj");
+    connect(btn, &QPushButton::clicked, _dat->GetRegions().data(), &DataRegion::Add);
     regBL->addWidget(btn);
     btn = new QPushButton("Usuń");
+    connect(btn, &QPushButton::clicked, [this](){_dat->GetRegions()->Remove(regTBV->currentIndex().row());});
     regBL->addWidget(btn);
 
     //========================= Sekcje ========================================
@@ -55,6 +58,7 @@ void MainGUI::InitGUI()
     secGB->setLayout(new QVBoxLayout());
 
     secTBV = new QTableView();
+    secTBV->setSelectionMode(QAbstractItemView::SingleSelection	);
     secGB->layout()->addWidget(secTBV);
 
     QHBoxLayout* secBL = new QHBoxLayout();

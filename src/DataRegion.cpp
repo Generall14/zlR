@@ -11,20 +11,24 @@ DataRegion::DataRegion():
 
 void DataRegion::Clear()
 {
-    //<TODO>
+    emit beginResetModel();
+    _pureData.clear();
+    emit endResetModel();
 }
 
 void DataRegion::FromFileP(QStringList dat)
 {
+    emit beginResetModel();
     for(auto line: dat)
         ReadLine(line);
+    emit endResetModel();
 }
 
 void DataRegion::ReadLine(QString line)
 {
     QStringList tips = {""};
     for(int i=0;i<COLS;i++)
-        tips.append("gfd");
+        tips.append("");
 
     QString nline = line;
     nline.remove("#define ", Qt::CaseInsensitive);
@@ -39,7 +43,6 @@ void DataRegion::ReadLine(QString line)
     if(ll.size()!=COLS)
         throw std::runtime_error("DataRegion::ReadLine: coś jest nie tak z linią \""+line.toStdString()+"\"");
     _pureData.append(PureData{ll, tips});
-    //<TODO> emit
 }
 
 QStringList DataRegion::AppendToFileP()
@@ -50,6 +53,25 @@ QStringList DataRegion::AppendToFileP()
 void DataRegion::Check()
 {
     //<TODO>
+}
+
+void DataRegion::Add()
+{
+    emit beginInsertRows(QModelIndex(), _pureData.size()-1, _pureData.size()-1);
+    QStringList tips = {""};
+    for(int i=0;i<COLS;i++)
+        tips.append("");
+    _pureData.append(PureData{tips, tips});
+    emit endInsertRows();
+}
+
+void DataRegion::Remove(int index)
+{
+    if((index<0)||(index>=_pureData.size()))
+        return;
+    emit beginRemoveRows(QModelIndex(), index, index);
+    _pureData.removeAt(index);
+    emit endRemoveRows();
 }
 
 int DataRegion::rowCount(const QModelIndex &parent) const
