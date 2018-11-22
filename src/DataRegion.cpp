@@ -1,4 +1,7 @@
 #include "DataRegion.hpp"
+#include <QDebug>
+#include <QFont>
+#include <QColor>
 
 DataRegion::DataRegion():
     DataI("REG")
@@ -13,7 +16,30 @@ void DataRegion::Clear()
 
 void DataRegion::FromFileP(QStringList dat)
 {
-    //<TODO>
+    for(auto line: dat)
+        ReadLine(line);
+}
+
+void DataRegion::ReadLine(QString line)
+{
+    QStringList tips = {""};
+    for(int i=0;i<COLS;i++)
+        tips.append("gfd");
+
+    QString nline = line;
+    nline.remove("#define ", Qt::CaseInsensitive);
+    nline.replace("\t", " ");
+    while(nline.lastIndexOf("  ")>=0)
+        nline.replace("  ", " ");
+    if(nline.startsWith(" "))
+        nline.remove(0, 1);
+    nline.remove(0, nline.indexOf(" "));
+    nline.remove(" ");
+    QStringList ll = nline.split(",", QString::KeepEmptyParts);
+    if(ll.size()!=COLS)
+        throw std::runtime_error("DataRegion::ReadLine: coś jest nie tak z linią \""+line.toStdString()+"\"");
+    _pureData.append(PureData{ll, tips});
+    //<TODO> emit
 }
 
 QStringList DataRegion::AppendToFileP()
@@ -28,53 +54,56 @@ void DataRegion::Check()
 
 int DataRegion::rowCount(const QModelIndex &parent) const
 {
-    return 3;
+    return _pureData.size();
 }
 
 int DataRegion::columnCount(const QModelIndex &parent) const
 {
-    return 2;
+    return COLS;
 }
 
 QVariant DataRegion::data(const QModelIndex &index, int role) const
 {
-//    if((index.column()<0)||(index.row()<0)||(index.column()>=2)||(index.row()>=2))
-//        return QVariant();
-//    if(role==Qt::CheckStateRole)
-//        return QVariant();
+    if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
+        return QVariant();
     if(role==Qt::DisplayRole)
-        return "Dane(index)";
+        return _pureData[index.row()].data[index.column()];
     if(role==Qt::ToolTipRole)
-        return "naglowki[index.column()]->toolTip()";
-//    if(role==Qt::FontRole)                                                      //Podświetlanie wierszy
-//    {
-//        QFont t;
-//        if(sondy[index.row()].swiec)
-//        t.setBold(true);
-//        else
-//            t.setBold(false);
-//        return t;
-//    }
+        return _pureData[index.row()].tip[index.column()];
+    if(role==Qt::FontRole)
+    {
+        QFont t;
+        if(!_pureData[index.row()].tip[index.column()].isEmpty())
+            t.setBold(true);
+        else
+            t.setBold(false);
+        return t;
+    }
+    if(role==Qt::TextColorRole)
+    {
+        if(!_pureData[index.row()].tip[index.column()].isEmpty())
+            return QColor(Qt::GlobalColor::red);
+        return 0;
+    }
     return QVariant();
 }
 
 QVariant DataRegion::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    QStringList header={"Nazwa", "Prawa", "Adres", "Rozmiar"};
     if(orientation==Qt::Horizontal)
     {
-//        if((section<0)||(section>=naglowki.length()))
-//            return QVariant();
+        if((section<0)||(section>=COLS))
+            return QVariant();
         if(role==Qt::DisplayRole)
-            return "naglowki[section]->text()";
-        if(role==Qt::ToolTipRole)
-            return "naglowki[section]->toolTip()";
+            return header[section];
     }
     if(orientation==Qt::Vertical)
     {
-//        if((section<0)||(section>=sondy.length()))
-//            return QVariant();
+        if((section<0)||(section>=_pureData.length()))
+            return QVariant();
         if(role==Qt::DisplayRole)
-            return "section";
+            return "SECTION_"+QString::number(section);
     }
     return QVariant();
 }
@@ -82,60 +111,18 @@ QVariant DataRegion::headerData(int section, Qt::Orientation orientation, int ro
 Qt::ItemFlags DataRegion::flags(const QModelIndex & index) const
 {
     Qt::ItemFlags standard = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
-//    if((index.column()==12)||(index.column()==2)||(index.column()==3)||(index.column()==4)||(index.column()==1))
-//        return Qt::ItemIsEditable|standard;
-//    else if((index.column()==5)||(index.column()==6))
-//    {
-//        if(sondy.at(index.row()).sonda->TypSondy()!=DPOSonda::sDPOS)
-//            return Qt::ItemIsEditable|standard;
-//    }
-    return standard;
+    if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
+        return standard;
+    return Qt::ItemIsEditable|standard;
 }
 
 bool DataRegion::setData(const QModelIndex & index, const QVariant & value, int role)
 {
-//    if(role!=Qt::EditRole)
-//        return false;
-//    if((index.row()<0)&&(index.row()>=sondy.length()))
-//        return false;
-//    if(index.column()==12)
-//    {
-//        sondy[index.row()].sonda->UstawOpis(value.toString());                  //Opis
-//        return true;
-//    }
-//    else if(index.column()==2)
-//    {
-//        UstawNFab(index.row(), value.toString());                               //Numer fabryczny
-//        return true;
-//    }
-//    else if(index.column()==3)
-//    {
-//        UstawNWew(index.row(), Utils::FromHex(value.toString()));               //Numer wewnętrzny
-//        return true;
-//    }
-//    else if((index.column()==4)||(index.column()==5)||(index.column()==6))
-//    {
-//        float fval = Utils::LocStr2Float(value.toString());
-//        if(index.column()==4)
-//            sondy.at(index.row()).sonda->UstawPrzelicznik(fval);                //Przelicznik
-//        else if(index.column()==5)
-//            sondy.at(index.row()).sonda->UstawWyrownanie(fval);                 //Wyrównanie
-//        else if(index.column()==6)
-//            sondy.at(index.row()).sonda->UstawPrzelicznikNaSkazenie(fval);      //Przelicznik na skażenia
-
-//        if(sondy.at(index.row()).sonda->NumerWew()==DPOListaSond::DEF_NWEW)
-//            MWw->DaneKonfiguracyjne()->setData(sondy.at(index.row()).sonda->TypSondy(),
-//                                               sondy.at(index.row()).sonda->Przelicznik(), sondy.at(index.row()).sonda->Wyrownanie(),
-//                                               sondy.at(index.row()).sonda->PrzelicznikNaSkazenie());
-//        else
-//            MWw->DaneKonfiguracyjne()->setData(sondy.at(index.row()).sonda->NumerWew(), sondy.at(index.row()).sonda->NumerFab(),
-//                                               sondy.at(index.row()).sonda->Przelicznik(), sondy.at(index.row()).sonda->Wyrownanie(),
-//                                               sondy.at(index.row()).sonda->PrzelicznikNaSkazenie());
-//        return true;
-//    }
-//    else if(index.column()==1)                                                  //Zmiana typu sondy
-//    {
-//        ZmienTyp(index.row(), DPOSonda::StrToInt(value.toString()));
-//    }
+    if(role!=Qt::EditRole)
+        return false;
+    if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
+        return false;
+    _pureData[index.row()].data[index.column()] = value.toString();//<TODO> weryfikacja i edytor
+    //<TODO> emit and check
     return false;
 }

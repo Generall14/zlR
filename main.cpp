@@ -8,7 +8,7 @@
 
 int RunGUI(QApplication &a)
 {
-    QSharedPointer<Data> dat = QSharedPointer<Data>(new Data());
+    QSharedPointer<Data> dat = QSharedPointer<Data>(new Data("tst.h"), &QObject::deleteLater);
 
     MainGUI w(dat);
     w.show();

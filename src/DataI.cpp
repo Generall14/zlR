@@ -1,4 +1,6 @@
 #include "DataI.hpp"
+#include "QFile"
+#include <QTextStream>
 
 DataI::DataI(QString sign):
     _sign(sign)
@@ -15,7 +17,29 @@ DataI::DataI(QString sign):
  */
 QStringList DataI::GetPieceOfFile(QString adr, QString sign)
 {
-    //<TODO>
+    QFile file(adr);
+    if(!file.open(QIODevice::ReadOnly))
+        throw std::runtime_error("DataI::GetPieceOfFile: nie można otworzyć pliku \""+adr.toStdString()+"\"");
+
+    QStringList sl;
+    bool found = false;
+    QTextStream ts(&file);
+    while(!ts.atEnd())
+    {
+        QString line = ts.readLine();
+        if(line.startsWith("//##", Qt::CaseInsensitive))
+        {
+            if(found)
+                break;
+            else if(line.startsWith("//##"+_sign, Qt::CaseInsensitive))
+                found = true;
+        }
+        if(found && line.startsWith("#define", Qt::CaseInsensitive))
+            sl.append(line);
+    }
+
+    file.close();
+    return sl;
 }
 
 /**

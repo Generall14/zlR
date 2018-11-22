@@ -3,7 +3,7 @@
 
 Data::Data()
 {
-    _reg = QSharedPointer<DataRegion>(new DataRegion());
+    _reg = QSharedPointer<DataRegion>(new DataRegion(), &QObject::deleteLater);
     Clear();
 }
 
@@ -25,6 +25,7 @@ void Data::CheckAll()
 
 void Data::Load(QString adr)
 {
+    _reg->FromFile(adr);
     //<TODO>
 }
 

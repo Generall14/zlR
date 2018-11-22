@@ -37,7 +37,7 @@ void MainGUI::InitGUI()
     regGB->setLayout(new QVBoxLayout());
 
     regTBV = new QTableView();
-    regTBV->setModel(_dat.data()->GetRegions().data());
+    regTBV->setModel((_dat->GetRegions()).data());
     regGB->layout()->addWidget(regTBV);
 
     QHBoxLayout* regBL = new QHBoxLayout();

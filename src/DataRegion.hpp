@@ -24,8 +24,19 @@ public slots:
     virtual void Check();
 
 private:
+    struct PureData
+    {
+        QStringList data;
+        QStringList tip;
+    };
+
+    QList<PureData> _pureData;
+
     virtual void FromFileP(QStringList dat);
+    void ReadLine(QString line);
     virtual QStringList AppendToFileP();
+
+    static const int COLS = 4;
 };
 
 #endif
