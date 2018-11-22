@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QDesktopServices>
 #include <QUrl>
+#include <stdexcept>
 
 MainGUI::MainGUI(QWidget *parent)
     : QMainWindow(parent)

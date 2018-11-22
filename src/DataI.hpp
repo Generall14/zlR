@@ -11,8 +11,9 @@
 
 #include <QString>
 #include <QObject>
+#include <QAbstractTableModel>
 
-class DataI : public QObject
+class DataI : public QAbstractTableModel
 {
     Q_OBJECT
 public:
