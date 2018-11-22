@@ -1,9 +1,13 @@
 #include "DataI.hpp"
 #include "QFile"
 #include <QTextStream>
+#include <QFont>
+#include <QColor>
 
-DataI::DataI(QString sign):
-    _sign(sign)
+DataI::DataI(QString sign, QStringList header):
+    COLS(header.size()),
+    _sign(sign),
+    _header(header)
 {
 
 }
@@ -15,7 +19,7 @@ DataI::DataI(QString sign):
  * @param sign - znacznik początku (bez //##).
  * @return Odczytana część pliku jako QStringList.
  */
-QStringList DataI::GetPieceOfFile(QString adr, QString sign)
+QStringList DataI::GetPieceOfFile(QString adr)
 {
     QFile file(adr);
     if(!file.open(QIODevice::ReadOnly))
@@ -49,7 +53,7 @@ QStringList DataI::GetPieceOfFile(QString adr, QString sign)
 void DataI::FromFile(QString adr)
 {
     Clear();
-    FromFileP(GetPieceOfFile(adr, _sign));
+    FromFileP(GetPieceOfFile(adr));
     emit Changed();
 }
 
@@ -63,4 +67,105 @@ QStringList DataI::AppendToFile()
     temp.append("//##"+_sign);
     temp.append(AppendToFileP());
     return temp;
+}
+
+/**
+ * Dodaje nowy, pusty wiersz do danych.
+ */
+void DataI::Add()
+{
+    emit beginInsertRows(QModelIndex(), _pureData.size()-1, _pureData.size()-1);
+    QStringList tips = {""};
+    for(int i=0;i<COLS;i++)
+        tips.append("");
+    _pureData.append(PureData{tips, tips});
+    emit endInsertRows();
+}
+
+/**
+ * Usuwa wskazany wiersz z danych.
+ */
+void DataI::Remove(int index)
+{
+    if((index<0)||(index>=_pureData.size()))
+        return;
+    emit beginRemoveRows(QModelIndex(), index, index);
+    _pureData.removeAt(index);
+    emit endRemoveRows();
+}
+
+int DataI::rowCount(const QModelIndex &) const
+{
+    return _pureData.size();
+}
+
+int DataI::columnCount(const QModelIndex &) const
+{
+    return COLS;
+}
+
+QVariant DataI::data(const QModelIndex &index, int role) const
+{
+    if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
+        return QVariant();
+    if(role==Qt::DisplayRole)
+        return _pureData[index.row()].data[index.column()];
+    if(role==Qt::ToolTipRole)
+        return _pureData[index.row()].tip[index.column()];
+    if(role==Qt::FontRole)
+    {
+        QFont t;
+        if(!_pureData[index.row()].tip[index.column()].isEmpty())
+            t.setBold(true);
+        else
+            t.setBold(false);
+        return t;
+    }
+    if(role==Qt::TextColorRole)
+    {
+        if(!_pureData[index.row()].tip[index.column()].isEmpty())
+            return QColor(Qt::GlobalColor::red);
+        return 0;
+    }
+    return QVariant();
+}
+
+QVariant DataI::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    QStringList header={"Nazwa", "Prawa", "Adres", "Rozmiar"};
+    if(orientation==Qt::Horizontal)
+    {
+        if((section<0)||(section>=COLS))
+            return QVariant();
+        if(role==Qt::DisplayRole)
+            return header[section];
+    }
+    if(orientation==Qt::Vertical)
+    {
+        if((section<0)||(section>=_pureData.length()))
+            return QVariant();
+        if(role==Qt::DisplayRole)
+            return "N_"+QString::number(section);
+    }
+    return QVariant();
+}
+
+Qt::ItemFlags DataI::flags(const QModelIndex & index) const
+{
+    Qt::ItemFlags standard = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
+    if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
+        return standard;
+    return Qt::ItemIsEditable|standard;
+}
+
+bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
+{
+    if(role!=Qt::EditRole)
+        return false;
+    if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
+        return false;
+    _pureData[index.row()].data[index.column()] = value.toString();//<TODO> weryfikacja i edytor
+    //<TODO> emit and check
+    Check();
+    return false;
 }
