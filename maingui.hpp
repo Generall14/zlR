@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QTableView>
-#include <src/Data.hpp>
+
+class Data;
 
 class MainGUI : public QMainWindow
 {

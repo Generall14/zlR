@@ -10,14 +10,11 @@ class DataRegion : public DataI
 public:
     DataRegion();
 
-    virtual void Clear();
-
 public slots:
     virtual void Check();
 
 private:
-    virtual void FromFileP(QStringList dat);
-    void ReadLine(QString line);
+    virtual void ReadLine(QString line);
     virtual QStringList AppendToFileP();
 };
 

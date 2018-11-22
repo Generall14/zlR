@@ -4,12 +4,20 @@
 #include <QFont>
 #include <QColor>
 
-DataI::DataI(QString sign, QStringList header):
+DataI::DataI(QString sign, QStringList header, QString rown):
     COLS(header.size()),
     _sign(sign),
-    _header(header)
+    _header(header),
+    _rown(rown)
 {
 
+}
+
+void DataI::Clear()
+{
+    emit beginResetModel();
+    _pureData.clear();
+    emit endResetModel();
 }
 
 /**
@@ -52,8 +60,11 @@ QStringList DataI::GetPieceOfFile(QString adr)
  */
 void DataI::FromFile(QString adr)
 {
+    emit beginResetModel();
     Clear();
-    FromFileP(GetPieceOfFile(adr));
+    for(auto line: GetPieceOfFile(adr))
+        ReadLine(line);
+    emit endResetModel();
     emit Changed();
 }
 
@@ -132,20 +143,19 @@ QVariant DataI::data(const QModelIndex &index, int role) const
 
 QVariant DataI::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    QStringList header={"Nazwa", "Prawa", "Adres", "Rozmiar"};
     if(orientation==Qt::Horizontal)
     {
         if((section<0)||(section>=COLS))
             return QVariant();
         if(role==Qt::DisplayRole)
-            return header[section];
+            return _header[section];
     }
     if(orientation==Qt::Vertical)
     {
         if((section<0)||(section>=_pureData.length()))
             return QVariant();
         if(role==Qt::DisplayRole)
-            return "N_"+QString::number(section);
+            return _rown+"_"+QString::number(section);
     }
     return QVariant();
 }

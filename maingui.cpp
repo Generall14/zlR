@@ -10,6 +10,9 @@
 #include <stdexcept>
 #include <QDebug>
 #include <src/Data.hpp>
+#include <src/DataRegion.hpp>
+#include <src/DataSection.hpp>
+#include <src/Data.hpp>
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QWidget *parent):
     QMainWindow(parent),
@@ -37,7 +40,7 @@ void MainGUI::InitGUI()
     regGB->setLayout(new QVBoxLayout());
 
     regTBV = new QTableView();
-    regTBV->setSelectionMode(QAbstractItemView::SingleSelection	);
+    regTBV->setSelectionMode(QAbstractItemView::SingleSelection);
     regTBV->setModel((_dat->GetRegions()).data());
     regGB->layout()->addWidget(regTBV);
 
@@ -58,7 +61,8 @@ void MainGUI::InitGUI()
     secGB->setLayout(new QVBoxLayout());
 
     secTBV = new QTableView();
-    secTBV->setSelectionMode(QAbstractItemView::SingleSelection	);
+    secTBV->setSelectionMode(QAbstractItemView::SingleSelection);
+    secTBV->setModel((_dat->GetSections()).data());
     secGB->layout()->addWidget(secTBV);
 
     QHBoxLayout* secBL = new QHBoxLayout();
@@ -66,8 +70,10 @@ void MainGUI::InitGUI()
 
     secBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     btn = new QPushButton("Dodaj");
+    connect(btn, &QPushButton::clicked, _dat->GetSections().data(), &DataRegion::Add);
     secBL->addWidget(btn);
     btn = new QPushButton("Usuń");
+    connect(btn, &QPushButton::clicked, [this](){_dat->GetSections()->Remove(secTBV->currentIndex().row());});
     secBL->addWidget(btn);
 }
 

@@ -1,9 +1,12 @@
 #include "Data.hpp"
 #include <QDebug>
+#include <src/DataRegion.hpp>
+#include <src/DataSection.hpp>
 
 Data::Data()
 {
     _reg = QSharedPointer<DataRegion>(new DataRegion(), &QObject::deleteLater);
+    _sec = QSharedPointer<DataSection>(new DataSection(), &QObject::deleteLater);
     Clear();
 }
 
@@ -47,4 +50,9 @@ void Data::Clear()
 QSharedPointer<DataRegion> Data::GetRegions() const
 {
     return _reg;
+}
+
+QSharedPointer<DataSection> Data::GetSections() const
+{
+    return _sec;
 }

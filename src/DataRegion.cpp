@@ -4,24 +4,9 @@
 #include <QColor>
 
 DataRegion::DataRegion():
-    DataI("REG", {"Nazwa", "Prawa", "Adres", "Rozmiar"})
+    DataI("REG", {"Nazwa", "Prawa", "Adres", "Rozmiar"}, "REGION")
 {
     //<TODO>
-}
-
-void DataRegion::Clear()
-{
-    emit beginResetModel();
-    _pureData.clear();
-    emit endResetModel();
-}
-
-void DataRegion::FromFileP(QStringList dat)
-{
-    emit beginResetModel();
-    for(auto line: dat)
-        ReadLine(line);
-    emit endResetModel();
 }
 
 void DataRegion::ReadLine(QString line)

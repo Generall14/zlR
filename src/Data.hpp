@@ -3,8 +3,10 @@
 
 #include <QString>
 #include <QObject>
-#include <src/DataRegion.hpp>
 #include <QSharedPointer>
+
+class DataSection;
+class DataRegion;
 
 class Data : public QObject
 {
@@ -19,6 +21,7 @@ public:
     void Make(QString temp, QString out);
 
     QSharedPointer<DataRegion> GetRegions() const;
+    QSharedPointer<DataSection> GetSections() const;
 
 public slots:
     void CheckAll();
@@ -27,6 +30,7 @@ private:
     void Clear();
 
     QSharedPointer<DataRegion> _reg;
+    QSharedPointer<DataSection> _sec;
 };
 
 #endif
