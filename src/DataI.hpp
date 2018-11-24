@@ -43,19 +43,25 @@ signals:
     void Changed();
 
 protected:
+    /**
+     * Dane właściwe do tabeli, zawiera wartość właściwą oraz ewentualny opis błędu. Średnie rozwiązanie,
+     * definiuje na stało typ wartości na string i częściowo rozdziela wartość od stanu. Średnie ale lenistwo
+     * mi na to zezwala.
+     */
     struct PureData
     {
-        QStringList data;
-        QStringList tip;
+        QStringList data; /**<Dane właściwe, liczba wpisów musi się zgadzać z COLS.*/
+        QStringList tip; /**<Opisy błędów, string pusty będzie traktowany jako brak błędu, liczba wpisów musi
+                           się zgadzać z ilością danych w data.*/
     };
 
-    const int COLS;
-    QList<PureData> _pureData;
+    const int COLS; /**<Liczba kolumn z danymi.*/
+    QList<PureData> _pureData; /**<Przechowywane dane.*/
 
 private:
-    const QString _sign;
-    const QStringList _header;
-    const QString _rown;
+    const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign).*/
+    const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
+    const QString _rown; /**<Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...).*/
 
     /**Zwraca ciąg tekstów które należy dodać do pliku konfiguracyjnego (bez znacznika).*/
     virtual QStringList AppendToFileP() = 0;

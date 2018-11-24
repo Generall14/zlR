@@ -4,6 +4,12 @@
 #include <QFont>
 #include <QColor>
 
+/**
+ * Jedyny słuszny konstruktor.
+ * @param sign - Znacznik sekcji danych w pliku (//##_sign).
+ * @param header - Lista nagłówków dla każdej kolumny w tabeli.
+ * @param rown - Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...), (SECTION, REGION itp).
+ */
 DataI::DataI(QString sign, QStringList header, QString rown):
     COLS(header.size()),
     _sign(sign),
@@ -13,6 +19,9 @@ DataI::DataI(QString sign, QStringList header, QString rown):
 
 }
 
+/**
+ * Zeruje dane.
+ */
 void DataI::Clear()
 {
     emit beginResetModel();
