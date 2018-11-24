@@ -29,6 +29,7 @@ void Data::CheckAll()
 void Data::Load(QString adr)
 {
     _reg->FromFile(adr);
+    _sec->FromFile(adr);
     //<TODO>
 }
 

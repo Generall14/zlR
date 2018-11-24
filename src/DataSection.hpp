@@ -14,7 +14,6 @@ public slots:
     virtual void Check();
 
 private:
-    virtual void ReadLine(QString line);
     virtual QStringList AppendToFileP();
 };
 

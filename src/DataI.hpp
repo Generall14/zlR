@@ -57,13 +57,10 @@ private:
     const QStringList _header;
     const QString _rown;
 
-
-    /**Ładuje dane z pliku (nie trzeba czyścić obiektu przed ani wysyłać sygnału zmiany, otrzymuje dane
-     * wycięte z pliku na podstawie znacznika _sign).*/
-    virtual void ReadLine(QString line) = 0;
     /**Zwraca ciąg tekstów które należy dodać do pliku konfiguracyjnego (bez znacznika).*/
     virtual QStringList AppendToFileP() = 0;
 
+    void ReadLine(QString line);
     QStringList GetPieceOfFile(QString adr);
 };
 
