@@ -7,6 +7,11 @@ LEDelegate::LEDelegate(QObject *parent, QValidator *validator):
 
 }
 
+LEDelegate::~LEDelegate()
+{
+    delete _val;
+}
+
 /**
  * Tworzy nowy edytor w zależności od wybranego typu w konstruktorze.
  * @param parent - Rodzic dla nowego edytora.

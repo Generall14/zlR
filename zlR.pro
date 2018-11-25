@@ -22,7 +22,11 @@ SOURCES += \
     src/DataRegion.cpp \
     src/DataSection.cpp \
     src/DataI.cpp \
-    src/delegat/LEDelegate.cpp
+    src/delegat/LEDelegate.cpp \
+    src/validator/ValidateHex.cpp \
+    src/validator/ValidateRWX.cpp \
+    src/validator/ValidateSize.cpp \
+    src/validator/ValidateName.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -30,4 +34,8 @@ HEADERS += \
     src/DataRegion.hpp \
     src/DataSection.hpp \
     src/DataI.hpp \
-    src/delegat/LEDelegate.hpp
+    src/delegat/LEDelegate.hpp \
+    src/validator/ValidateHex.hpp \
+    src/validator/ValidateRWX.hpp \
+    src/validator/ValidateSize.hpp \
+    src/validator/ValidateName.hpp
