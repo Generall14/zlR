@@ -12,6 +12,9 @@ public:
 
 public slots:
     virtual void Check();
+
+private:
+    static const QString znakiName;
 };
 
 #endif

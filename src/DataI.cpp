@@ -13,10 +13,10 @@
  */
 DataI::DataI(QString sign, QStringList header, QString rown, Data *data):
     COLS(header.size()),
+    _datPtr(data),
     _sign(sign),
     _header(header),
-    _rown(rown),
-    _datPtr(data)
+    _rown(rown)
 {
 }
 
@@ -28,6 +28,7 @@ void DataI::Clear()
     emit beginResetModel();
     _pureData.clear();
     emit endResetModel();
+    emit Changed();
 }
 
 /**
@@ -140,6 +141,7 @@ void DataI::Add()
         tips.append("");
     _pureData.append(PureData{tips, tips});
     emit endInsertRows();
+    emit Changed();
 }
 
 /**
@@ -152,6 +154,7 @@ void DataI::Remove(int index)
     emit beginRemoveRows(QModelIndex(), index, index);
     _pureData.removeAt(index);
     emit endRemoveRows();
+    emit Changed();
 }
 
 int DataI::rowCount(const QModelIndex &) const
@@ -224,8 +227,8 @@ bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
     if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
         return false;
     _pureData[index.row()].data[index.column()] = value.toString();//<TODO> weryfikacja i edytor
-    //<TODO> emit and check
     Check();
+    emit Changed();
     return false;
 }
 

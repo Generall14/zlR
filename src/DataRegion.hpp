@@ -14,6 +14,10 @@ public:
 
 public slots:
     virtual void Check();
+
+private:
+    static const QString znakiName;
+    static const QString znakiHEX;
 };
 
 #endif

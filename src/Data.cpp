@@ -8,7 +8,11 @@
 Data::Data()
 {
     _reg = QSharedPointer<DataRegion>(new DataRegion(this), &QObject::deleteLater);
+    connect(_reg.data(), &DataRegion::Changed, this, &Data::CheckAll);
+
     _sec = QSharedPointer<DataSection>(new DataSection(this), &QObject::deleteLater);
+    connect(_sec.data(), &DataSection::Changed, this, &Data::CheckAll);
+
     Clear();
 }
 
@@ -25,6 +29,8 @@ Data::Data(QString adr):
 
 void Data::CheckAll()
 {
+    _reg->Check();
+    _sec->Check();
     //<TODO>
 }
 
