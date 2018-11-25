@@ -8,7 +8,9 @@ class DataRegion : public DataI
 {
     Q_OBJECT
 public:
-    DataRegion();
+    DataRegion(Data* data);
+
+    QStringList GetNames();
 
 public slots:
     virtual void Check();

@@ -11,11 +11,12 @@
  * @param header - Lista nagłówków dla każdej kolumny w tabeli.
  * @param rown - Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...), (SECTION, REGION itp).
  */
-DataI::DataI(QString sign, QStringList header, QString rown):
+DataI::DataI(QString sign, QStringList header, QString rown, Data *data):
     COLS(header.size()),
     _sign(sign),
     _header(header),
-    _rown(rown)
+    _rown(rown),
+    _datPtr(data)
 {
 }
 

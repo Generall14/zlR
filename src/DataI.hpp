@@ -15,11 +15,13 @@
 #include <QItemDelegate>
 #include <QTableView>
 
+class Data;
+
 class DataI : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    DataI(QString sign, QStringList header, QString rown);
+    DataI(QString sign, QStringList header, QString rown, Data* data);
 
     QStringList AppendToFile();
     void FromFile(QString adr);
@@ -62,6 +64,7 @@ protected:
     QList<PureData> _pureData; /**<Przechowywane dane.*/
     QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dlakolumn, musi być wypełniona przez klasy
                                                          implementujące DataI.*/
+    Data* _datPtr = nullptr;
 
 private:
     const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign).*/

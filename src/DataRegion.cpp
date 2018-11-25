@@ -8,8 +8,8 @@
 #include <QFont>
 #include <QColor>
 
-DataRegion::DataRegion():
-    DataI("REG", {"Nazwa", "Prawa", "Adres", "Rozmiar"}, "REGION")
+DataRegion::DataRegion(Data *data):
+    DataI("REG", {"Nazwa", "Prawa", "Adres", "Rozmiar"}, "REGION", data)
 {
     _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
     _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new RWXValidator())));
@@ -20,4 +20,12 @@ DataRegion::DataRegion():
 void DataRegion::Check()
 {
     //<TODO>
+}
+
+QStringList DataRegion::GetNames()
+{
+    QStringList temp;
+    for(auto reg: _pureData)
+        temp.append(reg.data.at(0));
+    return temp;
 }

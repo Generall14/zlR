@@ -7,8 +7,8 @@
 
 Data::Data()
 {
-    _reg = QSharedPointer<DataRegion>(new DataRegion(), &QObject::deleteLater);
-    _sec = QSharedPointer<DataSection>(new DataSection(), &QObject::deleteLater);
+    _reg = QSharedPointer<DataRegion>(new DataRegion(this), &QObject::deleteLater);
+    _sec = QSharedPointer<DataSection>(new DataSection(this), &QObject::deleteLater);
     Clear();
 }
 

@@ -8,7 +8,7 @@ class DataSection : public DataI
 {
     Q_OBJECT
 public:
-    DataSection();
+    DataSection(Data *data);
 
 public slots:
     virtual void Check();

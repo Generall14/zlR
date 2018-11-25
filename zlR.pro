@@ -26,7 +26,10 @@ SOURCES += \
     src/validator/ValidateHex.cpp \
     src/validator/ValidateRWX.cpp \
     src/validator/ValidateSize.cpp \
-    src/validator/ValidateName.cpp
+    src/validator/ValidateName.cpp \
+    src/delegat/TypeDelegate.cpp \
+    src/delegat/RegDelegate.cpp \
+    src/delegat/BTypeDelegate.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -38,4 +41,7 @@ HEADERS += \
     src/validator/ValidateHex.hpp \
     src/validator/ValidateRWX.hpp \
     src/validator/ValidateSize.hpp \
-    src/validator/ValidateName.hpp
+    src/validator/ValidateName.hpp \
+    src/delegat/TypeDelegate.hpp \
+    src/delegat/RegDelegate.hpp \
+    src/delegat/BTypeDelegate.hpp
