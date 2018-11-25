@@ -9,11 +9,6 @@ DataRegion::DataRegion():
     //<TODO>
 }
 
-QStringList DataRegion::AppendToFileP()
-{
-    //<TODO>
-}
-
 void DataRegion::Check()
 {
     //<TODO>

@@ -21,6 +21,9 @@ private:
 
     QTableView* regTBV = nullptr;
     QTableView* secTBV = nullptr;
+
+private slots:
+    void Save();
 };
 
 #endif // MAINGUI_HPP

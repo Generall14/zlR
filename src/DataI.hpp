@@ -63,11 +63,12 @@ private:
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
     const QString _rown; /**<Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...).*/
 
-    /**Zwraca ciąg tekstów które należy dodać do pliku konfiguracyjnego (bez znacznika).*/
-    virtual QStringList AppendToFileP() = 0;
-
+    QString AppendToFileL(QStringList str, int nr);
     void ReadLine(QString line);
     QStringList GetPieceOfFile(QString adr);
+
+    static const int FS_OFF = 28;
+    static const int FE_INC = 13;
 };
 
 #endif

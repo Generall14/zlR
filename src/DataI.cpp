@@ -84,8 +84,47 @@ void DataI::FromFile(QString adr)
 QStringList DataI::AppendToFile()
 {
     QStringList temp;
-    temp.append("//##"+_sign);
-    temp.append(AppendToFileP());
+
+    temp.append("\r\n\r\n//##"+_sign);
+
+    QString tempS = "/**";
+    while(tempS.size()<FS_OFF)
+        tempS.append(" ");
+    for(int i=0;i<_header.size();i++)
+    {
+        tempS.append(_header.at(i));
+        if(i!=(_header.size()-1))
+        {
+            while(tempS.size()<(FS_OFF+FE_INC+FE_INC*i+3))
+                tempS.append(" ");
+        }
+    }
+    temp.append(tempS+"   */");
+
+
+    for(int i=0;i<_pureData.size();i++)
+        temp.append(AppendToFileL(_pureData.at(i).data, i));
+    return temp;
+}
+
+/**
+ * Przetwarza pojedynczą strukturę danych na linię tekstu ją reprezentującą.
+ */
+QString DataI::AppendToFileL(QStringList str, int nr)
+{
+    QString temp = "#define "+_rown+"_"+QString::number(nr);
+    while(temp.size()<FS_OFF)
+        temp.append(" ");
+    for(int i=0;i<str.size();i++)
+    {
+        temp.append(str.at(i));
+        if(i!=(str.size()-1))
+        {
+            while(temp.size()<(FS_OFF+FE_INC+FE_INC*i))
+                temp.append(" ");
+            temp.append(" , ");
+        }
+    }
     return temp;
 }
 

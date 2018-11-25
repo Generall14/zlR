@@ -96,6 +96,7 @@ void MainGUI::InitMenu()
 
     QAction* aSv = new QAction("&Zapisz", mDane);
     aSv->setShortcut(QKeySequence::Save);
+    connect(aSv, &QAction::triggered, this, &MainGUI::Save);
     mDane->addAction(aSv);
 
     QAction* aSvA = new QAction("Zapisz &jako...", mDane);
@@ -124,4 +125,10 @@ void MainGUI::InitMenu()
                     );});
     mHelp->addAction(aTh);
     this->menuBar()->addMenu(mHelp);
+}
+
+void MainGUI::Save()
+{
+    _dat->Save("out.h");
+    //<TODO>
 }

@@ -12,9 +12,6 @@ public:
 
 public slots:
     virtual void Check();
-
-private:
-    virtual QStringList AppendToFileP();
 };
 
 #endif

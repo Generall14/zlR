@@ -1,5 +1,7 @@
 #include "Data.hpp"
 #include <QDebug>
+#include <QFile>
+#include <QTextStream>
 #include <src/DataRegion.hpp>
 #include <src/DataSection.hpp>
 
@@ -35,6 +37,34 @@ void Data::Load(QString adr)
 
 void Data::Save(QString adr)
 {
+    QFile file(adr);
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
+        throw std::runtime_error("Data::Save: nie można pisać do pliku \""+adr.toStdString()+"\"");
+
+    QStringList sl;
+    sl.append({"/**",
+               " ******************************************************************************",
+               " *",
+               " * Memory configuration",
+               " *",
+               " * mgr inż. W. Kogut tu był!",
+               " *",
+               " ******************************************************************************",
+               " */", ""});
+
+    QString def = file.fileName().replace(".", "_").toUpper();
+    sl.append("#ifndef "+def);
+    sl.append("#define "+def);
+
+    sl.append(_reg->AppendToFile());
+    sl.append(_sec->AppendToFile());
+
+    sl.append("\r\n\r\n#endif /* "+def+" */");
+
+    QTextStream ts(&file);
+    for(auto line: sl)
+        ts << line << "\r\n";
+    file.close();
     //<TODO>
 }
 

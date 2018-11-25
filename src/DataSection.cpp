@@ -6,11 +6,6 @@ DataSection::DataSection():
     //<TODO>
 }
 
-QStringList DataSection::AppendToFileP()
-{
-    //<TODO>
-}
-
 void DataSection::Check()
 {
     //<TODO>
