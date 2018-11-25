@@ -1,5 +1,6 @@
 #include "DataI.hpp"
 #include "QFile"
+#include <src/delegat/LEDelegate.hpp>
 #include <QTextStream>
 #include <QFont>
 #include <QColor>
@@ -16,7 +17,6 @@ DataI::DataI(QString sign, QStringList header, QString rown):
     _header(header),
     _rown(rown)
 {
-
 }
 
 /**
@@ -251,4 +251,13 @@ void DataI::ReadLine(QString line)
     if(ll.size()!=COLS)
         throw std::runtime_error("DataRegion::ReadLine: coś jest nie tak z linią \""+line.toStdString()+"\"");
     _pureData.append(PureData{ll, tips});
+}
+
+void DataI::ApplyDelegatesForTable(QTableView* table)
+{
+    if(_delegats.size()<COLS)
+        throw std::runtime_error("DataI::GetDelegateForColumn: brak zdefiniowanych delegatów dla tabeli");
+
+    for(int i=0;i<COLS;i++)
+        table->setItemDelegateForColumn(i, _delegats.at(i).data());
 }

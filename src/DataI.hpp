@@ -12,6 +12,8 @@
 #include <QString>
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QItemDelegate>
+#include <QTableView>
 
 class DataI : public QAbstractTableModel
 {
@@ -21,6 +23,7 @@ public:
 
     QStringList AppendToFile();
     void FromFile(QString adr);
+    void ApplyDelegatesForTable(QTableView* table);
 
     /**Czyści strukturę danych.*/
     virtual void Clear();
@@ -57,6 +60,8 @@ protected:
 
     const int COLS; /**<Liczba kolumn z danymi.*/
     QList<PureData> _pureData; /**<Przechowywane dane.*/
+    QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dlakolumn, musi być wypełniona przez klasy
+                                                         implementujące DataI.*/
 
 private:
     const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign).*/

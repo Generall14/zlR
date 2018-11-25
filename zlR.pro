@@ -21,11 +21,13 @@ SOURCES += \
     src/Data.cpp \
     src/DataRegion.cpp \
     src/DataSection.cpp \
-    src/DataI.cpp
+    src/DataI.cpp \
+    src/delegat/LEDelegate.cpp
 
 HEADERS += \
         maingui.hpp \
     src/Data.hpp \
     src/DataRegion.hpp \
     src/DataSection.hpp \
-    src/DataI.hpp
+    src/DataI.hpp \
+    src/delegat/LEDelegate.hpp

@@ -42,6 +42,7 @@ void MainGUI::InitGUI()
     regTBV = new QTableView();
     regTBV->setSelectionMode(QAbstractItemView::SingleSelection);
     regTBV->setModel((_dat->GetRegions()).data());
+    _dat->GetRegions()->ApplyDelegatesForTable(regTBV);
     regGB->layout()->addWidget(regTBV);
 
     QHBoxLayout* regBL = new QHBoxLayout();
@@ -63,6 +64,7 @@ void MainGUI::InitGUI()
     secTBV = new QTableView();
     secTBV->setSelectionMode(QAbstractItemView::SingleSelection);
     secTBV->setModel((_dat->GetSections()).data());
+    _dat->GetSections()->ApplyDelegatesForTable(secTBV);
     secGB->layout()->addWidget(secTBV);
 
     QHBoxLayout* secBL = new QHBoxLayout();
