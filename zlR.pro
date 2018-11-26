@@ -29,7 +29,8 @@ SOURCES += \
     src/validator/ValidateName.cpp \
     src/delegat/TypeDelegate.cpp \
     src/delegat/RegDelegate.cpp \
-    src/delegat/BTypeDelegate.cpp
+    src/delegat/BTypeDelegate.cpp \
+    src/DataDefs.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -44,4 +45,5 @@ HEADERS += \
     src/validator/ValidateName.hpp \
     src/delegat/TypeDelegate.hpp \
     src/delegat/RegDelegate.hpp \
-    src/delegat/BTypeDelegate.hpp
+    src/delegat/BTypeDelegate.hpp \
+    src/DataDefs.hpp

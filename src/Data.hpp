@@ -7,6 +7,7 @@
 
 class DataSection;
 class DataRegion;
+class DataDefs;
 
 class Data : public QObject
 {
@@ -31,6 +32,7 @@ private:
 
     QSharedPointer<DataRegion> _reg;
     QSharedPointer<DataSection> _sec;
+    QSharedPointer<DataDefs> _def;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include <src/DataRegion.hpp>
 #include <src/DataSection.hpp>
+#include <src/DataDefs.hpp>
 
 Data::Data()
 {
@@ -12,6 +13,9 @@ Data::Data()
 
     _sec = QSharedPointer<DataSection>(new DataSection(this), &QObject::deleteLater);
     connect(_sec.data(), &DataSection::Changed, this, &Data::CheckAll);
+
+    _def = QSharedPointer<DataDefs>(new DataDefs(this), &QObject::deleteLater);
+    connect(_def.data(), &DataDefs::Changed, this, &Data::CheckAll);
 
     Clear();
 }
@@ -31,14 +35,14 @@ void Data::CheckAll()
 {
     _reg->Check();
     _sec->Check();
-    //<TODO>
+    _def->Check();
 }
 
 void Data::Load(QString adr)
 {
     _reg->FromFile(adr);
     _sec->FromFile(adr);
-    //<TODO>
+    _def->FromFile(adr);
 }
 
 void Data::Save(QString adr)
@@ -62,6 +66,7 @@ void Data::Save(QString adr)
     sl.append("#ifndef "+def);
     sl.append("#define "+def);
 
+    sl.append(_def->AppendToFile());
     sl.append(_reg->AppendToFile());
     sl.append(_sec->AppendToFile());
 
@@ -71,7 +76,6 @@ void Data::Save(QString adr)
     for(auto line: sl)
         ts << line << "\r\n";
     file.close();
-    //<TODO>
 }
 
 void Data::Make(QString temp, QString out)

@@ -66,13 +66,14 @@ protected:
                                                          implementujące DataI.*/
     Data* _datPtr = nullptr;
 
+    virtual QString AppendToFileL(QStringList str, int nr);
+    virtual void ReadLine(QString line);
+
 private:
     const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign).*/
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
     const QString _rown; /**<Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...).*/
 
-    QString AppendToFileL(QStringList str, int nr);
-    void ReadLine(QString line);
     QStringList GetPieceOfFile(QString adr);
 
     static const int FS_OFF = 28;
