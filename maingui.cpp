@@ -12,6 +12,7 @@
 #include <src/Data.hpp>
 #include <src/DataRegion.hpp>
 #include <src/DataSection.hpp>
+#include <src/DataDefs.hpp>
 #include <src/Data.hpp>
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QWidget *parent):
@@ -77,6 +78,28 @@ void MainGUI::InitGUI()
     btn = new QPushButton("Usuń");
     connect(btn, &QPushButton::clicked, [this](){_dat->GetSections()->Remove(secTBV->currentIndex().row());});
     secBL->addWidget(btn);
+
+    //========================= Definicje =====================================
+    QGroupBox* defGB = new QGroupBox("Stałe");
+    this->centralWidget()->layout()->addWidget(defGB);
+    defGB->setLayout(new QHBoxLayout());
+
+    defTBV = new QTableView();
+    defTBV->setSelectionMode(QAbstractItemView::SingleSelection);
+    defTBV->setModel((_dat->GetDefinitions()).data());
+    _dat->GetDefinitions()->ApplyDelegatesForTable(defTBV);
+    defGB->layout()->addWidget(defTBV);
+
+    QVBoxLayout* defBL = new QVBoxLayout();
+    static_cast<QBoxLayout*>(defGB->layout())->addLayout(defBL);
+
+    defBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Maximum, QSizePolicy::Expanding));
+    btn = new QPushButton("Dodaj");
+    connect(btn, &QPushButton::clicked, _dat->GetDefinitions().data(), &DataRegion::Add);
+    defBL->addWidget(btn);
+    btn = new QPushButton("Usuń");
+    connect(btn, &QPushButton::clicked, [this](){_dat->GetDefinitions()->Remove(defTBV->currentIndex().row());});
+    defBL->addWidget(btn);
 }
 
 void MainGUI::InitMenu()

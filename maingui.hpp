@@ -21,6 +21,7 @@ private:
 
     QTableView* regTBV = nullptr;
     QTableView* secTBV = nullptr;
+    QTableView* defTBV = nullptr;
 
 private slots:
     void Save();

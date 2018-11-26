@@ -23,6 +23,7 @@ public:
 
     QSharedPointer<DataRegion> GetRegions() const;
     QSharedPointer<DataSection> GetSections() const;
+    QSharedPointer<DataDefs> GetDefinitions() const;
 
 public slots:
     void CheckAll();

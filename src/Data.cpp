@@ -97,3 +97,9 @@ QSharedPointer<DataSection> Data::GetSections() const
 {
     return _sec;
 }
+
+QSharedPointer<DataDefs> Data::GetDefinitions() const
+{
+    return _def;
+}
+
