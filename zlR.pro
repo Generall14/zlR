@@ -33,7 +33,8 @@ SOURCES += \
     src/delegat/TypeDelegate.cpp \
     src/delegat/RegDelegate.cpp \
     src/delegat/BTypeDelegate.cpp \
-    src/DataDefs.cpp
+    src/DataDefs.cpp \
+    src/Macro.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -50,7 +51,8 @@ HEADERS += \
     src/delegat/RegDelegate.hpp \
     src/delegat/BTypeDelegate.hpp \
     src/DataDefs.hpp \
-    ver.h
+    ver.h \
+    src/Macro.hpp
 
 RESOURCES += \
     res.qrc

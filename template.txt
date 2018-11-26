@@ -12,7 +12,7 @@ $MACRO_SEC NAZWA
 ... ciało makra
 $ENDM
 
-Do zmiennych lokalnych odnosi się za pomocą instrukcji $LOC(L_VARIABLE), gdzie L_VARIABLE jest jedną ze składowych struktury SECTION (NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur SECTION.
+Do zmiennych lokalnych odnosi się za pomocą instrukcji $LOC(L_VARIABLE), gdzie L_VARIABLE jest jedną ze składowych struktury SECTION (NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur SECTION. Znaczniki $MACRO_SEC NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
 
 Makra dla sekcji REGIONS definiuje się analogicznie:
 

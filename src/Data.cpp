@@ -85,7 +85,26 @@ void Data::Save(QString adr)
  */
 void Data::Make(QString temp, QString out)
 {
+    // załaduj szablon
+    QFile file(temp);
+    if(!file.open(QIODevice::ReadOnly))
+        throw std::runtime_error("Data::Make: nie można otworzyć pliku \""+temp.toStdString()+"\"");
+    QStringList sl;
+    QTextStream ts(&file);
+    while(!ts.atEnd())
+        sl.append(ts.readLine());
+    file.close();
+
     //<TODO>
+
+    // zapisz wyjście
+    QFile fileo(out);
+    if(!fileo.open(QIODevice::WriteOnly|QIODevice::Truncate))
+        throw std::runtime_error("Data::Make: nie można pisać do pliku \""+out.toStdString()+"\"");
+    QTextStream tso(&fileo);
+    for(auto line: sl)
+        tso << line << "\r\n";
+    fileo.close();
 }
 
 void Data::Clear()
