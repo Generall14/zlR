@@ -6,6 +6,7 @@
 #include <src/Data.hpp>
 #include <src/delegat/BTypeDelegate.hpp>
 #include <iostream>
+#include <src/DataRegion.hpp>
 
 const QString DataSection::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
 
@@ -43,7 +44,14 @@ void DataSection::Check()
         }
         if(f>1)
             _pureData[i].tip[0].append(" Nazwy "+my+" się powtarzają.");
-        //=================== XXXXX ============================
+        //=================== LMA_ADR ==========================
+        _pureData[i].tip[1].clear();
+        if(!_datPtr->GetRegions()->GetNames().contains(_pureData[i].data[1]))
+            _pureData[i].tip[1].append(" Brak zdefiniowanego regionu "+_pureData[i].data[1]+".");
+        //=================== VMA_ADR ==========================
+        _pureData[i].tip[2].clear();
+        if(!_datPtr->GetRegions()->GetNames().contains(_pureData[i].data[2]))
+            _pureData[i].tip[2].append(" Brak zdefiniowanego regionu "+_pureData[i].data[2]+".");
     }
     //<TODO>
 

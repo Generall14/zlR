@@ -18,6 +18,9 @@ public slots:
 private:
     static const QString znakiName;
     static const QString znakiHEX;
+    static const QString znakiRWX;
+    static const QString znakiSIZE;
+    static const QString znakiNUMS;
 };
 
 #endif
