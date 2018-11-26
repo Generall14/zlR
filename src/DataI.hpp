@@ -23,7 +23,7 @@ class DataI : public QAbstractTableModel
 public:
     DataI(QString sign, QStringList header, QString rown, Data* data);
 
-    QStringList AppendToFile();
+    virtual QStringList AppendToFile();
     void FromFile(QString adr);
     void ApplyDelegatesForTable(QTableView* table);
 
@@ -69,8 +69,9 @@ protected:
     virtual QString AppendToFileL(QStringList str, int nr);
     virtual void ReadLine(QString line);
 
-private:
     const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign).*/
+
+private:
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
     const QString _rown; /**<Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...).*/
 

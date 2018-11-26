@@ -10,15 +10,18 @@ class DataDefs : public DataI
 public:
     DataDefs(Data* data);
 
+    virtual QStringList AppendToFile();
+
 public slots:
     virtual void Check();
 
 protected:
-    virtual QString AppendToFileL(QStringList str, int nr);
+    virtual QString AppendToFileL(QStringList str, int);
     virtual void ReadLine(QString line);
 
 private:
     static const QString znakiName;
+    static const int V_TAB = 44;
 };
 
 #endif

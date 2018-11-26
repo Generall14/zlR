@@ -253,7 +253,7 @@ void DataI::ReadLine(QString line)
     nline.remove(" ");
     QStringList ll = nline.split(",", QString::KeepEmptyParts);
     if(ll.size()!=COLS)
-        throw std::runtime_error("DataRegion::ReadLine: coś jest nie tak z linią \""+line.toStdString()+"\"");
+        throw std::runtime_error("DataI::ReadLine: coś jest nie tak z linią \""+line.toStdString()+"\"");
     _pureData.append(PureData{ll, tips});
 }
 
