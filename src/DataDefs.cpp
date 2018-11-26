@@ -87,6 +87,9 @@ void DataDefs::ReadLine(QString line)
     if(ll.size()<2)
         ll.append("");
 
+    for(int i=2;i<ll.size();i++)
+        ll[2].append(" "+ll.at(i));
+
     _pureData.append(PureData{ll.mid(0, 2), tips});
 }
 

@@ -51,3 +51,6 @@ HEADERS += \
     src/delegat/BTypeDelegate.hpp \
     src/DataDefs.hpp \
     ver.h
+
+RESOURCES += \
+    res.qrc

@@ -1,0 +1,54 @@
+0. Wszelkie symbole interpretowane jako Case Sensitive.
+
+
+
+1. Proste definicje (#define name val) są zastępowane w sposób analogiczny jak przez preprocesor kompilatora gcc.
+
+
+
+2. Makra SECIONS definiuje się:
+
+$MACRO_SEC NAZWA
+... ciało makra
+$ENDM
+
+Do zmiennych lokalnych odnosi się za pomocą instrukcji $LOC(L_VARIABLE), gdzie L_VARIABLE jest jedną ze składowych struktury SECTION (NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur SECTION.
+
+Makra dla sekcji REGIONS definiuje się analogicznie:
+
+$MACRO_REG NAZWA
+... ciało makra
+$ENDM
+
+, przy czym zestaw wartości lokalnych L_VARIABLE zawiera się w zestawie (NAME, RIGHTS, ADR, SIZE).
+
+Nazwy makr nie mogą się powtarzać (niezależnie od rozdzaju sekcji). Makra mogą być wywoływane wewnętrz siebie ale nie mogą być definiowane wewnątrz siebie, np. szablon:
+$MACRO_SEC XXX
+...
+$MAC[YYY]
+...
+$ENDM
+$MACRO_SEC YYY
+...
+$ENDM
+zostanie prawidłowo zinterpretowany, natomiast:
+$MACRO_SEC XXX
+$MACRO_SEC YYY
+...
+$ENDM
+...
+$MAC[YYY]
+...
+$ENDM
+nie zadziała (nie gwarantuję, że program taki błąd wychwyci, możliwe jest niezdefiniowane zachowanie).
+
+W pierwszym kroku wszystkie makra są ładowane, dopiero później są rozwijane - nie ma tu problemu definicji i deklaracji jak w c.
+
+
+
+Przetwarzanie szablonów przez program odbywa się w kolejności:
+ - Ładowanie wszystkich makr z szablonu.
+ - Rozwijanie makr.
+ - Zastępowanie prostych definicji.
+
+Każdy krok jest tak długo powtarzany aż się z wszystkiego wystrzela, ale po tym algorytm już do niego nie wraca. Tak więc wpisanie do którejś ze struktur mazwy prostej definicji spowoduje rozwinięcie jej przez makro a następnie podmienienie na styl przeprocesora, ale w drugą stronę to już nie zadziała.
