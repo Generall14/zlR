@@ -14,7 +14,7 @@ public:
     static void ProcessAll(QStringList& text, Data* data);
 
 private:
-    Macro(QString name, QStringList text, DataI* data);
+    Macro(QStringList text, Data* data);
 
     static QList<Macro> LoadMacros(QStringList& text, Data* data);
     bool Apply(QStringList& text);

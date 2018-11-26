@@ -5,6 +5,7 @@
 #include <src/DataRegion.hpp>
 #include <src/DataSection.hpp>
 #include <src/DataDefs.hpp>
+#include <src/Macro.hpp>
 
 Data::Data()
 {
@@ -95,6 +96,7 @@ void Data::Make(QString temp, QString out)
         sl.append(ts.readLine());
     file.close();
 
+    Macro::ProcessAll(sl, this);
     //<TODO>
 
     // zapisz wyjście

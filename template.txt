@@ -46,6 +46,10 @@ W pierwszym kroku wszystkie makra są ładowane, dopiero później są rozwijane
 
 
 
+3. Symbol $ może być wykorzystywany tylko do instrukcji podanych w tym dokumencie, nie gwarantuje że $ połączony z innymi wyrażeniami nie ogłupi programu.
+
+
+
 Przetwarzanie szablonów przez program odbywa się w kolejności:
  - Ładowanie wszystkich makr z szablonu.
  - Rozwijanie makr.
