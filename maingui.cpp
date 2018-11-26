@@ -14,13 +14,18 @@
 #include <src/DataSection.hpp>
 #include <src/DataDefs.hpp>
 #include <src/Data.hpp>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <ver.h>
 
-MainGUI::MainGUI(QSharedPointer<Data> dat, QWidget *parent):
+MainGUI::MainGUI(QSharedPointer<Data> dat, QString adr, QWidget *parent):
     QMainWindow(parent),
-    _dat(dat)
+    _dat(dat),
+    _currentFile(adr)
 {
     InitGUI();
     InitMenu();
+    UpdTitle();
 }
 
 MainGUI::~MainGUI()
@@ -117,6 +122,7 @@ void MainGUI::InitMenu()
 
     QAction* aOp = new QAction("&Otwórz", mDane);
     aOp->setShortcut(QKeySequence::Open);
+    connect(aOp, &QAction::triggered, this, &MainGUI::Open);
     mDane->addAction(aOp);
 
     QAction* aSv = new QAction("&Zapisz", mDane);
@@ -126,11 +132,13 @@ void MainGUI::InitMenu()
 
     QAction* aSvA = new QAction("Zapisz &jako...", mDane);
     aSvA->setShortcut(QKeySequence::SaveAs);
+    connect(aSvA, &QAction::triggered, this, &MainGUI::SaveAs);
     mDane->addAction(aSvA);
 
     mDane->addSeparator();
 
     QAction* aClr = new QAction("&Przetwórz szablon", mDane);
+    connect(aClr, &QAction::triggered, this, &MainGUI::Make);
     mDane->addAction(aClr);
 
     this->menuBar()->addMenu(mDane);
@@ -140,6 +148,7 @@ void MainGUI::InitMenu()
     QMenu* mHelp = new QMenu("P&omoc");
     QAction* aAb = new QAction("&O", mHelp);
     aAb->setShortcut(QKeySequence::HelpContents);
+    connect(aAb, &QAction::triggered, this, &MainGUI::About);
     mHelp->addAction(aAb);
 
     QAction* aTh = new QAction("Wyślij litanie &dziękczynne do autora", mHelp);
@@ -154,6 +163,90 @@ void MainGUI::InitMenu()
 
 void MainGUI::Save()
 {
-    _dat->Save("out.h");
-    //<TODO>
+    if(!_currentFile.isEmpty())
+        _dat->Save(_currentFile);
+    else
+        SaveAs();
+}
+
+void MainGUI::SaveAs()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                "Podaj plik z definicjami danych do zapisu",
+                                _currentFile,
+                                "C header files (*.h);;All files (*)");
+
+    if (!fileName.isEmpty())
+    {
+        _currentFile = fileName;
+        Save();
+        UpdTitle();
+    }
+}
+
+void MainGUI::Open()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                "Podaj plik z definicjami danych do wczytania",
+                                _currentFile,
+                                "C header files (*.h);;All files (*)");
+
+    if (!fileName.isEmpty())
+    {
+        _currentFile = fileName;
+        _dat->Load(fileName);
+        UpdTitle();
+    }
+}
+
+void MainGUI::UpdTitle()
+{
+    QString temp = "zlR";
+    if(!_currentFile.isEmpty())
+    {
+        temp.append(" ( ");
+        if(_currentFile.size()>(MAX_TITLE_LENGTH+3))
+            temp.append("..."+_currentFile.right(MAX_TITLE_LENGTH));
+        else
+            temp.append(_currentFile);
+        temp.append(" )");
+    }
+    this->setWindowTitle(temp);
+}
+
+void MainGUI::About()
+{
+    QString message = "Ble ble ble\n\n"
+                      "Wersja: "+QString(VER)+" z dnia "+__DATE__+", "+__TIME__+"\n"
+                      "git commit: "+QString(GIT_VERSION);
+    QMessageBox::information(this, "About", message);
+}
+
+void MainGUI::Make()
+{
+    QString templateFile = QFileDialog::getOpenFileName(this,
+                                "Podaj plik szablonu",
+                                _currentTempFile,
+                                "Linker files (*.ld);;All files (*)");
+    if(templateFile.isEmpty())
+        return;
+
+    QString outputFile = QFileDialog::getSaveFileName(this,
+                                "Podaj plik wynikowy",
+                                _currentOutFile,
+                                "Linker files (*.ld);;All files (*)");
+    if(outputFile.isEmpty())
+        return;
+
+    _currentTempFile = templateFile;
+    _currentOutFile = outputFile;
+    try
+    {
+        _dat->Make(_currentTempFile, _currentOutFile);
+        QMessageBox::information(this, "To działa!", "Zrobione.");
+    }
+    catch(std::runtime_error e)
+    {
+        QMessageBox::critical(this, "ERROR", "Coś się zesrało: "+QString(e.what()));
+    }
 }

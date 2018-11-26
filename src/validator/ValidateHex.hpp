@@ -10,7 +10,7 @@ class HexValidator : public QValidator
 public:
     HexValidator(int rozmiarSlowa = 2, QObject* parent = nullptr);
 
-    virtual State validate(QString &input, int& ii) const;
+    virtual State validate(QString &input, int&) const;
 
 private:
     int _slowo;

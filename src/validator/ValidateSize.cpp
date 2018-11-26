@@ -11,9 +11,6 @@ SizeValidator::SizeValidator(QObject* parent):
 {
 }
 
-/**
- * Obrzydliwa funkcja
- */
 QValidator::State SizeValidator::validate(QString &input, int&) const
 {
     if(input.isEmpty())

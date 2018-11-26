@@ -11,10 +11,7 @@ HexValidator::HexValidator(int rozmiarSlowa, QObject* parent):
 {
 }
 
-/**
- * Obrzydliwa funkcja
- */
-QValidator::State HexValidator::validate(QString &input, int& ii) const
+QValidator::State HexValidator::validate(QString &input, int&) const
 {
     if(input.isEmpty())
         return QValidator::Acceptable;

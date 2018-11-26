@@ -10,7 +10,7 @@ class NameValidator : public QValidator
 public:
     NameValidator(QObject* parent = nullptr);
 
-    virtual State validate(QString &input, int& ii) const;
+    virtual State validate(QString &input, int&) const;
 
 private:
     static const QString znakiName;

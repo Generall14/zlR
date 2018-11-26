@@ -8,9 +8,10 @@
 
 int RunGUI(QApplication &a)
 {
-    QSharedPointer<Data> dat = QSharedPointer<Data>(new Data("tst.h"), &QObject::deleteLater);
+    QString adr = "tst.h";
+    QSharedPointer<Data> dat = QSharedPointer<Data>(new Data(adr), &QObject::deleteLater);
 
-    MainGUI w(dat);
+    MainGUI w(dat, adr);
     w.show();
 
     return a.exec();

@@ -10,9 +10,6 @@ RWXValidator::RWXValidator(QObject* parent):
 {
 }
 
-/**
- * Obrzydliwa funkcja
- */
 QValidator::State RWXValidator::validate(QString &input, int&) const
 {
     if(input.isEmpty())

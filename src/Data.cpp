@@ -78,6 +78,11 @@ void Data::Save(QString adr)
     file.close();
 }
 
+/**
+ * Na podstawie aktualnego stanu obiektu przetwarza wskazany szablon na plik wynikowy.
+ * @param temp - adres szablonu.
+ * @param out - adres pliku wynikowego.
+ */
 void Data::Make(QString temp, QString out)
 {
     //<TODO>

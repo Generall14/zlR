@@ -10,7 +10,7 @@ class MainGUI : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainGUI(QSharedPointer<Data> dat, QWidget *parent = 0);
+    MainGUI(QSharedPointer<Data> dat, QString adr="", QWidget *parent = 0);
     ~MainGUI();
 
 private:
@@ -23,8 +23,20 @@ private:
     QTableView* secTBV = nullptr;
     QTableView* defTBV = nullptr;
 
+    QString _currentFile;
+    QString _currentTempFile;
+    QString _currentOutFile;
+
+    void UpdTitle();
+
+    static const int MAX_TITLE_LENGTH = 40;
+
 private slots:
     void Save();
+    void SaveAs();
+    void Open();
+    void About();
+    void Make();
 };
 
 #endif // MAINGUI_HPP
