@@ -54,13 +54,13 @@ Instrukcja $MAC[NAZWA], zostanie zignorowany gdy makro o nazwie NAZWA nie zostan
 
 4. Instrukcje warunkowe zapisywane są jako:
 $IF[WARUNEK]...ble ble ble...$ELSI[WARUNEK]...ble ble ble...$ENDIF
-Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako strinki w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]).
+Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako strinki w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]). Połączone instrukcje $IF...$ELSIF...$$ENDIF mogą być w jednej linii lub rozdzielone pomiędzy liniami.
 
 
 
 5. Warunkowe wpychanie w nawiasy realizowane jest za pomocą instrukcji:
 $BRA[VAL]jakiś tam tekst$ENDB
-, gdzie VAL jest jednocześnie warunkiem i wartością wstawianą przed nawiasem. Jeżeli VAL w procesie podmian stałych stanie się wartością pustą - nawiasy nie zostaną wstawione.
+, gdzie VAL jest jednocześnie warunkiem i wartością wstawianą przed nawiasem. Jeżeli VAL w procesie podmian stałych stanie się wartością pustą - nawiasy nie zostaną wstawione. Instrukcje $BRA[...] i $ENDB muszą się znajdować w jednej linii.
 
 Przykład 1:
 config.h: #define VAL

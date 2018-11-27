@@ -19,7 +19,36 @@ void OtherShitSolver::DoAllRequiredShit(QStringList& text)
  */
 void OtherShitSolver::SolveBrackets(QStringList& text)
 {
-    //<TODO>
+    bool found = true;
+    int fi, si, li;
+    while(found)
+    {
+        found = false;
+        for(int l=0;l<text.size();l++)
+        {
+            fi = text.at(l).indexOf("$BRA[");
+            if(fi<0)
+                continue;
+            si = text.at(l).indexOf("]", fi);
+            if(si<0)
+                throw std::runtime_error("OtherShitSolver::SolveBrackets: brak domknięcia nawiasu w \""+
+                                         text.at(l).toStdString()+"\"");
+            li = text.at(l).indexOf("$ENDB", si);
+            if(li<0)
+                throw std::runtime_error("OtherShitSolver::SolveBrackets: brak symbolu $ENDB w \""+
+                                         text.at(l).toStdString()+"\"");
+            QString cond, meat;
+            cond = text.at(l).mid(fi+5, si-fi-5);
+            meat = text.at(l).mid(si+1, li-si-1);
+            text[l].remove(fi, li-fi+5);
+            if(GetBoleanValue(cond))
+                text[l].insert(fi, cond+"("+meat+")");
+            else
+                text[l].insert(fi, meat);
+            found = true;
+            break;
+        }
+    }
 }
 
 /**
