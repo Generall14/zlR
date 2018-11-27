@@ -5,8 +5,6 @@
 #include <QMessageBox>
 #include <src/Data.hpp>
 #include <QSharedPointer>
-#include <src/OtherShitSolver.hpp>
-#include <QDebug>
 
 int RunGUI(QApplication &a)
 {
@@ -25,10 +23,6 @@ int main(int argc, char *argv[])
     QString err;
 
     QApplication a(argc, argv);
-
-    qDebug() << OtherShitSolver::GetBoleanValue("");
-    qDebug() << OtherShitSolver::GetBoleanValue("fds");
-    return;
 
     try
     {
