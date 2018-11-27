@@ -98,7 +98,8 @@ void Data::Make(QString temp, QString out)
         sl.append(ts.readLine());
     file.close();
 
-    Macro::ProcessAll(sl, this);
+    Macro::ProcessAll(sl, this); // makra
+    _def->ProcessAll(sl); // #define
     //<TODO>
 
     // zapisz wyjście

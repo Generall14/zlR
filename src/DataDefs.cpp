@@ -103,3 +103,34 @@ QStringList DataDefs::AppendToFile()
         temp.append(AppendToFileL(_pureData.at(i).data, i));
     return temp;
 }
+
+void DataDefs::ProcessAll(QStringList& text)
+{
+    int founds = 666;
+    while(founds)
+    {
+        founds = 0;
+        for(int i=0;i<_pureData.size();i++)
+            founds += ExpandSingle(i, text);
+    }
+}
+
+int DataDefs::ExpandSingle(int i, QStringList& text)
+{
+    if((i<0)||(i>=_pureData.size()))
+        throw std::runtime_error("DataDefs::ExpandSingle: index out of range");
+    int founds = 0;
+    QString before = _pureData.at(i).data[0];
+    QString after = _pureData.at(i).data[1];
+
+    int fi;
+    for(int l=0;l<text.size();l++)
+    {
+        fi = text.at(l).indexOf(before);
+        if(fi<0)
+            continue;
+        text[l].replace(before, after);
+        founds++;
+    }
+    return founds;
+}
