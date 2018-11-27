@@ -12,9 +12,9 @@
  */
 Macro::Macro(QStringList text, Data *data)
 {
-    if(text.at(0).startsWith("$MACRO_SEC "))
+    if(text.at(0).startsWith("$MACRO_SECTION "))
         _data = data->GetSections().data();
-    else if(text.at(0).startsWith("$MACRO_REG "))
+    else if(text.at(0).startsWith("$MACRO_REGION "))
         _data = data->GetRegions().data();
     else
         throw std::runtime_error("Macro::Macro: WTF? \""+text.at(0).toStdString()+"\".");

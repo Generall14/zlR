@@ -8,32 +8,32 @@
 
 2. Makra SECIONS definiuje się:
 
-$MACRO_SEC NAZWA
+$MACRO_SECTION NAZWA
 ... ciało makra
 $ENDM
 
-Do zmiennych lokalnych odnosi się za pomocą instrukcji $LOC(L_VARIABLE), gdzie L_VARIABLE jest jedną ze składowych struktury SECTION (NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur SECTION. Znaczniki $MACRO_SEC NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
+Do zmiennych lokalnych odnosi się za pomocą instrukcji $LOC(L_VARIABLE), gdzie L_VARIABLE jest jedną ze składowych struktury SECTION (NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur SECTION. Znaczniki $MACRO_SECTION NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
 
 Makra dla sekcji REGIONS definiuje się analogicznie:
 
-$MACRO_REG NAZWA
+$MACRO_REGION NAZWA
 ... ciało makra
 $ENDM
 
 , przy czym zestaw wartości lokalnych L_VARIABLE zawiera się w zestawie (NAME, RIGHTS, ADR, SIZE).
 
 Nazwy makr nie mogą się powtarzać (niezależnie od rozdzaju sekcji). Makra mogą być wywoływane wewnętrz siebie ale nie mogą być definiowane wewnątrz siebie, np. szablon:
-$MACRO_SEC XXX
+$MACRO_SECTION XXX
 ...
 $MAC[YYY]
 ...
 $ENDM
-$MACRO_SEC YYY
+$MACRO_SECTION YYY
 ...
 $ENDM
 zostanie prawidłowo zinterpretowany, natomiast:
-$MACRO_SEC XXX
-$MACRO_SEC YYY
+$MACRO_SECTION XXX
+$MACRO_SECTION YYY
 ...
 $ENDM
 ...
@@ -44,9 +44,33 @@ nie zadziała (nie gwarantuję, że program taki błąd wychwyci, możliwe jest 
 
 W pierwszym kroku wszystkie makra są ładowane, dopiero później są rozwijane - nie ma tu problemu definicji i deklaracji jak w c.
 
+Instrukcja $MAC[NAZWA], zostanie zignorowany gdy makro o nazwie NAZWA nie zostanie zdefiniowany.
+
 
 
 3. Symbol $ może być wykorzystywany tylko do instrukcji podanych w tym dokumencie, nie gwarantuje że $ połączony z innymi wyrażeniami nie ogłupi programu.
+
+
+
+4. Instrukcje warunkowe zapisywane są jako:
+$IF[WARUNEK]...ble ble ble...$ELSI[WARUNEK]...ble ble ble...$ENDIF
+Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=), wartości porównywane są jako strinki w konwencji CaseSensitive.
+
+
+
+5. Warunkowe wpychanie w nawiasy realizowane jest za pomocą instrukcji:
+$BRA[VAL]jakiś tam tekst$ENDB
+, gdzie VAL jest jednocześnie warunkiem i wartością wstawianą przed nawiasem. Jeżeli VAL w procesie podmian stałych stanie się wartością pustą - nawiasy nie zostaną wstawione.
+
+Przykład 1:
+config.h: #define VAL
+template.ld: $BRA[VAL]jakiś tam tekst$ENDB
+linker.ld: jakiś tam tekst
+
+Przykład 2:
+config.h: #define VAL xyz
+template.ld: $BRA[VAL]jakiś tam tekst$ENDB
+linker.ld: xyz(jakiś tam tekst)
 
 
 
@@ -54,5 +78,7 @@ Przetwarzanie szablonów przez program odbywa się w kolejności:
  - Ładowanie wszystkich makr z szablonu.
  - Rozwijanie makr.
  - Zastępowanie prostych definicji.
+ - Rozwijanie $IF itp.
+ - Rozwijanie $BRA
 
 Każdy krok jest tak długo powtarzany aż się z wszystkiego wystrzela, ale po tym algorytm już do niego nie wraca. Tak więc wpisanie do którejś ze struktur mazwy prostej definicji spowoduje rozwinięcie jej przez makro a następnie podmienienie na styl przeprocesora, ale w drugą stronę to już nie zadziała.
