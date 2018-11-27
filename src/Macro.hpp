@@ -19,6 +19,10 @@ private:
     static QList<Macro> LoadMacros(QStringList& text, Data* data);
     bool Apply(QStringList& text);
 
+    QStringList _expanded;
+    QStringList ExpandSingle(int i);
+    QStringList ExpandAll();
+
     QString _name;
     QStringList _text;
     DataI* _data = nullptr;

@@ -11,7 +11,7 @@
 const QString DataSection::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
 
 DataSection::DataSection(Data *data):
-    DataI("SEC", {"Nazwa", "LMA_ADDR", "VMA_ADDR", "TYPE", "KEEP", "NOLOAD"}, "SECTION", data)
+    DataI("SEC", {"NAME", "LMA_ADDR", "VMA_ADDR", "TYPE", "KEEP", "NOLOAD"}, "SECTION", data)
 {
     _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
     _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetRegions().data())));

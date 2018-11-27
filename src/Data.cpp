@@ -86,6 +86,8 @@ void Data::Save(QString adr)
  */
 void Data::Make(QString temp, QString out)
 {
+    if(isOk())
+        throw std::runtime_error("Data::Make: nie można przetworzyć szablonu z powodu błędów danych.");
     // załaduj szablon
     QFile file(temp);
     if(!file.open(QIODevice::ReadOnly))
@@ -107,6 +109,19 @@ void Data::Make(QString temp, QString out)
     for(auto line: sl)
         tso << line << "\r\n";
     fileo.close();
+}
+
+/**
+ * Sprawdza czy dane zawierają jakieś błędy.
+ * @return true - dane zawierają błędy, false - brak błędów.
+ */
+bool Data::isOk() const
+{
+    bool ret = false;
+    ret |= _reg->isOk();
+    ret |= _sec->isOk();
+    ret |= _def->isOk();
+    return ret;
 }
 
 void Data::Clear()

@@ -26,6 +26,8 @@ public:
     virtual QStringList AppendToFile();
     void FromFile(QString adr);
     void ApplyDelegatesForTable(QTableView* table);
+    QString GetLocalByName(int i, QString name);
+    bool isOk() const;
 
     /**Czyści strukturę danych.*/
     virtual void Clear();

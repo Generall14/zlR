@@ -91,7 +91,7 @@ QList<Macro> Macro::LoadMacros(QStringList& text, Data* data)
                                      text.at(sidx).toStdString()+"\".");
         if(found)
         {
-            macs.append(Macro(text.mid(sidx, eidx-sidx), data));
+            macs.append(Macro(text.mid(sidx, eidx-sidx+1), data));
             for(int j=eidx;j>=sidx;j--)
                 text.removeAt(j);
         }
@@ -106,6 +106,88 @@ QList<Macro> Macro::LoadMacros(QStringList& text, Data* data)
  */
 bool Macro::Apply(QStringList& text)
 {
+    if(_expanded.isEmpty())
+        _expanded = ExpandAll();
+    if(_expanded.isEmpty())
+        return false;
+
+    int fi, li;
+    for(int i=0;i<text.size();i++)
+    {
+        fi = text.at(i).indexOf("$MAC[");
+        if(fi<0)
+            continue;
+        li = text.at(i).indexOf("]", fi);
+        if(li<0)
+            throw std::runtime_error("Macro::Apply: brak domknięcia nawiasu w \""+
+                                     text.at(i).toStdString()+"\"");
+        QString pre, su, name;
+        name = text.at(i).mid(fi+5, li-fi-5);
+        if(name.compare(_name))
+            continue;
+        pre = text.at(i).mid(0, fi);
+        su = text.at(i).mid(li+1);
+        text[i].remove(fi, li-fi+1);
+
+        if(_expanded.size()==1)
+            text[i] = pre+_expanded.at(0)+su;
+        else
+        {
+            text[i] = pre+_expanded.at(0);
+            for(int k=_expanded.size()-1;k>0;k--)
+            {
+                text.insert(i+1, _expanded.at(k)+su);
+                su.clear();
+            }
+        }
+        return true;
+    }
+
     return false;
-    //<TODO>
+}
+
+/**
+ * Zwraca rozwinięty tekst dla struktury o wskazanym nmerze.
+ */
+QStringList Macro::ExpandSingle(int i)
+{
+    QStringList temp = _text;
+
+    bool found = true;
+    int fi, li;
+    QString loc;
+    while(found)
+    {
+        found = false;
+        for(int l=0;l<temp.size();l++)
+        {
+            fi = temp.at(l).indexOf("$LOC[");
+            if(fi<0)
+                continue;
+            li = temp.at(l).indexOf("]", fi);
+            if(li<0)
+                throw std::runtime_error("Macro::ExpandSingle: brak domknięcia nawiasu w \""+
+                                         temp.at(l).toStdString()+"\"");
+
+            loc = temp.at(l).mid(fi+5, li-fi-5);
+            temp[l].remove(fi, li-fi+1);
+            temp[l].insert(fi, _data->GetLocalByName(i, loc));
+
+            found = true;
+            break;
+        }
+    }
+
+    return temp;
+}
+
+/**
+ * Zwraca rozwinięty tekst dla wszystkich struktur.
+ */
+QStringList Macro::ExpandAll()
+{
+    QStringList temp;
+    for(int i=0;i<_data->rowCount();i++)
+        temp.append(ExpandSingle(i));
+    return temp;
 }

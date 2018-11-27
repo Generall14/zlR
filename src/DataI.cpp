@@ -265,3 +265,36 @@ void DataI::ApplyDelegatesForTable(QTableView* table)
     for(int i=0;i<COLS;i++)
         table->setItemDelegateForColumn(i, _delegats.at(i).data());
 }
+
+/**
+ * Zwraca wartość atrybutu dla wskazanego numeru struktury i wskazanej nazwy atrybutu.
+ * @param i - numer struktury.
+ * @param name - nazwa atrybutu.
+ * @return
+ */
+QString DataI::GetLocalByName(int i, QString name)
+{
+    if((i<0)||i>=_pureData.size())
+        throw std::runtime_error("DataI::GetLocalByName: index out of range");
+
+    int atr = _header.indexOf(name);
+    if(atr<0)
+        throw std::runtime_error("DataI::GetLocalByName: nie odnaleziono atrybutu "+name.toStdString());
+
+    return _pureData.at(i).data.at(atr);
+}
+
+/**
+ * Sprawdza czy dane zawierają jakieś błędy.
+ * @return true - dane zawierają błędy, false - brak błędów.
+ */
+bool DataI::isOk() const
+{
+    for(auto st: _pureData)
+    {
+        for(auto tip: st.tip)
+            if(!tip.isEmpty())
+                return true;
+    }
+    return false;
+}

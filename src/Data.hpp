@@ -20,6 +20,7 @@ public:
     void Load(QString adr);
     void Save(QString adr);
     void Make(QString temp, QString out);
+    bool isOk() const;
 
     QSharedPointer<DataRegion> GetRegions() const;
     QSharedPointer<DataSection> GetSections() const;
