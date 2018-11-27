@@ -6,6 +6,7 @@
 #include <src/DataSection.hpp>
 #include <src/DataDefs.hpp>
 #include <src/Macro.hpp>
+#include <src/OtherShitSolver.hpp>
 
 Data::Data()
 {
@@ -100,7 +101,7 @@ void Data::Make(QString temp, QString out)
 
     Macro::ProcessAll(sl, this); // makra
     _def->ProcessAll(sl); // #define
-    //<TODO>
+    OtherShitSolver::DoAllRequiredShit(sl); // reszta pierdół
 
     // zapisz wyjście
     QFile fileo(out);

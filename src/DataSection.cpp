@@ -53,7 +53,6 @@ void DataSection::Check()
         if(!_datPtr->GetRegions()->GetNames().contains(_pureData[i].data[2]))
             _pureData[i].tip[2].append(" Brak zdefiniowanego regionu "+_pureData[i].data[2]+".");
     }
-    //<TODO>
 
     // zbieranie danych na stderr.
     QString err;

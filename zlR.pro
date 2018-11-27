@@ -34,7 +34,8 @@ SOURCES += \
     src/delegat/RegDelegate.cpp \
     src/delegat/BTypeDelegate.cpp \
     src/DataDefs.cpp \
-    src/Macro.cpp
+    src/Macro.cpp \
+    src/OtherShitSolver.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -52,7 +53,8 @@ HEADERS += \
     src/delegat/BTypeDelegate.hpp \
     src/DataDefs.hpp \
     ver.h \
-    src/Macro.hpp
+    src/Macro.hpp \
+    src/OtherShitSolver.hpp
 
 RESOURCES += \
     res.qrc

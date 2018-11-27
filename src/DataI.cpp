@@ -226,7 +226,7 @@ bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
         return false;
     if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
         return false;
-    _pureData[index.row()].data[index.column()] = value.toString();//<TODO> weryfikacja i edytor
+    _pureData[index.row()].data[index.column()] = value.toString();
     Check();
     emit Changed();
     return false;

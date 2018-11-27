@@ -54,7 +54,7 @@ Instrukcja $MAC[NAZWA], zostanie zignorowany gdy makro o nazwie NAZWA nie zostan
 
 4. Instrukcje warunkowe zapisywane są jako:
 $IF[WARUNEK]...ble ble ble...$ELSI[WARUNEK]...ble ble ble...$ENDIF
-Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=), wartości porównywane są jako strinki w konwencji CaseSensitive.
+Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=), wartości porównywane są jako strinki w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]).
 
 
 

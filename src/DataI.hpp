@@ -43,7 +43,7 @@ public:
 public slots:
     void Add();
     void Remove(int index);
-    virtual void Check() = 0; //<TODO>
+    virtual void Check() = 0;
 
 signals:
     /**Informuje o zmianie danych.*/
