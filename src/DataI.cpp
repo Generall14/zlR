@@ -7,17 +7,17 @@
 
 /**
  * Jedyny słuszny konstruktor.
- * @param sign - Znacznik sekcji danych w pliku (//##_sign).
+ * @param sign - Symbol sekcji.
  * @param header - Lista nagłówków dla każdej kolumny w tabeli.
- * @param rown - Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...), (SECTION, REGION itp).
  */
-DataI::DataI(QString sign, QStringList header, QString rown, Data *data):
+DataI::DataI(QString sign, QStringList header, Data *data):
     COLS(header.size()),
     _datPtr(data),
     _sign(sign),
-    _header(header),
-    _rown(rown)
+    _header(header)
 {
+    while(_delegats.size()<COLS)
+        _delegats.append(nullptr);
 }
 
 /**
@@ -114,7 +114,7 @@ QStringList DataI::AppendToFile()
  */
 QString DataI::AppendToFileL(QStringList str, int nr)
 {
-    QString temp = "#define "+_rown+"_"+QString::number(nr);
+    QString temp = "#define "+_sign+"_"+QString::number(nr);
     while(temp.size()<FS_OFF)
         temp.append(" ");
     for(int i=0;i<str.size();i++)
@@ -207,7 +207,7 @@ QVariant DataI::headerData(int section, Qt::Orientation orientation, int role) c
         if((section<0)||(section>=_pureData.length()))
             return QVariant();
         if(role==Qt::DisplayRole)
-            return _rown+"_"+QString::number(section);
+            return _sign+"_"+QString::number(section);
     }
     return QVariant();
 }
@@ -263,7 +263,11 @@ void DataI::ApplyDelegatesForTable(QTableView* table)
         throw std::runtime_error("DataI::GetDelegateForColumn: brak zdefiniowanych delegatów dla tabeli");
 
     for(int i=0;i<COLS;i++)
+    {
+        if(_delegats.at(i).data()==nullptr)
+            _delegats[i] = QSharedPointer<QItemDelegate>(new LEDelegate(this));
         table->setItemDelegateForColumn(i, _delegats.at(i).data());
+    }
 }
 
 /**
@@ -297,4 +301,17 @@ bool DataI::isOk() const
                 return true;
     }
     return false;
+}
+
+QString DataI::getMyName()
+{
+    return _sign;
+}
+
+QStringList DataI::GetNames()
+{
+    QStringList temp;
+    for(auto reg: _pureData)
+        temp.append(reg.data.at(0));
+    return temp;
 }

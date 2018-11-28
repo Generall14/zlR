@@ -43,71 +43,33 @@ void MainGUI::InitGUI()
     this->setCentralWidget(new QWidget());
     this->centralWidget()->setLayout(new QVBoxLayout());
 
-    //========================= Regiony =======================================
-    QGroupBox* regGB = new QGroupBox("Regiony");
-    this->centralWidget()->layout()->addWidget(regGB);
-    regGB->setLayout(new QVBoxLayout());
+    auto map = _dat->GetMap();
+    for(auto it = map.begin();it!=map.end();it++)
+        AppendTable(it.value());
+}
 
-    regTBV = new QTableView();
-    regTBV->setSelectionMode(QAbstractItemView::SingleSelection);
-    regTBV->setModel((_dat->GetRegions()).data());
-    _dat->GetRegions()->ApplyDelegatesForTable(regTBV);
-    regGB->layout()->addWidget(regTBV);
+void MainGUI::AppendTable(QSharedPointer<DataI> d)
+{
+    QGroupBox* GB = new QGroupBox(d->getMyName());
+    this->centralWidget()->layout()->addWidget(GB);
+    GB->setLayout(new QHBoxLayout());
 
-    QHBoxLayout* regBL = new QHBoxLayout();
-    static_cast<QBoxLayout*>(regGB->layout())->addLayout(regBL);
+    QTableView* TBV = new QTableView();
+    TBV->setSelectionMode(QAbstractItemView::SingleSelection);
+    TBV->setModel(d.data());
+    d->ApplyDelegatesForTable(TBV);
+    GB->layout()->addWidget(TBV);
 
-    regBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    QVBoxLayout* BL = new QVBoxLayout();
+    static_cast<QBoxLayout*>(GB->layout())->addLayout(BL);
+
+    BL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Maximum, QSizePolicy::Expanding));
     QPushButton* btn = new QPushButton("Dodaj");
-    connect(btn, &QPushButton::clicked, _dat->GetRegions().data(), &DataRegion::Add);
-    regBL->addWidget(btn);
+    connect(btn, &QPushButton::clicked, d.data(), &DataRegion::Add);
+    BL->addWidget(btn);
     btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this](){_dat->GetRegions()->Remove(regTBV->currentIndex().row());});
-    regBL->addWidget(btn);
-
-    //========================= Sekcje ========================================
-    QGroupBox* secGB = new QGroupBox("Sekcje");
-    this->centralWidget()->layout()->addWidget(secGB);
-    secGB->setLayout(new QVBoxLayout());
-
-    secTBV = new QTableView();
-    secTBV->setSelectionMode(QAbstractItemView::SingleSelection);
-    secTBV->setModel((_dat->GetSections()).data());
-    _dat->GetSections()->ApplyDelegatesForTable(secTBV);
-    secGB->layout()->addWidget(secTBV);
-
-    QHBoxLayout* secBL = new QHBoxLayout();
-    static_cast<QBoxLayout*>(secGB->layout())->addLayout(secBL);
-
-    secBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
-    btn = new QPushButton("Dodaj");
-    connect(btn, &QPushButton::clicked, _dat->GetSections().data(), &DataRegion::Add);
-    secBL->addWidget(btn);
-    btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this](){_dat->GetSections()->Remove(secTBV->currentIndex().row());});
-    secBL->addWidget(btn);
-
-    //========================= Definicje =====================================
-    QGroupBox* defGB = new QGroupBox("Stałe");
-    this->centralWidget()->layout()->addWidget(defGB);
-    defGB->setLayout(new QHBoxLayout());
-
-    defTBV = new QTableView();
-    defTBV->setSelectionMode(QAbstractItemView::SingleSelection);
-    defTBV->setModel((_dat->GetDefinitions()).data());
-    _dat->GetDefinitions()->ApplyDelegatesForTable(defTBV);
-    defGB->layout()->addWidget(defTBV);
-
-    QVBoxLayout* defBL = new QVBoxLayout();
-    static_cast<QBoxLayout*>(defGB->layout())->addLayout(defBL);
-
-    defBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Maximum, QSizePolicy::Expanding));
-    btn = new QPushButton("Dodaj");
-    connect(btn, &QPushButton::clicked, _dat->GetDefinitions().data(), &DataRegion::Add);
-    defBL->addWidget(btn);
-    btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this](){_dat->GetDefinitions()->Remove(defTBV->currentIndex().row());});
-    defBL->addWidget(btn);
+    connect(btn, &QPushButton::clicked, [this, d, TBV](){d->Remove(TBV->currentIndex().row());});
+    BL->addWidget(btn);
 }
 
 void MainGUI::InitMenu()

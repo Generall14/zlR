@@ -10,8 +10,6 @@ class DataRegion : public DataI
 public:
     DataRegion(Data* data);
 
-    QStringList GetNames();
-
 public slots:
     virtual void Check();
 

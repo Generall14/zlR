@@ -5,6 +5,7 @@
 #include <QTableView>
 
 class Data;
+class DataI;
 
 class MainGUI : public QMainWindow
 {
@@ -15,13 +16,10 @@ public:
 
 private:
     void InitGUI();
+    void AppendTable(QSharedPointer<DataI> d);
     void InitMenu();
 
     QSharedPointer<Data> _dat;
-
-    QTableView* regTBV = nullptr;
-    QTableView* secTBV = nullptr;
-    QTableView* defTBV = nullptr;
 
     QString _currentFile;
     QString _currentTempFile;

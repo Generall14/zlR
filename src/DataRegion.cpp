@@ -16,16 +16,17 @@ const QString DataRegion::znakiSIZE = "KMG";
 const QString DataRegion::znakiNUMS = "KMG0123456789";
 
 DataRegion::DataRegion(Data *data):
-    DataI("REG", {"NAME", "RIGHTS", "ADR", "SIZE"}, "REGION", data)
+    DataI("REGION", {"NAME", "RIGHTS", "ADR", "SIZE"}, data)
 {
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new RWXValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new HexValidator(8))));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new SizeValidator())));
+    _delegats[0]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
+    _delegats[1]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new RWXValidator())));
+    _delegats[2]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new HexValidator(8))));
+    _delegats[3]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new SizeValidator())));
 }
 
 void DataRegion::Check()
 {
+    emit beginResetModel();
     for(int i=0;i<_pureData.size();i++)
     {
         //=================== Nazwy ============================
@@ -112,6 +113,7 @@ void DataRegion::Check()
         if(serr)
             _pureData[i].tip[3].append(" Błędna składnia rozmiaru "+_pureData[i].data[3]+".");
     }
+    emit endResetModel();
 
     // zbieranie danych na stderr.
     QString err;
@@ -125,12 +127,4 @@ void DataRegion::Check()
     }
     if(!err.isEmpty())
         std::cerr << "DataRegion errors:\r\n" << err.toStdString() << std::endl << std::endl;
-}
-
-QStringList DataRegion::GetNames()
-{
-    QStringList temp;
-    for(auto reg: _pureData)
-        temp.append(reg.data.at(0));
-    return temp;
 }

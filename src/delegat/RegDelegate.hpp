@@ -5,19 +5,19 @@
 #include <QLineEdit>
 #include <QValidator>
 
-class DataRegion;
+class DataI;
 
 class RegDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    RegDelegate(QObject *parent, DataRegion* region);
+    RegDelegate(QObject *parent, DataI* region);
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
 
 private:
-    DataRegion* _reg = nullptr;
+    DataI* _reg = nullptr;
 };
 
 #endif

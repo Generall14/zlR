@@ -7,17 +7,21 @@
 #include <src/DataDefs.hpp>
 #include <src/Macro.hpp>
 #include <src/OtherShitSolver.hpp>
+#include <src/DataI.hpp>
 
 Data::Data()
 {
-    _reg = QSharedPointer<DataRegion>(new DataRegion(this), &QObject::deleteLater);
+    QSharedPointer<DataI> _reg = QSharedPointer<DataRegion>(new DataRegion(this), &QObject::deleteLater);
     connect(_reg.data(), &DataRegion::Changed, this, &Data::CheckAll);
+    _dats[_reg->getMyName()] = _reg;
 
-    _sec = QSharedPointer<DataSection>(new DataSection(this), &QObject::deleteLater);
+    QSharedPointer<DataI> _sec = QSharedPointer<DataSection>(new DataSection(this), &QObject::deleteLater);
     connect(_sec.data(), &DataSection::Changed, this, &Data::CheckAll);
+    _dats[_sec->getMyName()] = _sec;
 
-    _def = QSharedPointer<DataDefs>(new DataDefs(this), &QObject::deleteLater);
+    QSharedPointer<DataI> _def = QSharedPointer<DataDefs>(new DataDefs(this), &QObject::deleteLater);
     connect(_def.data(), &DataDefs::Changed, this, &Data::CheckAll);
+    _dats[_def->getMyName()] = _def;
 
     Clear();
 }
@@ -35,16 +39,14 @@ Data::Data(QString adr):
 
 void Data::CheckAll()
 {
-    _reg->Check();
-    _sec->Check();
-    _def->Check();
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->Check();
 }
 
 void Data::Load(QString adr)
 {
-    _reg->FromFile(adr);
-    _sec->FromFile(adr);
-    _def->FromFile(adr);
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->FromFile(adr);
 }
 
 void Data::Save(QString adr)
@@ -68,9 +70,8 @@ void Data::Save(QString adr)
     sl.append("#ifndef "+def);
     sl.append("#define "+def);
 
-    sl.append(_def->AppendToFile());
-    sl.append(_reg->AppendToFile());
-    sl.append(_sec->AppendToFile());
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        sl.append(it.value()->AppendToFile());
 
     sl.append("\r\n\r\n#endif /* "+def+" */");
 
@@ -100,7 +101,7 @@ void Data::Make(QString temp, QString out)
     file.close();
 
     Macro::ProcessAll(sl, this); // makra
-    _def->ProcessAll(sl); // #define
+    //dynamic_cast<DataDefs*>(_def.data())->ProcessAll(sl); // #define
     OtherShitSolver::DoAllRequiredShit(sl); // reszta pierdół
 
     // zapisz wyjście
@@ -120,9 +121,8 @@ void Data::Make(QString temp, QString out)
 bool Data::isOk() const
 {
     bool ret = false;
-    ret |= _reg->isOk();
-    ret |= _sec->isOk();
-    ret |= _def->isOk();
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        ret |= it.value()->isOk();
     return ret;
 }
 
@@ -131,18 +131,14 @@ void Data::Clear()
     //<TODO>
 }
 
-QSharedPointer<DataRegion> Data::GetRegions() const
+QSharedPointer<DataI> Data::GetByName(QString name) const
 {
-    return _reg;
+    if(!_dats.contains(name))
+        throw std::runtime_error("Data::GetByName: brak \""+name.toStdString()+"\" w danych");
+    return _dats[name];
 }
 
-QSharedPointer<DataSection> Data::GetSections() const
+QMap<QString, QSharedPointer<DataI> > Data::GetMap()
 {
-    return _sec;
+    return _dats;
 }
-
-QSharedPointer<DataDefs> Data::GetDefinitions() const
-{
-    return _def;
-}
-
