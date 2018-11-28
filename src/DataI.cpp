@@ -7,16 +7,14 @@
 
 /**
  * Jedyny słuszny konstruktor.
- * @param sign - Znacznik sekcji danych w pliku (//##_sign).
+ * @param sign - Symbol sekcji.
  * @param header - Lista nagłówków dla każdej kolumny w tabeli.
- * @param rown - Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...), (SECTION, REGION itp).
  */
-DataI::DataI(QString sign, QStringList header, QString rown, Data *data):
+DataI::DataI(QString sign, QStringList header, Data *data):
     COLS(header.size()),
     _datPtr(data),
     _sign(sign),
-    _header(header),
-    _rown(rown)
+    _header(header)
 {
 }
 
@@ -114,7 +112,7 @@ QStringList DataI::AppendToFile()
  */
 QString DataI::AppendToFileL(QStringList str, int nr)
 {
-    QString temp = "#define "+_rown+"_"+QString::number(nr);
+    QString temp = "#define "+_sign+"_"+QString::number(nr);
     while(temp.size()<FS_OFF)
         temp.append(" ");
     for(int i=0;i<str.size();i++)
@@ -207,7 +205,7 @@ QVariant DataI::headerData(int section, Qt::Orientation orientation, int role) c
         if((section<0)||(section>=_pureData.length()))
             return QVariant();
         if(role==Qt::DisplayRole)
-            return _rown+"_"+QString::number(section);
+            return _sign+"_"+QString::number(section);
     }
     return QVariant();
 }
@@ -301,7 +299,7 @@ bool DataI::isOk() const
 
 QString DataI::getMyName()
 {
-    return _rown;
+    return _sign;
 }
 
 QStringList DataI::GetNames()

@@ -16,7 +16,7 @@ const QString DataRegion::znakiSIZE = "KMG";
 const QString DataRegion::znakiNUMS = "KMG0123456789";
 
 DataRegion::DataRegion(Data *data):
-    DataI("REG", {"NAME", "RIGHTS", "ADR", "SIZE"}, "REGION", data)
+    DataI("REGION", {"NAME", "RIGHTS", "ADR", "SIZE"}, data)
 {
     _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
     _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new RWXValidator())));

@@ -21,7 +21,7 @@ class DataI : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    DataI(QString sign, QStringList header, QString rown, Data* data);
+    DataI(QString sign, QStringList header, Data* data);
 
     virtual QStringList AppendToFile();
     void FromFile(QString adr);
@@ -74,11 +74,11 @@ protected:
     virtual QString AppendToFileL(QStringList str, int nr);
     virtual void ReadLine(QString line);
 
-    const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign).*/
+    const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign), dymbol kolejnych wpisów (#define _rown_0 ...
+                             #define _rown_1 ...), nazwa w mapie w Data, nazwa w MAC_XXX.*/
 
 private:
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
-    const QString _rown; /**<Symbol kolejnych wpisów (#define _rown_0 ... #define _rown_1 ...).*/
 
     QStringList GetPieceOfFile(QString adr);
 
