@@ -26,6 +26,7 @@ DataRegion::DataRegion(Data *data):
 
 void DataRegion::Check()
 {
+    emit beginResetModel();
     for(int i=0;i<_pureData.size();i++)
     {
         //=================== Nazwy ============================
@@ -112,6 +113,7 @@ void DataRegion::Check()
         if(serr)
             _pureData[i].tip[3].append(" Błędna składnia rozmiaru "+_pureData[i].data[3]+".");
     }
+    emit endResetModel();
 
     // zbieranie danych na stderr.
     QString err;

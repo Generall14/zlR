@@ -23,6 +23,7 @@ DataSection::DataSection(Data *data):
 
 void DataSection::Check()
 {
+    emit beginResetModel();
     for(int i=0;i<_pureData.size();i++)
     {
         //=================== Nazwy ============================
@@ -53,6 +54,7 @@ void DataSection::Check()
         if(!_datPtr->GetByName("REGION")->GetNames().contains(_pureData[i].data[2]))
             _pureData[i].tip[2].append(" Brak zdefiniowanego regionu "+_pureData[i].data[2]+".");
     }
+    emit endResetModel();
 
     // zbieranie danych na stderr.
     QString err;

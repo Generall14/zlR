@@ -17,6 +17,7 @@ DataDefs::DataDefs(Data *data):
 
 void DataDefs::Check()
 {
+    emit beginResetModel();
     for(int i=0;i<_pureData.size();i++)
     {
         //=================== Nazwy ============================
@@ -39,6 +40,7 @@ void DataDefs::Check()
         if(f>1)
             _pureData[i].tip[0].append(" Nazwy "+my+" się powtarzają.");
     }
+    emit endResetModel();
 
     // zbieranie danych na stderr.
     QString err;
