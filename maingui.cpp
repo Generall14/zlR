@@ -218,7 +218,7 @@ void MainGUI::About()
     QString message = "Ble ble ble\n\n"
                       "Nie gwarantuje prawidłowego działania\n\n"
                       "Zapewniam wsparcie techniczne do momentu aż mi się znudzi\n\n"
-                      "Wersja: "+QString(GIT_VERSION);
+                      "Wersja: "+QString(GIT_VERSION)+" z dnia "+QString(GIT_DATE);
     QMessageBox::information(this, "About", message);
 }
 

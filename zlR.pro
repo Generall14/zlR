@@ -10,7 +10,9 @@ MAKEFLAGS += CXX=g++-8 CXXFLAGS+=-std=c++17 CXXFLAGS+=-fPIC
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-GIT_VERSION = $$system(git describe --always --tags)
+GIT_VERSION = $$system(git describe)
+GIT_DATE = $$system(git log -1 --format="%at" | xargs -I{} date -d @{} +%Y/%m/%d_%H:%M:%S)
+DEFINES += GIT_DATE=\\\"$$GIT_DATE\\\"
 DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
 TARGET = zlR
