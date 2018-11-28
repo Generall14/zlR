@@ -57,7 +57,81 @@ void OtherShitSolver::SolveBrackets(QStringList& text)
  */
 void OtherShitSolver::SolveIfs(QStringList& text)
 {
-    //<TODO>
+    while(SolveNextIfs(text)){}
+}
+
+bool OtherShitSolver::SolveNextIfs(QStringList& text)
+{
+    QList<ifSection> ifs;
+    bool found = false;
+    bool started = false;
+    int li, sl, ll;
+    QString lcond;
+
+    for(int l=0;l<text.size();l++)
+    {
+        if(!started)
+        {
+            if(text.at(l).startsWith("$IF["))
+            {
+                sl = l;
+                ll = l;
+                li = text.at(l).indexOf("]");
+                if(li<0)
+                    throw std::runtime_error("OtherShitSolver::SolveNextIfs: brak domknięcia nawiasu w \""+
+                                             text.at(l).toStdString()+"\"");
+                lcond = text.at(l).mid(4, li-4);
+                started = true;
+            }
+        }
+        else
+        {
+            if(text.at(l).startsWith("$ELSIF["))
+            {
+                li = text.at(l).indexOf("]");
+                if(li<0)
+                    throw std::runtime_error("OtherShitSolver::SolveNextIfs: brak domknięcia nawiasu w \""+
+                                             text.at(l).toStdString()+"\"");
+                ifs.append(ifSection{lcond, text.mid(ll+1, l-ll-1)});
+                lcond = text.at(l).mid(7, li-7);
+                ll = l;
+            }
+            else if(text.at(l).startsWith("$ELSE"))
+            {
+                ifs.append(ifSection{lcond, text.mid(ll+1, l-ll-1)});
+                lcond = "PLRIQNDSJ";
+                ll = l;
+            }
+            else if(text.at(l).startsWith("$ENDIF"))
+            {
+                ifs.append(ifSection{lcond, text.mid(ll+1, l-ll-1)});
+                found = true;
+                ll = l;
+                break;
+            }
+        }
+    }
+
+    if((started)&&(!found))
+        throw std::runtime_error("OtherShitSolver::SolveNextIfs: brak znacznika $ENDIF");
+
+    if(!found)
+        return false;
+
+    for(int l=ll;l>=sl;l--)
+        text.removeAt(l);
+
+    for(int l=0;l<ifs.size();l++)
+    {
+        if(GetBoleanValue(ifs.at(l).condition))
+        {
+            for(int k=ifs.at(l).text.size()-1;k>=0;k--)
+                text.insert(sl, ifs.at(l).text.at(k));
+            return true;
+        }
+    }
+
+    return true;
 }
 
 /**

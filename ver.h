@@ -1,1 +1,1 @@
-#define VER "alfa 0"
+#define VER "beta 0"
