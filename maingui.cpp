@@ -48,8 +48,8 @@ void MainGUI::InitGUI()
 
     regTBV = new QTableView();
     regTBV->setSelectionMode(QAbstractItemView::SingleSelection);
-    regTBV->setModel((_dat->GetRegions()).data());
-    _dat->GetRegions()->ApplyDelegatesForTable(regTBV);
+    regTBV->setModel((_dat->GetByName("REGION")).data());
+    _dat->GetByName("REGION")->ApplyDelegatesForTable(regTBV);
     regGB->layout()->addWidget(regTBV);
 
     QHBoxLayout* regBL = new QHBoxLayout();
@@ -57,10 +57,10 @@ void MainGUI::InitGUI()
 
     regBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     QPushButton* btn = new QPushButton("Dodaj");
-    connect(btn, &QPushButton::clicked, _dat->GetRegions().data(), &DataRegion::Add);
+    connect(btn, &QPushButton::clicked, _dat->GetByName("REGION").data(), &DataRegion::Add);
     regBL->addWidget(btn);
     btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this](){_dat->GetRegions()->Remove(regTBV->currentIndex().row());});
+    connect(btn, &QPushButton::clicked, [this](){_dat->GetByName("REGION")->Remove(regTBV->currentIndex().row());});
     regBL->addWidget(btn);
 
     //========================= Sekcje ========================================
@@ -70,8 +70,8 @@ void MainGUI::InitGUI()
 
     secTBV = new QTableView();
     secTBV->setSelectionMode(QAbstractItemView::SingleSelection);
-    secTBV->setModel((_dat->GetSections()).data());
-    _dat->GetSections()->ApplyDelegatesForTable(secTBV);
+    secTBV->setModel((_dat->GetByName("SECTION")).data());
+    _dat->GetByName("SECTION")->ApplyDelegatesForTable(secTBV);
     secGB->layout()->addWidget(secTBV);
 
     QHBoxLayout* secBL = new QHBoxLayout();
@@ -79,10 +79,10 @@ void MainGUI::InitGUI()
 
     secBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     btn = new QPushButton("Dodaj");
-    connect(btn, &QPushButton::clicked, _dat->GetSections().data(), &DataRegion::Add);
+    connect(btn, &QPushButton::clicked, _dat->GetByName("SECTION").data(), &DataRegion::Add);
     secBL->addWidget(btn);
     btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this](){_dat->GetSections()->Remove(secTBV->currentIndex().row());});
+    connect(btn, &QPushButton::clicked, [this](){_dat->GetByName("SECTION")->Remove(secTBV->currentIndex().row());});
     secBL->addWidget(btn);
 
     //========================= Definicje =====================================
@@ -92,8 +92,8 @@ void MainGUI::InitGUI()
 
     defTBV = new QTableView();
     defTBV->setSelectionMode(QAbstractItemView::SingleSelection);
-    defTBV->setModel((_dat->GetDefinitions()).data());
-    _dat->GetDefinitions()->ApplyDelegatesForTable(defTBV);
+    defTBV->setModel((_dat->GetByName("CONST")).data());
+    _dat->GetByName("CONST")->ApplyDelegatesForTable(defTBV);
     defGB->layout()->addWidget(defTBV);
 
     QVBoxLayout* defBL = new QVBoxLayout();
@@ -101,10 +101,10 @@ void MainGUI::InitGUI()
 
     defBL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Maximum, QSizePolicy::Expanding));
     btn = new QPushButton("Dodaj");
-    connect(btn, &QPushButton::clicked, _dat->GetDefinitions().data(), &DataRegion::Add);
+    connect(btn, &QPushButton::clicked, _dat->GetByName("CONST").data(), &DataRegion::Add);
     defBL->addWidget(btn);
     btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this](){_dat->GetDefinitions()->Remove(defTBV->currentIndex().row());});
+    connect(btn, &QPushButton::clicked, [this](){_dat->GetByName("CONST")->Remove(defTBV->currentIndex().row());});
     defBL->addWidget(btn);
 }
 

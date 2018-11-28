@@ -4,10 +4,9 @@
 #include <QString>
 #include <QObject>
 #include <QSharedPointer>
+#include <QMap>
 
-class DataSection;
-class DataRegion;
-class DataDefs;
+class DataI;
 
 class Data : public QObject
 {
@@ -22,9 +21,7 @@ public:
     void Make(QString temp, QString out);
     bool isOk() const;
 
-    QSharedPointer<DataRegion> GetRegions() const;
-    QSharedPointer<DataSection> GetSections() const;
-    QSharedPointer<DataDefs> GetDefinitions() const;
+    QSharedPointer<DataI> GetByName(QString name) const;
 
 public slots:
     void CheckAll();
@@ -32,9 +29,7 @@ public slots:
 private:
     void Clear();
 
-    QSharedPointer<DataRegion> _reg;
-    QSharedPointer<DataSection> _sec;
-    QSharedPointer<DataDefs> _def;
+    QMap<QString, QSharedPointer<DataI> > _dats;
 };
 
 #endif

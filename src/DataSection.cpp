@@ -6,7 +6,7 @@
 #include <src/Data.hpp>
 #include <src/delegat/BTypeDelegate.hpp>
 #include <iostream>
-#include <src/DataRegion.hpp>
+#include <src/DataI.hpp>
 
 const QString DataSection::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
 
@@ -14,8 +14,8 @@ DataSection::DataSection(Data *data):
     DataI("SEC", {"NAME", "LMA_ADDR", "VMA_ADDR", "TYPE", "KEEP", "NOLOAD"}, "SECTION", data)
 {
     _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetRegions().data())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetRegions().data())));
+    _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
+    _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
     _delegats.append(QSharedPointer<QItemDelegate>(new TypeDelegate(this)));
     _delegats.append(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "KEEP")));
     _delegats.append(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
@@ -46,11 +46,11 @@ void DataSection::Check()
             _pureData[i].tip[0].append(" Nazwy "+my+" się powtarzają.");
         //=================== LMA_ADR ==========================
         _pureData[i].tip[1].clear();
-        if(!_datPtr->GetRegions()->GetNames().contains(_pureData[i].data[1]))
+        if(!_datPtr->GetByName("REGION")->GetNames().contains(_pureData[i].data[1]))
             _pureData[i].tip[1].append(" Brak zdefiniowanego regionu "+_pureData[i].data[1]+".");
         //=================== VMA_ADR ==========================
         _pureData[i].tip[2].clear();
-        if(!_datPtr->GetRegions()->GetNames().contains(_pureData[i].data[2]))
+        if(!_datPtr->GetByName("REGION")->GetNames().contains(_pureData[i].data[2]))
             _pureData[i].tip[2].append(" Brak zdefiniowanego regionu "+_pureData[i].data[2]+".");
     }
 

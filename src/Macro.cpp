@@ -13,9 +13,9 @@
 Macro::Macro(QStringList text, Data *data)
 {
     if(text.at(0).startsWith("$MACRO_SECTION "))
-        _data = data->GetSections().data();
+        _data = data->GetByName("SECIONS").data();
     else if(text.at(0).startsWith("$MACRO_REGION "))
-        _data = data->GetRegions().data();
+        _data = data->GetByName("SECIONS").data();
     else
         throw std::runtime_error("Macro::Macro: WTF? \""+text.at(0).toStdString()+"\".");
 

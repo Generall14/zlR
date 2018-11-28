@@ -28,6 +28,9 @@ public:
     void ApplyDelegatesForTable(QTableView* table);
     QString GetLocalByName(int i, QString name);
     bool isOk() const;
+    QString getMyName();
+
+    QStringList GetNames();
 
     /**Czyści strukturę danych.*/
     virtual void Clear();

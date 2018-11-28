@@ -1,8 +1,8 @@
 #include "RegDelegate.hpp"
 #include <QComboBox>
-#include <src/DataRegion.hpp>
+#include <src/DataI.hpp>
 
-RegDelegate::RegDelegate(QObject *parent, DataRegion *region):
+RegDelegate::RegDelegate(QObject *parent, DataI *region):
     QItemDelegate(parent),
     _reg(region)
 {

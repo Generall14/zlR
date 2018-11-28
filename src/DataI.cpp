@@ -298,3 +298,16 @@ bool DataI::isOk() const
     }
     return false;
 }
+
+QString DataI::getMyName()
+{
+    return _rown;
+}
+
+QStringList DataI::GetNames()
+{
+    QStringList temp;
+    for(auto reg: _pureData)
+        temp.append(reg.data.at(0));
+    return temp;
+}

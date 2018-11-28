@@ -126,11 +126,3 @@ void DataRegion::Check()
     if(!err.isEmpty())
         std::cerr << "DataRegion errors:\r\n" << err.toStdString() << std::endl << std::endl;
 }
-
-QStringList DataRegion::GetNames()
-{
-    QStringList temp;
-    for(auto reg: _pureData)
-        temp.append(reg.data.at(0));
-    return temp;
-}
