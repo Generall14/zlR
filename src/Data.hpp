@@ -22,6 +22,7 @@ public:
     bool isOk() const;
 
     QSharedPointer<DataI> GetByName(QString name) const;
+    QMap<QString, QSharedPointer<DataI> > GetMap();
 
 public slots:
     void CheckAll();

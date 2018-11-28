@@ -137,3 +137,8 @@ QSharedPointer<DataI> Data::GetByName(QString name) const
         throw std::runtime_error("Data::GetByName: brak \""+name.toStdString()+"\" w danych");
     return _dats[name];
 }
+
+QMap<QString, QSharedPointer<DataI> > Data::GetMap()
+{
+    return _dats;
+}
