@@ -17,10 +17,12 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-MainGUI::MainGUI(QSharedPointer<Data> dat, QString adr, QWidget *parent):
+MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString oadr, QWidget *parent):
     QMainWindow(parent),
     _dat(dat),
-    _currentFile(adr)
+    _currentFile(iadr),
+    _currentTempFile(tadr),
+    _currentOutFile(oadr)
 {
     InitGUI();
     InitMenu();

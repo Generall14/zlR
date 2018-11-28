@@ -10,7 +10,7 @@ class MainGUI : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainGUI(QSharedPointer<Data> dat, QString adr="", QWidget *parent = 0);
+    MainGUI(QSharedPointer<Data> dat, QString iadr="", QString tadr="", QString oadr="", QWidget *parent = 0);
     ~MainGUI();
 
 private:

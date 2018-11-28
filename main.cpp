@@ -3,30 +3,17 @@
 #include <stdexcept>
 #include <iostream>
 #include <QMessageBox>
-#include <src/Data.hpp>
-#include <QSharedPointer>
-
-int RunGUI(QApplication &a)
-{
-    QString adr = "tst.h";
-    QSharedPointer<Data> dat = QSharedPointer<Data>(new Data(adr), &QObject::deleteLater);
-
-    MainGUI w(dat, adr);
-    w.show();
-
-    return a.exec();
-}
+#include <support.hpp>
 
 int main(int argc, char *argv[])
 {
-    bool gui = true;
-    QString err;
-
     QApplication a(argc, argv);
+    args _args = readArgs(a);
 
+    QString err;
     try
     {
-        return RunGUI(a);
+        return run(a, _args);
     }
     catch(std::runtime_error e)
     {
@@ -34,10 +21,11 @@ int main(int argc, char *argv[])
     }
     catch(...)
     {
-        err = "Coś się zesrało.";
+        err = "Coś się zesrało i nie wiadomo co!";
     }
-    if(gui)
+
+    if((!_args.quiet)&&(!_args.check))
         QMessageBox::critical(nullptr, "FATAL ERROR!", err, QMessageBox::Abort);
-    std::cout << err.toStdString() << std::endl;
+    std::cerr << err.toStdString() << std::endl;
     return -1;
 }

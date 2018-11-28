@@ -1,0 +1,11 @@
+Każdy parametr musi być podany osobno (nie może być łączony, np. -qh). [A] oznacza argument podawany bezpośrednio za sybmolem, np. -iplik.h.
+
+-h    Wyświetla okno pomocy i zamyka program.
+-m    Wyświetla informacje o składni szablonu i zamyka program.
+-q    Wykonuje program w trybie tekstowym, program w takim stanie załaduje plik z danymi, przetworzy szablon i utworzy plik wynikowy, konieczne jest podanie parametrów -i, -o, -t.
+-c    Program wykona tylko sprawdzenie poprawności pliku wejściowego z danymi, wymaga podania parametr -i, nie uruchamia GUI.
+-i[A] Ustawia wejściowy plik z danymi. Obowiązkowy w trybie tekstowym i w trybie sprawdzania poprawności danych.
+-t[A] Ustawia plik szablonu. Obowiązkowy w trybie tekstowym.
+-o[A] Ustawia plik wynikowy. Obowiązkowy w trybie tekstowym.
+
+Jeżeli program zostanie uruchomiony z co najmniej dwoma argumentami (pierwszy domyślny jako PWD) i drugi z nich nie będzie się zaczynał symbolem '-' to drugi argument zostanie potraktowany jako adres pliku wejściowego (czyli jest możliwość połączenia plików danych z tym programem w systemie) a reszta argumentów będzie zignorowana.
