@@ -16,6 +16,8 @@
 #include <src/Data.hpp>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDial>
+#include <QPlainTextEdit>
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString oadr, QWidget *parent):
     QMainWindow(parent),
@@ -31,7 +33,7 @@ MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString o
 
 MainGUI::~MainGUI()
 {
-    qDebug() << "MainGUI::~MainGUI()";
+
 }
 
 void MainGUI::InitGUI()
@@ -152,6 +154,10 @@ void MainGUI::InitMenu()
     connect(aAb, &QAction::triggered, this, &MainGUI::About);
     mHelp->addAction(aAb);
 
+    QAction* aMan = new QAction("&Składnia szablonu", mHelp);
+    connect(aMan, &QAction::triggered, this, &MainGUI::Manual);
+    mHelp->addAction(aMan);
+
     QAction* aTh = new QAction("Wyślij litanie &dziękczynne do autora", mHelp);
     connect(aTh, &QAction::triggered, [=](){
         QDesktopServices::openUrl(
@@ -221,7 +227,32 @@ void MainGUI::About()
                       "Nie gwarantuje prawidłowego działania\n\n"
                       "Zapewniam wsparcie techniczne do momentu aż mi się znudzi\n\n"
                       "Wersja: "+QString(GIT_VERSION)+" z dnia "+QString(GIT_DATE);
-    QMessageBox::information(this, "About", message);
+    QMessageBox::about(this, "About", message);
+}
+
+void MainGUI::Manual()
+{
+    class mm : public QDialog
+    {
+    public:
+        mm(QWidget* p, QString txt):
+            QDialog(p)
+        {
+            QPlainTextEdit* ple = new QPlainTextEdit(txt);
+            ple->setReadOnly(true);
+            this->setLayout(new QVBoxLayout());
+            this->layout()->addWidget(ple);
+            this->window()->resize(p->window()->size()*0.75);
+        }
+    };
+
+    QFile hfile(":/template.txt");
+    hfile.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    mm* dial = new mm(this, hfile.readAll());
+    hfile.close();
+    dial->setModal(true);
+    dial->show();
 }
 
 void MainGUI::Make()

@@ -37,6 +37,7 @@ private slots:
     void Open();
     void About();
     void Make();
+    void Manual();
 };
 
 #endif // MAINGUI_HPP
