@@ -18,6 +18,7 @@
 #include <QMessageBox>
 #include <QDial>
 #include <QPlainTextEdit>
+#include <QHeaderView>
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString oadr, QWidget *parent):
     QMainWindow(parent),
@@ -38,7 +39,7 @@ MainGUI::~MainGUI()
 
 void MainGUI::InitGUI()
 {
-    this->window()->resize(640, 480);
+    this->window()->resize(800, 600);
 
     this->setCentralWidget(new QWidget());
     this->centralWidget()->setLayout(new QVBoxLayout());
@@ -55,6 +56,8 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     GB->setLayout(new QHBoxLayout());
 
     QTableView* TBV = new QTableView();
+    TBV->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    TBV->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     TBV->setSelectionMode(QAbstractItemView::SingleSelection);
     TBV->setModel(d.data());
     d->ApplyDelegatesForTable(TBV);
