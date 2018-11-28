@@ -10,7 +10,7 @@ MAKEFLAGS += CXX=g++-8 CXXFLAGS+=-std=c++17 CXXFLAGS+=-fPIC
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-GIT_VERSION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --always --tags)
+GIT_VERSION = $$system(git describe --always --tags)
 DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
 TARGET = zlR
@@ -52,7 +52,6 @@ HEADERS += \
     src/delegat/RegDelegate.hpp \
     src/delegat/BTypeDelegate.hpp \
     src/DataDefs.hpp \
-    ver.h \
     src/Macro.hpp \
     src/OtherShitSolver.hpp
 

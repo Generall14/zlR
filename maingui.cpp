@@ -16,7 +16,6 @@
 #include <src/Data.hpp>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <ver.h>
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QString adr, QWidget *parent):
     QMainWindow(parent),
@@ -217,8 +216,9 @@ void MainGUI::UpdTitle()
 void MainGUI::About()
 {
     QString message = "Ble ble ble\n\n"
-                      "Wersja: "+QString(VER)+" z dnia "+__DATE__+", "+__TIME__+"\n"
-                      "git commit: "+QString(GIT_VERSION);
+                      "Nie gwarantuje prawidłowego działania\n\n"
+                      "Zapewniam wsparcie techniczne do momentu aż mi się znudzi\n\n"
+                      "Wersja: "+QString(GIT_VERSION);
     QMessageBox::information(this, "About", message);
 }
 
