@@ -18,10 +18,10 @@ const QString DataRegion::znakiNUMS = "KMG0123456789";
 DataRegion::DataRegion(Data *data):
     DataI("REGION", {"NAME", "RIGHTS", "ADR", "SIZE"}, data)
 {
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new RWXValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new HexValidator(8))));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new SizeValidator())));
+    _delegats[0]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
+    _delegats[1]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new RWXValidator())));
+    _delegats[2]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new HexValidator(8))));
+    _delegats[3]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new SizeValidator())));
 }
 
 void DataRegion::Check()

@@ -16,6 +16,8 @@ DataI::DataI(QString sign, QStringList header, Data *data):
     _sign(sign),
     _header(header)
 {
+    while(_delegats.size()<COLS)
+        _delegats.append(nullptr);
 }
 
 /**
@@ -261,7 +263,11 @@ void DataI::ApplyDelegatesForTable(QTableView* table)
         throw std::runtime_error("DataI::GetDelegateForColumn: brak zdefiniowanych delegatów dla tabeli");
 
     for(int i=0;i<COLS;i++)
+    {
+        if(_delegats.at(i).data()==nullptr)
+            _delegats[i] = QSharedPointer<QItemDelegate>(new LEDelegate(this));
         table->setItemDelegateForColumn(i, _delegats.at(i).data());
+    }
 }
 
 /**

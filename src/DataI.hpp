@@ -67,8 +67,7 @@ protected:
 
     const int COLS; /**<Liczba kolumn z danymi.*/
     QList<PureData> _pureData; /**<Przechowywane dane.*/
-    QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dlakolumn, musi być wypełniona przez klasy
-                                                         implementujące DataI.*/
+    QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dla kolumn*/
     Data* _datPtr = nullptr;
 
     virtual QString AppendToFileL(QStringList str, int nr);

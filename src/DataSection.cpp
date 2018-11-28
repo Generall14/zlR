@@ -13,12 +13,12 @@ const QString DataSection::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
 DataSection::DataSection(Data *data):
     DataI("SECTION", {"NAME", "LMA_ADDR", "VMA_ADDR", "TYPE", "KEEP", "NOLOAD"}, data)
 {
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new TypeDelegate(this)));
-    _delegats.append(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "KEEP")));
-    _delegats.append(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
+    _delegats[0]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
+    _delegats[1]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
+    _delegats[2]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
+    _delegats[3]=(QSharedPointer<QItemDelegate>(new TypeDelegate(this)));
+    _delegats[4]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "KEEP")));
+    _delegats[5]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
 }
 
 void DataSection::Check()

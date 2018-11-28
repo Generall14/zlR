@@ -11,8 +11,7 @@ const QString DataDefs::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
 DataDefs::DataDefs(Data *data):
     DataI("CONST", {"Nazwa", "Wartosc"}, data)
 {
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
-    _delegats.append(QSharedPointer<QItemDelegate>(new LEDelegate(this)));
+    _delegats[0]=QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator()));
 }
 
 void DataDefs::Check()
