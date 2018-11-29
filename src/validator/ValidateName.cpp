@@ -1,5 +1,4 @@
 #include "ValidateName.hpp"
-#include <QDebug>
 #include <QStringList>
 #include <QString>
 

@@ -1,5 +1,4 @@
 #include "Data.hpp"
-#include <QDebug>
 #include <QFile>
 #include <QTextStream>
 #include <src/DataRegion.hpp>
@@ -8,6 +7,7 @@
 #include <src/Macro.hpp>
 #include <src/OtherShitSolver.hpp>
 #include <src/DataI.hpp>
+#include <QFileInfo>
 
 Data::Data()
 {
@@ -28,7 +28,6 @@ Data::Data()
 
 Data::~Data()
 {
-    qDebug() << "Data::~Data()";
 }
 
 Data::Data(QString adr):
@@ -68,7 +67,8 @@ void Data::Save(QString adr)
                " ******************************************************************************",
                " */", ""});
 
-    QString def = file.fileName().replace(".", "_").toUpper();
+    QFileInfo fi(file);
+    QString def = QString(fi.baseName()+"."+fi.completeSuffix()).replace(".", "_").toUpper();
     sl.append("#ifndef "+def);
     sl.append("#define "+def);
 

@@ -1,5 +1,4 @@
 #include "ValidateSize.hpp"
-#include <QDebug>
 #include <QStringList>
 #include <QString>
 

@@ -1,5 +1,4 @@
 #include "support.hpp"
-#include <QDebug>
 #include <QString>
 #include <iostream>
 #include <src/Data.hpp>

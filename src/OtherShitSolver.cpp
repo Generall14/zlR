@@ -1,5 +1,4 @@
 #include "OtherShitSolver.hpp"
-#include <QDebug>
 
 const QStringList OtherShitSolver::RELS = {"==", "!=", ">=", "<=", ">", "<"};
 
@@ -65,7 +64,7 @@ bool OtherShitSolver::SolveNextIfs(QStringList& text)
     QList<ifSection> ifs;
     bool found = false;
     bool started = false;
-    int li, sl, ll;
+    int li=-1, sl=-1, ll=-1;
     QString lcond;
 
     for(int l=0;l<text.size();l++)

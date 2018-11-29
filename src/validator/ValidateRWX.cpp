@@ -1,5 +1,4 @@
 #include "ValidateRWX.hpp"
-#include <QDebug>
 #include <QStringList>
 #include <QString>
 

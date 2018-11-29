@@ -1,7 +1,6 @@
 #include "DataDefs.hpp"
 #include <src/delegat/LEDelegate.hpp>
 #include <src/validator/ValidateName.hpp>
-#include <QDebug>
 #include <QFont>
 #include <QColor>
 #include <iostream>

@@ -3,7 +3,6 @@
 #include <src/DataI.hpp>
 #include <src/DataSection.hpp>
 #include <src/DataRegion.hpp>
-#include <QDebug>
 
 /**
  * Konstruktor.

@@ -8,7 +8,6 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <stdexcept>
-#include <QDebug>
 #include <src/Data.hpp>
 #include <src/DataRegion.hpp>
 #include <src/DataSection.hpp>
@@ -203,9 +202,9 @@ void MainGUI::UpdTitle()
 void MainGUI::About()
 {
     QString message = "Ble ble ble\n\n"
-                      "Nie gwarantuje prawidłowego działania\n\n"
-                      "Zapewniam wsparcie techniczne do momentu aż mi się znudzi\n\n"
-                      "Wersja: "+QString(GIT_VERSION)+" z dnia "+QString(GIT_DATE);
+                      "Nie gwarantuje prawidłowego działania.\n\n"
+                      "Zapewniam wsparcie techniczne do momentu aż mi się znudzi.\n\n"
+                      "Wersja: "+QString(GIT_VERSION)+" z dnia "+QString(GIT_DATE)+".";
     QMessageBox::about(this, "About", message);
 }
 

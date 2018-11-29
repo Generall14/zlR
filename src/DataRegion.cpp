@@ -4,7 +4,6 @@
 #include <src/validator/ValidateRWX.hpp>
 #include <src/validator/ValidateSize.hpp>
 #include <src/validator/ValidateName.hpp>
-#include <QDebug>
 #include <QFont>
 #include <QColor>
 #include <iostream>
