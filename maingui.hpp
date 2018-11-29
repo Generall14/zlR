@@ -2,7 +2,6 @@
 #define MAINGUI_HPP
 
 #include <QMainWindow>
-#include <QTableView>
 
 class Data;
 class DataI;

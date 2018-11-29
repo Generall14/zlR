@@ -38,7 +38,8 @@ SOURCES += \
     src/DataDefs.cpp \
     src/Macro.cpp \
     src/OtherShitSolver.cpp \
-    support.cpp
+    support.cpp \
+    mtv.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -57,7 +58,8 @@ HEADERS += \
     src/DataDefs.hpp \
     src/Macro.hpp \
     src/OtherShitSolver.hpp \
-    support.hpp
+    support.hpp \
+    mtv.hpp
 
 RESOURCES += \
     res.qrc

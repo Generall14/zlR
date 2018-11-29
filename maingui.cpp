@@ -19,6 +19,7 @@
 #include <QDial>
 #include <QPlainTextEdit>
 #include <QHeaderView>
+#include "mtv.hpp"
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString oadr, QWidget *parent):
     QMainWindow(parent),
@@ -55,7 +56,7 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     this->centralWidget()->layout()->addWidget(GB);
     GB->setLayout(new QHBoxLayout());
 
-    QTableView* TBV = new QTableView();
+    mQTableView* TBV = new mQTableView();
     TBV->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     TBV->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     TBV->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -71,7 +72,14 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     connect(btn, &QPushButton::clicked, d.data(), &DataRegion::Add);
     BL->addWidget(btn);
     btn = new QPushButton("Usuń");
-    connect(btn, &QPushButton::clicked, [this, d, TBV](){d->Remove(TBV->currentIndex().row());});
+    auto uf = [this, d, TBV](){
+        auto idx = TBV->currentIndex();
+        d->Remove(idx.row());
+        if(TBV->model()->rowCount()<=idx.row())
+            idx = idx.sibling(idx.row()-1, idx.column());
+        TBV->setCurrentIndex(idx);};
+    connect(btn, &QPushButton::clicked, uf);
+    connect(TBV, &mQTableView::delete_req, uf);
     BL->addWidget(btn);
 }
 
