@@ -5,67 +5,27 @@
 #include <src/delegat/RegDelegate.hpp>
 #include <src/Data.hpp>
 #include <src/delegat/BTypeDelegate.hpp>
+#include <src/validator/ValidateContainsOther.hpp>
 #include <iostream>
 #include <src/DataI.hpp>
-
-const QString DataSection::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
+#include <src/validator/ValidateContainsConst.hpp>
 
 DataSection::DataSection(Data *data):
     DataI("SECTION", {"NAME", "LMA_ADDR", "VMA_ADDR", "TYPE", "KEEP", "NOLOAD"}, data)
 {
-    _delegats[0]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator())));
+    QStringList vals = {"DATA", "BSS", "NOINIT"};
+
+    _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
+    _validators[1]=(QSharedPointer<QValidator>(new ValidateContainsOther("NAME",
+                                                                         _datPtr->GetByName("REGION").data())));
+    _validators[2]=(QSharedPointer<QValidator>(new ValidateContainsOther("NAME",
+                                                                         _datPtr->GetByName("REGION").data())));
+    _validators[3]=(QSharedPointer<QValidator>(new ValidateContainsConst(vals)));
+
+    _delegats[0]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(0).data())));
     _delegats[1]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
     _delegats[2]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
-    _delegats[3]=(QSharedPointer<QItemDelegate>(new TypeDelegate(this)));
+    _delegats[3]=(QSharedPointer<QItemDelegate>(new TypeDelegate(this, vals)));
     _delegats[4]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "KEEP")));
     _delegats[5]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
-}
-
-void DataSection::Check()
-{
-    emit beginResetModel();
-    for(int i=0;i<_pureData.size();i++)
-    {
-        //=================== Nazwy ============================
-        _pureData[i].tip[0].clear();
-        QString my = _pureData[i].data.at(0);
-        for(auto sign: my)
-        {
-            if(!znakiName.contains(sign, Qt::CaseInsensitive))
-            {
-                _pureData[i].tip[0].append(" Niedozwolone znaki w nazwie "+my+".");
-                break;
-            }
-        }
-        int f=0;
-        for(int j=0;j<_pureData.size();j++)
-        {
-            if(!my.compare(_pureData[j].data.at(0), Qt::CaseInsensitive))
-                f++;
-        }
-        if(f>1)
-            _pureData[i].tip[0].append(" Nazwy "+my+" się powtarzają.");
-        //=================== LMA_ADR ==========================
-        _pureData[i].tip[1].clear();
-        if(!_datPtr->GetByName("REGION")->GetNames().contains(_pureData[i].data[1]))
-            _pureData[i].tip[1].append(" Brak zdefiniowanego regionu "+_pureData[i].data[1]+".");
-        //=================== VMA_ADR ==========================
-        _pureData[i].tip[2].clear();
-        if(!_datPtr->GetByName("REGION")->GetNames().contains(_pureData[i].data[2]))
-            _pureData[i].tip[2].append(" Brak zdefiniowanego regionu "+_pureData[i].data[2]+".");
-    }
-    emit endResetModel();
-
-    // zbieranie danych na stderr.
-    QString err;
-    for(auto line: _pureData)
-    {
-        for(int j=0;j<COLS;j++)
-        {
-            if(!line.tip[j].isEmpty())
-                err.append(line.tip[j]+"\r\n");
-        }
-    }
-    if(!err.isEmpty())
-        std::cerr << "DataSection errors:\r\n" << err.toStdString() << std::endl << std::endl;
 }

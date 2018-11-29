@@ -10,7 +10,7 @@ class RWXValidator : public QValidator
 public:
     RWXValidator(QObject* parent = nullptr);
 
-    virtual State validate(QString &input, int&) const;
+    virtual State validate(QString &input, int&i) const;
 
 private:
     static const QString znakiRWX;

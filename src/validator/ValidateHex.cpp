@@ -10,29 +10,40 @@ HexValidator::HexValidator(int rozmiarSlowa, QObject* parent):
 {
 }
 
-QValidator::State HexValidator::validate(QString &input, int&) const
+QValidator::State HexValidator::validate(QString &input, int&i) const
 {
-    if(input.isEmpty())
-        return QValidator::Acceptable;
+    QString state;
 
-    if(input.at(0)!='0')
-        return  QValidator::Invalid;
-    if(input.size()==1)
-        return  QValidator::Acceptable;
-
-    if(input.at(1)!='x')
-        return  QValidator::Invalid;
-    if(input.size()==2)
-        return  QValidator::Acceptable;
-
-    for(auto sign: input.mid(2))
+    if(!input.isEmpty())
     {
-        if(!znakiHEX.contains(sign, Qt::CaseInsensitive))
-            return  QValidator::Invalid;
+        if(input.at(0)!='0')
+            state += "Brak początkowego symbolu 0. ";
+        if(input.size()>1)
+        {
+            if(input.at(1)!='x')
+                state += "Brak początkowego symbolu x. ";
+            if(input.size()>2)
+            {
+                for(auto sign: input.mid(2))
+                {
+                    if(!znakiHEX.contains(sign, Qt::CaseInsensitive))
+                    {
+                        state += "Nieprawidłowe znaki. ";
+                        break;
+                    }
+                }
+
+                if(input.size()>2+_slowo)
+                    state += "Zbyt długi adres. ";
+            }
+        }
     }
 
-    if(input.size()>2+_slowo)
-        return  QValidator::Invalid;
+    if((i<0)&&!state.isEmpty())
+        throw std::runtime_error(state.toStdString());
 
-    return QValidator::Acceptable;
+    if(state.isEmpty())
+        return QValidator::Acceptable;
+    else
+        return QValidator::Invalid;
 }

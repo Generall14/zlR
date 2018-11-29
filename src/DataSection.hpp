@@ -9,12 +9,6 @@ class DataSection : public DataI
     Q_OBJECT
 public:
     DataSection(Data *data);
-
-public slots:
-    virtual void Check();
-
-private:
-    static const QString znakiName;
 };
 
 #endif

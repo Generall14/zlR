@@ -10,7 +10,7 @@ class SizeValidator : public QValidator
 public:
     SizeValidator(QObject* parent = nullptr);
 
-    virtual State validate(QString &input, int&) const;
+    virtual State validate(QString &input, int& i) const;
 
 private:
     static const QString znakiSIZE;

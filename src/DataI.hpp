@@ -28,7 +28,7 @@ public:
     void ApplyDelegatesForTable(QTableView* table);
     QString GetLocalByName(int i, QString name);
     bool isOk() const;
-    QString getMyName();
+    QString getMyName() const;
 
     QStringList GetNames();
 
@@ -46,7 +46,7 @@ public:
 public slots:
     void Add();
     void Remove(int index);
-    virtual void Check() = 0;
+    void Check();
 
 signals:
     /**Informuje o zmianie danych.*/
@@ -68,6 +68,7 @@ protected:
     const int COLS; /**<Liczba kolumn z danymi.*/
     QList<PureData> _pureData; /**<Przechowywane dane.*/
     QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dla kolumn*/
+    QList<QSharedPointer<QValidator> > _validators; /**<Lista validatorów dla kolumn*/
     Data* _datPtr = nullptr;
 
     virtual QString AppendToFileL(QStringList str, int nr);

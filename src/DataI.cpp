@@ -18,6 +18,8 @@ DataI::DataI(QString sign, QStringList header, Data *data):
 {
     while(_delegats.size()<COLS)
         _delegats.append(nullptr);
+    while(_validators.size()<COLS)
+        _validators.append(nullptr);
 }
 
 /**
@@ -303,7 +305,7 @@ bool DataI::isOk() const
     return false;
 }
 
-QString DataI::getMyName()
+QString DataI::getMyName() const
 {
     return _sign;
 }
@@ -314,4 +316,37 @@ QStringList DataI::GetNames()
     for(auto reg: _pureData)
         temp.append(reg.data.at(0));
     return temp;
+}
+
+/**
+ * Validuje dane za pomocą validatorów zawartych w _validators. Funkcja działa przy założeniu, że jeżeli
+ * validatory otrzymają ujemne indeksy to w przypadku nieprawidłowego tekstu wyrzucą wyjątek std::runtime_error
+ * z opisem błędu.
+ */
+void DataI::Check()
+{
+    int uslessint = -1;
+    QString uslessString;
+    emit beginResetModel();
+    for(int i=0;i<_pureData.size();i++)
+    {
+        for(int k=0;k<_pureData.at(i).data.size();k++)
+        {
+            _pureData[i].tip[k].clear();
+            if(!_validators.at(k).isNull())
+            {
+                uslessString = _pureData.at(i).data.at(k);
+                uslessint = -1;
+                try
+                {
+                    _validators.at(k)->validate(uslessString, uslessint);
+                }
+                catch(std::runtime_error e)
+                {
+                    _pureData[i].tip[k] = e.what();
+                }
+            }
+        }
+    }
+    emit endResetModel();
 }

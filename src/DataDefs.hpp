@@ -14,9 +14,6 @@ public:
 
     void ProcessAll(QStringList& text);
 
-public slots:
-    virtual void Check();
-
 protected:
     virtual QString AppendToFileL(QStringList str, int);
     virtual void ReadLine(QString line);

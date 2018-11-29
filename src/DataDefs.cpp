@@ -5,53 +5,12 @@
 #include <QColor>
 #include <iostream>
 
-const QString DataDefs::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
-
 DataDefs::DataDefs(Data *data):
     DataI("CONST", {"NAME", "VAL"}, data)
 {
-    _delegats[0]=QSharedPointer<QItemDelegate>(new LEDelegate(this, new NameValidator()));
-}
+    _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
 
-void DataDefs::Check()
-{
-    emit beginResetModel();
-    for(int i=0;i<_pureData.size();i++)
-    {
-        //=================== Nazwy ============================
-        _pureData[i].tip[0].clear();
-        QString my = _pureData[i].data.at(0);
-        for(auto sign: my)
-        {
-            if(!znakiName.contains(sign, Qt::CaseInsensitive))
-            {
-                _pureData[i].tip[0].append(" Niedozwolone znaki w nazwie "+my+".");
-                break;
-            }
-        }
-        int f=0;
-        for(int j=0;j<_pureData.size();j++)
-        {
-            if(!my.compare(_pureData[j].data.at(0), Qt::CaseInsensitive))
-                f++;
-        }
-        if(f>1)
-            _pureData[i].tip[0].append(" Nazwy "+my+" się powtarzają.");
-    }
-    emit endResetModel();
-
-    // zbieranie danych na stderr.
-    QString err;
-    for(auto line: _pureData)
-    {
-        for(int j=0;j<COLS;j++)
-        {
-            if(!line.tip[j].isEmpty())
-                err.append(line.tip[j]+"\r\n");
-        }
-    }
-    if(!err.isEmpty())
-        std::cerr << "DataDefinitions errors:\r\n" << err.toStdString() << std::endl << std::endl;
+    _delegats[0]=QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(0).data()));
 }
 
 QString DataDefs::AppendToFileL(QStringList str, int)

@@ -39,7 +39,9 @@ SOURCES += \
     src/Macro.cpp \
     src/OtherShitSolver.cpp \
     support.cpp \
-    mtv.cpp
+    mtv.cpp \
+    src/validator/ValidateContainsOther.cpp \
+    src/validator/ValidateContainsConst.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -59,7 +61,9 @@ HEADERS += \
     src/Macro.hpp \
     src/OtherShitSolver.hpp \
     support.hpp \
-    mtv.hpp
+    mtv.hpp \
+    src/validator/ValidateContainsOther.hpp \
+    src/validator/ValidateContainsConst.hpp
 
 RESOURCES += \
     res.qrc

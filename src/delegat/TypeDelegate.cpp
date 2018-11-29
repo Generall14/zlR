@@ -1,16 +1,16 @@
 #include "TypeDelegate.hpp"
 #include <QComboBox>
 
-TypeDelegate::TypeDelegate(QObject *parent):
-    QItemDelegate(parent)
+TypeDelegate::TypeDelegate(QObject *parent, QStringList opts):
+    QItemDelegate(parent),
+    _opts(opts)
 {
 }
 
 QWidget *TypeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem&, const QModelIndex&) const
 {
-    QStringList opts = {"DATA", "BSS", "NOINIT"};
     QComboBox* editor = new QComboBox(parent);
-    editor->addItems(opts);
+    editor->addItems(_opts);
     return editor;
 }
 

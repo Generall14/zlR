@@ -2,33 +2,50 @@
 #include <QStringList>
 #include <QString>
 
-const QString SizeValidator::znakiSIZE = "KMG";
-const QString SizeValidator::znakiNUMS = "KMG0123456789";
+const QString SizeValidator::znakiSIZE = "KkMG";
+const QString SizeValidator::znakiNUMS = "KkMG0123456789";
 
 SizeValidator::SizeValidator(QObject* parent):
     QValidator(parent)
 {
 }
 
-QValidator::State SizeValidator::validate(QString &input, int&) const
+QValidator::State SizeValidator::validate(QString &input, int& i) const
 {
-    if(input.isEmpty())
-        return QValidator::Acceptable;
+    QString state;
 
-    for(int i=0;i<input.size();i++)
+    if(!input.isEmpty())
     {
-        if(!znakiNUMS.contains(input[i], Qt::CaseInsensitive))
-            return  QValidator::Invalid;
-
-        if(i==0&&znakiSIZE.contains(input[i], Qt::CaseInsensitive))
-            return  QValidator::Invalid;
-
-        if(znakiSIZE.contains(input[i], Qt::CaseInsensitive))
+        for(int i=0;i<input.size();i++)
         {
-            if(i!=input.size()-1)
-                return  QValidator::Invalid;
+            if(!znakiNUMS.contains(input[i], Qt::CaseSensitive))
+            {
+                state = "Błędna składnia rozmiaru. ";
+                break;
+            }
+
+            if(i==0&&znakiSIZE.contains(input[i], Qt::CaseSensitive))
+            {
+                state = "Błędna składnia rozmiaru. ";
+                break;
+            }
+
+            if(znakiSIZE.contains(input[i], Qt::CaseSensitive))
+            {
+                if(i!=input.size()-1)
+                {
+                    state = "Błędna składnia rozmiaru. ";
+                    break;
+                }
+            }
         }
     }
 
-    return QValidator::Acceptable;
+    if((i<0)&&!state.isEmpty())
+        throw std::runtime_error(state.toStdString());
+
+    if(state.isEmpty())
+        return QValidator::Acceptable;
+    else
+        return QValidator::Invalid;
 }
