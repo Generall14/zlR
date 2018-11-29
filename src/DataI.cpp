@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include <QFont>
 #include <QColor>
+#include <iostream>
 
 /**
  * Jedyny słuszny konstruktor.
@@ -325,6 +326,7 @@ QStringList DataI::GetNames()
  */
 void DataI::Check()
 {
+    QString err;
     int uslessint = -1;
     QString uslessString;
     emit beginResetModel();
@@ -344,9 +346,14 @@ void DataI::Check()
                 catch(std::runtime_error e)
                 {
                     _pureData[i].tip[k] = e.what();
+                    err.append(_header.at(k)+"->"+uslessString+": "+e.what()+"\r\n");
                 }
             }
         }
+    }
+    if(!err.isEmpty())
+    {
+        std::cerr << _sign.toStdString() << " errors:\r\n" << err.toStdString() << std::endl << std::endl;
     }
     emit endResetModel();
 }
