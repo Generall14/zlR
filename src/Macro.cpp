@@ -11,12 +11,9 @@
  */
 Macro::Macro(QStringList text, Data *data)
 {
-    if(text.at(0).startsWith("$MACRO_SECTION "))
-        _data = data->GetByName("SECIONS").data();
-    else if(text.at(0).startsWith("$MACRO_REGION "))
-        _data = data->GetByName("SECIONS").data();
-    else
-        throw std::runtime_error("Macro::Macro: WTF? \""+text.at(0).toStdString()+"\".");
+    QString t = text.at(0).mid(7);
+    t = t.split(" ", QString::SkipEmptyParts).at(0);
+    _data = data->GetByName(t).data();
 
     QStringList ll = text.at(0).split(" ", QString::SkipEmptyParts);
     if(ll.size()<2)
