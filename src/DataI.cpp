@@ -332,7 +332,7 @@ void DataI::Check()
     emit beginResetModel();
     for(int i=0;i<_pureData.size();i++)
     {
-        for(int k=0;k<_pureData.at(i).data.size();k++)
+        for(int k=0;k<COLS;k++)
         {
             _pureData[i].tip[k].clear();
             if(!_validators.at(k).isNull())
