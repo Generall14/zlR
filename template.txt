@@ -1,28 +1,25 @@
-0. Wszelkie symbole interpretowane jako Case Sensitive.
+=====================================================================
+================== Szablony =========================================
+=====================================================================
+0. Wszelkie symbole interpretowane jako CaseSensitive.
 
 
 
-1. Proste definicje (#define name val) są zastępowane w sposób analogiczny jak przez preprocesor kompilatora gcc.
+1. Proste definicje (#define NAME VAL) są zastępowane w sposób analogiczny jak przez preprocesor gcc.
 
 
 
-2. Makra SECIONS definiuje się:
-
-$MACRO_SECTION NAZWA
+2. Makra dla struktur definiuje się przez:
+$MACRO_TYPE NAZWA
 ... ciało makra
 $ENDM
+, gdzie TYPE jest typem struktury (obecnie tylko REGION, SECTION), NAZWA jest identyfikatorem makra (nie mogą się powtarzać).
 
-Do zmiennych lokalnych odnosi się za pomocą instrukcji $LOC(L_VARIABLE), gdzie L_VARIABLE jest jedną ze składowych struktury SECTION (NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur SECTION. Znaczniki $MACRO_SECTION NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
+Do pól lokalnych odnosi się za pomocą instrukcji $LOC(L_L), gdzie L_L jest nazwą składowej lokalnej struktury (SECTION={NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD}, REGION={NAME, RIGHTS, ADR, SIZE}), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. Znaczniki $MACRO_SECTION NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
 
-Makra dla sekcji REGION definiuje się analogicznie:
+W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur danego typu.
 
-$MACRO_REGION NAZWA
-... ciało makra
-$ENDM
-
-, przy czym zestaw wartości lokalnych L_VARIABLE zawiera się w zestawie (NAME, RIGHTS, ADR, SIZE).
-
-Nazwy makr nie mogą się powtarzać (niezależnie od rozdzaju sekcji). Makra mogą być wywoływane wewnętrz siebie ale nie mogą być definiowane wewnątrz siebie, np. szablon:
+ Makra mogą być wywoływane wewnętrz siebie ale nie mogą być definiowane wewnątrz siebie, np. szablon:
 $MACRO_SECTION XXX
 ...
 $MAC[YYY]
@@ -48,17 +45,19 @@ Instrukcja $MAC[NAZWA], zostanie zignorowany gdy makro o nazwie NAZWA nie zostan
 
 
 
-3. Symbol $ może być wykorzystywany tylko do instrukcji podanych w tym dokumencie, nie gwarantuje że $ połączony z innymi wyrażeniami nie ogłupi programu.
+3. Instrukcje warunkowe zapisywane są jako:
+$IF[WARUNEK]
+...ble ble ble...
+$ELSIF[WARUNEK]
+...ble ble ble...
+$ELSE
+...ble ble ble...
+$ENDIF
+Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako stringi w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]). Każde ze słów kluczowych $IF, $ELSIF, $ELSE, $ENDIF musi się znajdować z osobnej lini (na jej początku), wszelkie dane z tej lini znajdujące się poza instrukcją zostaną pominięte.
 
 
 
-4. Instrukcje warunkowe zapisywane są jako:
-$IF[WARUNEK]...ble ble ble...$ELSIF[WARUNEK]...ble ble ble...$ENDIF
-Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako strinki w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]). Każde ze słów kluczowych $IF, $ELSIF, $ENDIF musi się znajdować z osobnej lini (na jej początku), wszelkie dane z tej lini znajdujące się poza instrukcją zostaną pominięte.
-
-
-
-5. Warunkowe wpychanie w nawiasy realizowane jest za pomocą instrukcji:
+4. Warunkowe wpychanie w nawiasy realizowane jest za pomocą instrukcji:
 $BRA[VAL]jakiś tam tekst$ENDB
 , gdzie VAL jest jednocześnie warunkiem i wartością wstawianą przed nawiasem. Jeżeli VAL w procesie podmian stałych stanie się wartością pustą - nawiasy nie zostaną wstawione. Instrukcje $BRA[...] i $ENDB muszą się znajdować w jednej linii.
 
@@ -74,7 +73,7 @@ linker.ld: xyz(jakiś tam tekst)
 
 
 
-Przetwarzanie szablonów przez program odbywa się w kolejności:
+5. Przetwarzanie szablonów przez program odbywa się w kolejności:
  - Ładowanie wszystkich makr z szablonu.
  - Rozwijanie makr.
  - Zastępowanie prostych definicji.
@@ -82,3 +81,31 @@ Przetwarzanie szablonów przez program odbywa się w kolejności:
  - Rozwijanie $BRA
 
 Każdy krok jest tak długo powtarzany aż się z wszystkiego wystrzela, ale po tym algorytm już do niego nie wraca. Tak więc wpisanie do którejś ze struktur mazwy prostej definicji spowoduje rozwinięcie jej przez makro a następnie podmienienie na styl przeprocesora, ale w drugą stronę to już nie zadziała.
+
+
+
+=====================================================================
+================== Pliki konfiguracyjne =============================
+=====================================================================
+Definicje różnych typów danych muszą być oznaczone znacznikami, np.:
+
+... Jakieś tam nieistotne dane
+//##CONST
+... Definicje zwykłych stałych
+#define MAIN_STACK_SIZE                     1024
+#define PROCESS_STACK_SIZE                  1024
+...
+//##REGION
+... Definicje sekcji typu REGION
+/**                         Nazwa           Prawa        Adres        Rozmiar   */
+#define REGION_0            ROM           , RX         , 0x08000000 , 2M
+#define REGION_1            RAM           , RWX        , 0x20000000 , 112k
+...
+//##SECTION
+... Definicje sekcji typu SECTION
+/**                         Nazwa           LMA_ADDR     VMA_ADDR     TYPE         KEEP         NOLOAD   */
+#define SECTION_0           FUNC_RAM      , ROM        , RAM        , DATA       ,            , 
+#define SECTION_1           SRAM          , SRAM       , SRAM       , NOINIT     ,            , NOLOAD
+...
+
+Czytane z pliku będą tylko linie popprzedzone znacznikiem //##JAKISTAMCOSTAM oraz rozpoczynający się #define.
