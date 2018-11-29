@@ -45,6 +45,8 @@ void Data::CheckAll()
 
 void Data::Load(QString adr)
 {
+    if(adr.isEmpty())
+        return;
     for(auto it = _dats.begin();it!=_dats.end();it++)
         it.value()->FromFile(adr);
 }
@@ -128,7 +130,8 @@ bool Data::isOk() const
 
 void Data::Clear()
 {
-    //<TODO>
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->Clear();
 }
 
 QSharedPointer<DataI> Data::GetByName(QString name) const

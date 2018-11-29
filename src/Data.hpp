@@ -20,6 +20,7 @@ public:
     void Save(QString adr);
     void Make(QString temp, QString out);
     bool isOk() const;
+    void Clear();
 
     QSharedPointer<DataI> GetByName(QString name) const;
     QMap<QString, QSharedPointer<DataI> > GetMap();
@@ -28,8 +29,6 @@ public slots:
     void CheckAll();
 
 private:
-    void Clear();
-
     QMap<QString, QSharedPointer<DataI> > _dats;
 };
 

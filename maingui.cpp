@@ -88,6 +88,12 @@ void MainGUI::InitMenu()
 
     QMenu* mDane = new QMenu("&Dane");
 
+    QAction* aClrD = new QAction("Wy&czyść dane...", mDane);
+    connect(aClrD, &QAction::triggered, [this](){_dat->Clear();});
+    mDane->addAction(aClrD);
+
+    mDane->addSeparator();
+
     QAction* aOp = new QAction("&Otwórz", mDane);
     aOp->setShortcut(QKeySequence::Open);
     connect(aOp, &QAction::triggered, this, &MainGUI::Open);
