@@ -50,7 +50,7 @@ args readArgs(QApplication &a)
 /**
  * Na podstawie wskazanych parametrów uruchamia program w odpowiednim trybie.
  */
-int run(QApplication &a, args r)
+int run(QApplication &ap, args r)
 {
     if(r.help)
         displayAndQuit(":/help.txt");
@@ -84,7 +84,7 @@ int run(QApplication &a, args r)
     MainGUI w(dat, r.iadr, r.tadr, r.oadr);
     w.show();
 
-    return a.exec();
+    return ap.exec();
 }
 
 /**

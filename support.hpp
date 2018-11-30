@@ -16,7 +16,7 @@ struct args
 };
 
 args readArgs(QApplication &a);
-int run(QApplication &a, args r);
-void displayAndQuit(QString file);
+int run(QApplication &ap, args r);
+[[ noreturn ]] void displayAndQuit(QString file);
 
 #endif
