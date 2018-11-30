@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
         err = "Coś się zesrało i nie wiadomo co!";
     }
 
-    if((!_args.quiet)&&(!_args.check))
+    if((!_args.quiet)&&(!_args.check)&&(!_args.verifyT))
         QMessageBox::critical(nullptr, "FATAL ERROR!", err, QMessageBox::Abort);
     std::cerr << err.toStdString() << std::endl;
     return -1;

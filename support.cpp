@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <maingui.hpp>
 #include <QFile>
+#include <QDebug>
 
 args readArgs(QApplication &a)
 {
@@ -28,6 +29,8 @@ args readArgs(QApplication &a)
             temp.quiet = true;
         else if(!v.compare("-c", Qt::CaseInsensitive))
             temp.check = true;
+        else if(!v.compare("-v", Qt::CaseInsensitive))
+            temp.verifyT = true;
         else if(v.startsWith("-i", Qt::CaseInsensitive))
             temp.iadr = v.mid(2);
         else if(v.startsWith("-t", Qt::CaseInsensitive))
@@ -48,7 +51,7 @@ int run(QApplication &a, args r)
     if(r.manulal)
         displayAndQuit(":/template.txt");
 
-    if((r.check)||(r.quiet))
+    if((r.check)||(r.quiet)||(r.verifyT))
     {
         if(r.iadr.isEmpty())
             throw std::runtime_error("run: brak zdefiniowanego pliku wejściowego -i");
@@ -57,14 +60,17 @@ int run(QApplication &a, args r)
     if(r.check)
         return 0;
 
-    if(r.quiet)
+    if((r.quiet)||(r.verifyT))
     {
         if(dat->isOk())
             throw std::runtime_error("run: nie można przetworzyć szablonu z powodu błędu danych wejściowych");
         if(r.tadr.isEmpty())
             throw std::runtime_error("run: brak zdefiniowanego pliku szablonu -t");
-        if(r.oadr.isEmpty())
-            throw std::runtime_error("run: brak zdefiniowanego pliku wyjściowego -o");
+        if(r.quiet)
+        {
+            if(r.oadr.isEmpty())
+                throw std::runtime_error("run: brak zdefiniowanego pliku wyjściowego -o");
+        }
         dat->Make(r.tadr, r.oadr);
         return 0;
     }

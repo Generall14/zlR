@@ -12,6 +12,7 @@ struct args
     bool check = false; /**<Tylko sprawdzenie.*/
     bool help = false; /**<Wyświetl pomoc programu.*/
     bool manulal = false; /**<Wyświetl opis składni szablonu.*/
+    bool verifyT = false; /**<SprawdŹ szablon.*/
 };
 
 args readArgs(QApplication &a);

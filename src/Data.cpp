@@ -106,6 +106,9 @@ void Data::Make(QString temp, QString out)
     //dynamic_cast<DataDefs*>(_def.data())->ProcessAll(sl); // #define
     OtherShitSolver::DoAllRequiredShit(sl); // reszta pierdół
 
+    if(out.isEmpty())
+        return;
+
     // zapisz wyjście
     QFile fileo(out);
     if(!fileo.open(QIODevice::WriteOnly|QIODevice::Truncate))

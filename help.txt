@@ -4,6 +4,7 @@ Każdy parametr musi być podany osobno (nie może być łączony, np. -qh). [A]
 -m    Wyświetla informacje o składni szablonu i zamyka program.
 -q    Wykonuje program w trybie tekstowym, program w takim stanie załaduje plik z danymi, przetworzy szablon i utworzy plik wynikowy, konieczne jest podanie parametrów -i, -o, -t.
 -c    Program wykona tylko sprawdzenie poprawności pliku wejściowego z danymi, wymaga podania parametr -i, nie uruchamia GUI.
+-v    Program wykona tylko sprawdzenia poprawności pliku wejściowego z danymi oraz szablonu, wymaga podania parametrów -i, -t, nie uruchamia GUI.
 -i[A] Ustawia wejściowy plik z danymi. Obowiązkowy w trybie tekstowym i w trybie sprawdzania poprawności danych.
 -t[A] Ustawia plik szablonu. Obowiązkowy w trybie tekstowym.
 -o[A] Ustawia plik wynikowy. Obowiązkowy w trybie tekstowym.
