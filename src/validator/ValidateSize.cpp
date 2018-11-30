@@ -10,6 +10,10 @@ SizeValidator::SizeValidator(QObject* parent):
 {
 }
 
+/**
+ * Dopuszcza wartości składające się z N...NS, gdzie N jest dowolną liczbą, S jest opcjonalnym
+ * znakiem ze zbioru SizeValidator::znakiSIZE kończącym tekst.
+ */
 QValidator::State SizeValidator::validate(QString &input, int& i) const
 {
     QString state;

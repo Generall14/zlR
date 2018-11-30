@@ -7,6 +7,9 @@ TypeDelegate::TypeDelegate(QObject *parent, QStringList opts):
 {
 }
 
+/**
+ * Tworzy QComboBox z listą stringów podaną w konstruktorze.
+ */
 QWidget *TypeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem&, const QModelIndex&) const
 {
     QComboBox* editor = new QComboBox(parent);

@@ -1,6 +1,13 @@
 #ifndef MAINGUI_HPP
 #define MAINGUI_HPP
 
+/**
+  * @class MainGUI
+  * @author Wojciech Kogut
+  *
+  * Jak sama nazwa wskazuje - tworzy GUI programu.
+  */
+
 #include <QMainWindow>
 
 class Data;

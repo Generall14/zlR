@@ -1,6 +1,13 @@
 #ifndef VALIDATEHEX_HPP
 #define VALIDATEHEX_HPP
 
+/**
+  * @class HexValidator
+  * @author Wojciech Kogut
+  *
+  * Walidator wartości w zapisie hexadecymanych, ogranicza długość danych (wartość specyfikowana w konstruktorze).
+  */
+
 #include <QObject>
 #include <QValidator>
 

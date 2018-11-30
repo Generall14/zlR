@@ -2,6 +2,10 @@
 #include <QStringList>
 #include <QString>
 
+/**
+ * @param name - Nazwa pola struktury w jakim musi się znaleźć wartość.
+ * @param dat - Wskaźnik na obiekt z którego będą czytane wartości.
+ */
 ValidateContainsOther::ValidateContainsOther(QString name, DataI *dat, QObject* parent):
     QValidator(parent),
     _name(name),
@@ -9,6 +13,9 @@ ValidateContainsOther::ValidateContainsOther(QString name, DataI *dat, QObject* 
 {
 }
 
+/**
+ * Dopuszcza tylko wartości znajdujące się w obiekcie wyspecyfikowanym w konstruktorze.
+ */
 QValidator::State ValidateContainsOther::validate(QString &input, int& i) const
 {
     QString state = "Niezdefiniowana wartość";

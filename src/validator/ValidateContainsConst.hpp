@@ -1,6 +1,13 @@
 #ifndef VALIDATECONTAINSCONST_HPP
 #define VALIDATECONTAINSCONST_HPP
 
+/**
+  * @class ValidateContainsConst
+  * @author Wojciech Kogut
+  *
+  * Walidator dopuszcza tylko wartości podane w konstruktorze.
+  */
+
 #include <QObject>
 #include <QValidator>
 #include <src/DataI.hpp>

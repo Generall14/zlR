@@ -1,6 +1,13 @@
 #ifndef MACRO_HPP
 #define MACRO_HPP
 
+/**
+  * @class Macro
+  * @author Wojciech Kogut
+  *
+  * Obiekt przetwarzający makra we wskazanym tekście szablonu.
+  */
+
 #include <QString>
 #include <QStringList>
 #include <QList>

@@ -5,8 +5,36 @@
   * @class DataI
   * @author Wojciech Kogut
   *
-  * Interfejs klas przechowujących dane konfiguracyjne. Wszystko co się powtarzało w obiektach z danymi
-  * jest wpakowane tutaj.
+  * Interfejs klas przechowujących zbiór struktur danych konfiguracyjnych. Przechowuje dane w postaci listy
+  * stringów, zbiór parametrów w pojedynczej strukturze jest ustalany w konstruktorze jako QStringList header.
+  * Wartość parametru struktury można pobrać przez GetLocalByName(int, QString).
+  *
+  * Obiekty identyfikowane przez przez słowo sign - getMyName(), ustawiane w konstruktorze (według tej wartości
+  * dane są identyfikowane w DATA, pobierany jest znacznik w pliku z danymi, rozpoznawane jest makro).
+  *
+  * Zawiera metody odczytujące i zapisujące dane do pliku konfiguracyjnego.
+  *
+  * Sloty Add() i Remove(int) pozwalają dodawać / usuwać struktury w zestawie.
+  *
+  * Posiada interfejs QAbstractTableModel umożliwiający jako model w QTableView. Metoda
+  * void ApplyDelegatesForTable(QTableView*) ustawi w takiej tabeli delegaty wartości.
+  *
+  * Posiada listę _delegats zawierającą wskaźniki do delegatów (do tabeli) dla kolejnych parametrów, konstruktor
+  * DataI wypełnia listę pustymi wskaźnikami, klasy dziedziczące muszą wypełnić listę wskaźnikami na obiekty
+  * interfejsu QItemDelegate (mogę też pozostawić puste, w takim przypadku zostanie uworzony delegat standardowy).
+  *
+  * Posiada listę _validators zawierającą wskaźniki do validatorów (interfejs QValidator), konstruktor DataI
+  * wypełnia listę pustymi wskaźnikami. Klasy dziedziczące mogą wypełnić tą listę wskaźnikami da rzeczywiste
+  * obiekty QValidator (lub pozostawić je puste). Na podstawie validatorów funkcja void Check() sprawdza
+  * poprawność danych. Jeżeli funkcja void Check() ma stwierdzić błąd w danej pozycji to metoda
+  * QValidator::validate(QString&, int&) musi wyrzucić wyjątek std::runtime_error z opisem błędu. Funkcja Check()
+  * będzie wywoływać metodę QValidator::validate(QString&, int&) z ujemnym indeksem - ma to na celu umożliwienie
+  * zbudowania takiego validatora, że jednocześnie obsłuży standardowe delegaty i obiekt QdataI (tj. jeżeli
+  * ideks jest prawidłowy - zwróć wartość QValidator::Acceptable lub QValidator::Invalid, jeżeli jest ujemny -
+  * wyrzuć wyjątek w przypadku błędu) - tak to sobie wymyśliłem aby nie powtarzać kodu. Metoda Check() jeżeli
+  * stwierdzi błędy wyrzuci raport na std:cerr.
+  *
+  * Obiekty DataI wyrzucają sygnał void Changed() po każdej zmianie danych.
   */
 
 #include <QString>

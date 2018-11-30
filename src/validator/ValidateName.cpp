@@ -11,6 +11,10 @@ NameValidator::NameValidator(QString name, DataI *dat, QObject* parent):
 {
 }
 
+/**
+ * Dopuszcza symbole NameValidator::znakiName, nie dopuszcza do powtórzenia nazw w całym obiekcie
+ * DataI wskazanym w konstruktorze.
+ */
 QValidator::State NameValidator::validate(QString &input, int& i) const
 {
     QString state;

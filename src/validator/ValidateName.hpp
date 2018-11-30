@@ -1,6 +1,14 @@
 #ifndef VALIDATENAME_HPP
 #define VALIDATENAME_HPP
 
+/**
+  * @class NameValidator
+  * @author Wojciech Kogut
+  *
+  * Walidator nazwy, dopuszcza symbole NameValidator::znakiName, nie dopuszcza do powtórzenia nazw w całym obiekcie
+  * DataI.
+  */
+
 #include <QObject>
 #include <QValidator>
 #include <src/DataI.hpp>

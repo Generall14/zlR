@@ -8,6 +8,9 @@ ValidateContainsConst::ValidateContainsConst(QStringList vals, QObject* parent):
 {
 }
 
+/**
+ * opuszcza tylko wartości podane w konstruktorze
+ */
 QValidator::State ValidateContainsConst::validate(QString &input, int& i) const
 {
     QString state = "Niezdefiniowana wartość";

@@ -1,6 +1,13 @@
 #ifndef LEDELEGATE_HPP
 #define LEDELEGATE_HPP
 
+/**
+  * @class LEDelegate
+  * @author Wojciech Kogut
+  *
+  * Delegat dla dowolnych wartości, edytorem jest QLineEdit z opcjonalnie podanym validatorem.
+  */
+
 #include <QItemDelegate>
 #include <QLineEdit>
 #include <QValidator>

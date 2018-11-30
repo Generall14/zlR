@@ -1,6 +1,13 @@
 #ifndef VALIDATECONTAINSOTHER_HPP
 #define VALIDATECONTAINSOTHER_HPP
 
+/**
+  * @class ValidateContainsOther
+  * @author Wojciech Kogut
+  *
+  * Walidator dopuszcza tylko wartości znajdujące się we wskazanym obiekcie o podanej nazwie pola.
+  */
+
 #include <QObject>
 #include <QValidator>
 #include <src/DataI.hpp>

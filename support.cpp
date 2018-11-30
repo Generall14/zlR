@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QDebug>
 
+/**
+ * Czyta argumenty programu i zwraca wypełnioną strukturę args.
+ */
 args readArgs(QApplication &a)
 {
     args temp;
@@ -44,6 +47,9 @@ args readArgs(QApplication &a)
     return temp;
 }
 
+/**
+ * Na podstawie wskazanych parametrów uruchamia program w odpowiednim trybie.
+ */
 int run(QApplication &a, args r)
 {
     if(r.help)
@@ -81,6 +87,9 @@ int run(QApplication &a, args r)
     return a.exec();
 }
 
+/**
+ * Wyświetla tekst wskazanego pliku i zamyka aplikacje.
+ */
 void displayAndQuit(QString file)
 {
     QFile hfile(file);

@@ -1,6 +1,13 @@
 #ifndef DATADEFS_HPP
 #define DATADEFS_HPP
 
+/**
+  * @class DataDefs
+  * @author Wojciech Kogut
+  *
+  * Specyfikacja DataI dla prostych definicji #define. Zasłania część metod DataI (upraszcza czytaną składnie).
+  */
+
 #include <QObject>
 #include <src/DataI.hpp>
 

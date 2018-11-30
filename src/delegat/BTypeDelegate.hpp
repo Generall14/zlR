@@ -1,6 +1,13 @@
 #ifndef BTYPEDELEGATE_HPP
 #define BTYPEDELEGATE_HPP
 
+/**
+  * @class BTypeDelegate
+  * @author Wojciech Kogut
+  *
+  * Delegat dla wartości logicznych, gdzie false jest pustym stringiem a true wskazaną wartością.
+  */
+
 #include <QItemDelegate>
 #include <QLineEdit>
 #include <QValidator>

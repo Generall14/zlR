@@ -1,6 +1,13 @@
 #ifndef REGDELEGATE_HPP
 #define REGDELEGATE_HPP
 
+/**
+  * @class RegDelegate
+  * @author Wojciech Kogut
+  *
+  * Delegat dla wartości REGION, tworzy QComboBox z listą regionów zawartych we wskazanym obiekcie.
+  */
+
 #include <QItemDelegate>
 #include <QLineEdit>
 #include <QValidator>

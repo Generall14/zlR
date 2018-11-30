@@ -1,6 +1,17 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
+/**
+  * @class Data
+  * @author Wojciech Kogut
+  *
+  * Obiekt zbierający i zarządzający strukturami danych, zawiera mapę obiektów DataI identyfikowaną przez stringi
+  * (ich znaczniki DataI::_sign). Łączy sygnał DataI::Changed() tych obiektów z ich slotami DataI::Check().
+  *
+  * Posiada metody zapisujęce i odczytujące dany konfiguracyjne z pliku (Load(...), Save(...) ) oraz przetwarzająca
+  * wskazany plik szablony na podstawie zawartych w sobie danych (Make(...) ).
+  */
+
 #include <QString>
 #include <QObject>
 #include <QSharedPointer>

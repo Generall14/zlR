@@ -1,6 +1,13 @@
 #ifndef VALIDATERWX_HPP
 #define VALIDATERWX_HPP
 
+/**
+  * @class RWXValidator
+  * @author Wojciech Kogut
+  *
+  * Walidator praw, dopuszcza tekst składający się z pojedynczych znaków ze zbioru RWXValidator::znakiRWX.
+  */
+
 #include <QObject>
 #include <QValidator>
 

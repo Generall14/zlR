@@ -1,6 +1,17 @@
 #ifndef OTHERSHITSOLVER_HPP
 #define OTHERSHITSOLVER_HPP
 
+/**
+  * @class OtherShitSolver
+  * @author Wojciech Kogut
+  *
+  * Obiekt przetwarzający wskazany tekst szablonu, tj. przetwarza nawiasy warunkowe, składnie warunkową.
+  *
+  * Pozostałe czynności są wykonywane w innych obiektach, tj. makra w Macro a zamiana definicji w DataDefs.
+  *
+  * Całość odbywa się w metodzie statycznej DoAllRequiredShit(QStringList&).
+  */
+
 #include <QStringList>
 
 class OtherShitSolver

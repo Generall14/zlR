@@ -4,12 +4,18 @@
 
 const QString HexValidator::znakiHEX = "0123456789ABCDEF";
 
+/**
+ * @param rozmiarSlowa - maksymalny rozmiar słowa w nibblach.
+ */
 HexValidator::HexValidator(int rozmiarSlowa, QObject* parent):
     QValidator(parent),
     _slowo(rozmiarSlowa)
 {
 }
 
+/**
+ * Dopuszcza wartości w zapisie hex, ogranicza długość zapisu do wartości podanej w konstruktorze.
+ */
 QValidator::State HexValidator::validate(QString &input, int&i) const
 {
     QString state;

@@ -1,6 +1,13 @@
 #ifndef MTV_HPP
 #define MTV_HPP
 
+/**
+  * @class mQTableView
+  * @author Wojciech Kogut
+  *
+  * QTableView przechwytujace przycisk delete i wysyłający sygnał delete_req().
+  */
+
 #include <QObject>
 #include <QTableView>
 #include <QKeyEvent>

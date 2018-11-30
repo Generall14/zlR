@@ -1,6 +1,13 @@
 #ifndef TYPEDELEGATE_HPP
 #define TYPEDELEGATE_HPP
 
+/**
+  * @class TypeDelegate
+  * @author Wojciech Kogut
+  *
+  * Delegat dla stałego zbioru wartości, tworzy QComboBox z listą stringów podaną w konstruktorze.
+  */
+
 #include <QItemDelegate>
 #include <QLineEdit>
 #include <QValidator>

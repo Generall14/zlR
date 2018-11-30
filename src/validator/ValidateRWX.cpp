@@ -9,6 +9,9 @@ RWXValidator::RWXValidator(QObject* parent):
 {
 }
 
+/**
+ * Dopuszcza tekst składający się z pojedynczych znaków ze zbioru RWXValidator::znakiRWX.
+ */
 QValidator::State RWXValidator::validate(QString &input, int& i) const
 {
     QString state;

@@ -8,9 +8,7 @@ LEDelegate::LEDelegate(QObject *parent, QValidator *validator):
 }
 
 /**
- * Tworzy nowy edytor w zależności od wybranego typu w konstruktorze.
- * @param parent - Rodzic dla nowego edytora.
- * @return - Wskaźnik na nowy obiekt edytora.
+ * Tworzy nowy edytor QLineEdit.
  */
 QWidget *LEDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem&, const QModelIndex&) const
 {
