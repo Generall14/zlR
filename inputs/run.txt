@@ -1,9 +1,0 @@
-$(CXX) -nostdinc -undef -include $(MEM_CFG) -C -E -P -MD -MP -x assembler-with-cpp $< -o $@
-
- 
-
-$(MEM_CFG) =                plik *.cfg
-
-$<                                          linker_tmp.ld
-
-$@                                        linker.ld

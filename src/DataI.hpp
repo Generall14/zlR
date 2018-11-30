@@ -84,6 +84,8 @@ private:
 
     static const int FS_OFF = 28;
     static const int FE_INC = 13;
+
+    bool _dirty = false;
 };
 
 #endif

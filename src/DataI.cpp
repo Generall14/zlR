@@ -5,6 +5,7 @@
 #include <QFont>
 #include <QColor>
 #include <iostream>
+#include <QDebug>
 
 /**
  * Jedyny słuszny konstruktor.
@@ -30,6 +31,7 @@ void DataI::Clear()
 {
     emit beginResetModel();
     _pureData.clear();
+    _dirty = true;
     emit endResetModel();
     emit Changed();
 }
@@ -78,6 +80,7 @@ void DataI::FromFile(QString adr)
     Clear();
     for(auto line: GetPieceOfFile(adr))
         ReadLine(line);
+    _dirty = true;
     emit endResetModel();
     emit Changed();
 }
@@ -143,6 +146,7 @@ void DataI::Add()
     for(int i=0;i<COLS;i++)
         tips.append("");
     _pureData.append(PureData{tips, tips});
+    _dirty=true;
     emit endInsertRows();
     emit Changed();
 }
@@ -156,6 +160,7 @@ void DataI::Remove(int index)
         return;
     emit beginRemoveRows(QModelIndex(), index, index);
     _pureData.removeAt(index);
+    _dirty = true;
     emit endRemoveRows();
     emit Changed();
 }
@@ -230,6 +235,7 @@ bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
     if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
         return false;
     _pureData[index.row()].data[index.column()] = value.toString();
+    _dirty = true;
     Check();
     emit Changed();
     return false;
@@ -326,6 +332,8 @@ QStringList DataI::GetNames()
  */
 void DataI::Check()
 {
+    if(!_dirty)
+        return;
     QString err;
     int uslessint = -1;
     QString uslessString;
@@ -356,4 +364,5 @@ void DataI::Check()
         std::cerr << _sign.toStdString() << " errors:\r\n" << err.toStdString() << std::endl << std::endl;
     }
     emit endResetModel();
+    _dirty = false;
 }
