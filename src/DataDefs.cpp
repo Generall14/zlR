@@ -11,6 +11,8 @@ DataDefs::DataDefs(Data *data):
     _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
 
     _delegats[0]=QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(0).data()));
+
+    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMMMM"};
 }
 
 QString DataDefs::AppendToFileL(QStringList str, int)

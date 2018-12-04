@@ -18,6 +18,11 @@
 #include <QDial>
 #include <QPlainTextEdit>
 #include <QHeaderView>
+#include <QDebug>
+#include <QApplication>
+#include <QFontMetrics>
+#include <math.h>
+#include <QVariant>
 #include "mtv.hpp"
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString oadr, QWidget *parent):
@@ -56,12 +61,22 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     GB->setLayout(new QHBoxLayout());
 
     mQTableView* TBV = new mQTableView();
-    TBV->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    TBV->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     TBV->setSelectionMode(QAbstractItemView::SingleSelection);
     TBV->setModel(d.data());
     d->ApplyDelegatesForTable(TBV);
     GB->layout()->addWidget(TBV);
+
+    TBV->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    TBV->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    for(int i=0;i<d->columnCount();i++)
+    {
+        QString td = d->getMaxTxts().at(i)+"MMM";
+        QString hd = d->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString()+"MMM";
+        TBV->horizontalHeader()->resizeSection(i,
+                                               std::max(QFontMetrics(QApplication::font()).width(td),
+                                                        QFontMetrics(QApplication::font()).width(hd)));
+    }
+    TBV->verticalHeader()->hide();
 
     QVBoxLayout* BL = new QVBoxLayout();
     static_cast<QBoxLayout*>(GB->layout())->addLayout(BL);

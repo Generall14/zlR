@@ -22,6 +22,8 @@ DataI::DataI(QString sign, QStringList header, Data *data):
         _delegats.append(nullptr);
     while(_validators.size()<COLS)
         _validators.append(nullptr);
+    while(_maxTxts.size()<COLS)
+        _maxTxts.append("nullptr");
 }
 
 /**
@@ -365,4 +367,9 @@ void DataI::Check()
     }
     emit endResetModel();
     _dirty = false;
+}
+
+QStringList DataI::getMaxTxts() const
+{
+    return _maxTxts;
 }

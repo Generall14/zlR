@@ -20,4 +20,6 @@ DataRegion::DataRegion(Data *data):
     _delegats[1]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(1).data())));
     _delegats[2]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(2).data())));
     _delegats[3]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(3).data())));
+
+    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "RWX", "0x00000000", "666M"};
 }

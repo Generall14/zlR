@@ -28,4 +28,6 @@ DataSection::DataSection(Data *data):
     _delegats[3]=(QSharedPointer<QItemDelegate>(new TypeDelegate(this, vals)));
     _delegats[4]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "KEEP")));
     _delegats[5]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
+
+    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMM", "MMMMMM", "MMMMMM", "M", "M"};
 }

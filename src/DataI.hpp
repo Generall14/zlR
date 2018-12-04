@@ -57,6 +57,7 @@ public:
     QString GetLocalByName(int i, QString name);
     bool isOk() const;
     QString getMyName() const;
+    QStringList getMaxTxts() const;
 
     QStringList GetNames();
 
@@ -98,6 +99,8 @@ protected:
     QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dla kolumn*/
     QList<QSharedPointer<QValidator> > _validators; /**<Lista validatorów dla kolumn*/
     Data* _datPtr = nullptr;
+
+    QStringList _maxTxts; /**<Teksty które posłużą do oszacowania szerokości kolumny w tabeli.*/
 
     virtual QString AppendToFileL(QStringList str, int nr);
     virtual void ReadLine(QString line);
