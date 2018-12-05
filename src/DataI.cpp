@@ -92,7 +92,7 @@ QStringList DataI::GetPieceOfFile(QString adr)
 void DataI::FromFile(QString adr)
 {
     emit beginResetModel();
-    Clear();
+    _pureData.clear();
     for(auto line: GetPieceOfFile(adr))
     {
         bool found = false;
@@ -109,6 +109,7 @@ void DataI::FromFile(QString adr)
         if(!found)
             _pureData.append(temp);
     }
+    ApplyRequiredData();
     _dirty = true;
     emit endResetModel();
     emit Changed();
@@ -116,6 +117,9 @@ void DataI::FromFile(QString adr)
 
 void DataI::ApplyRequiredData()
 {
+    bool erreq = false;
+    if(!_pureData.isEmpty())
+        erreq = true;
     for(auto dat: _minData)
     {
         bool found = false;
@@ -129,7 +133,14 @@ void DataI::ApplyRequiredData()
             }
         }
         if(!found)
+        {
+            if(erreq)
+            {
+                QString out = _sign + ": brak wymaganych danych \""+dat.data.at(0)+"\" (dodane)\r\n\r\n";
+                std::cerr << out.toStdString();
+            }
             _pureData.append(dat);
+        }
     }
 }
 
