@@ -8,6 +8,7 @@
 #include <src/OtherShitSolver.hpp>
 #include <src/DataI.hpp>
 #include <src/DataDReg.hpp>
+#include <src/DataDStck.hpp>
 #include <QFileInfo>
 
 Data::Data()
@@ -27,6 +28,10 @@ Data::Data()
     QSharedPointer<DataI> _dre = QSharedPointer<DataDReg>(new DataDReg(this), &QObject::deleteLater);
     connect(_dre.data(), &DataDefs::Changed, this, &Data::CheckAll);
     _dats[_dre->getMyName()] = _dre;
+
+    QSharedPointer<DataI> _dst = QSharedPointer<DataDStck>(new DataDStck(this), &QObject::deleteLater);
+    connect(_dst.data(), &DataDefs::Changed, this, &Data::CheckAll);
+    _dats[_dst->getMyName()] = _dst;
 
     Clear();
 }

@@ -42,7 +42,8 @@ SOURCES += \
     mtv.cpp \
     src/validator/ValidateContainsOther.cpp \
     src/validator/ValidateContainsConst.cpp \
-    src/DataDReg.cpp
+    src/DataDReg.cpp \
+    src/DataDStck.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -65,7 +66,8 @@ HEADERS += \
     mtv.hpp \
     src/validator/ValidateContainsOther.hpp \
     src/validator/ValidateContainsConst.hpp \
-    src/DataDReg.hpp
+    src/DataDReg.hpp \
+    src/DataDStck.hpp
 
 RESOURCES += \
     res.qrc
