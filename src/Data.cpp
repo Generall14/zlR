@@ -57,7 +57,12 @@ void Data::Load(QString adr)
     if(adr.isEmpty())
         return;
     for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->SetLock(true);
+    for(auto it = _dats.begin();it!=_dats.end();it++)
         it.value()->FromFile(adr);
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->SetLock(false);
+    CheckAll();
 }
 
 void Data::Save(QString adr)
@@ -146,7 +151,11 @@ bool Data::isOk() const
 void Data::Clear()
 {
     for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->SetLock(true);
+    for(auto it = _dats.begin();it!=_dats.end();it++)
         it.value()->Clear();
+    for(auto it = _dats.begin();it!=_dats.end();it++)
+        it.value()->SetLock(false);
 }
 
 QSharedPointer<DataI> Data::GetByName(QString name) const

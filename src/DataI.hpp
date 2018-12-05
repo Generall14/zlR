@@ -58,6 +58,7 @@ public:
     bool isOk() const;
     QString getMyName() const;
     QStringList getMaxTxts() const;
+    void SetLock(bool lock);
 
     QStringList GetNames();
 
@@ -114,6 +115,7 @@ protected:
                              #define _rown_1 ...), nazwa w mapie w Data, nazwa w MAC_XXX.*/
 
     bool _dirty = false;
+    bool _lock = false;
 
 private:
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/

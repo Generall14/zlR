@@ -417,7 +417,7 @@ QStringList DataI::GetNames()
  */
 void DataI::Check()
 {
-    if(!_dirty)
+    if((!_dirty)||_lock)
         return;
     QString err;
     int uslessint = -1;
@@ -479,4 +479,11 @@ bool DataI::Down(int index)
     _pureData[index] = temp;
     emit endInsertRows();
     return true;
+}
+
+void DataI::SetLock(bool lock)
+{
+    _lock = lock;
+    if(lock)
+        _dirty = true;
 }
