@@ -28,6 +28,9 @@ DataRegion::DataRegion(Data *data):
             " * Max number of regions 20 <0..19>\r\n"
             " *\r\n"
             " **********************************************************************************************************/";
+
+    _minData.append(ReadLine("#define REGION_0 ROM , RX , 0x08000000 , 1k"));
+    _minData.append(ReadLine("#define REGION_1 RAM , RWX , 0x20000000 , 1k"));
 }
 
 QVariant DataRegion::data(const QModelIndex &index, int role) const

@@ -27,7 +27,7 @@ QString DataDefs::AppendToFileL(QStringList str, int)
     return temp;
 }
 
-void DataDefs::ReadLine(QString line)
+DataI::PureData DataDefs::ReadLine(QString line)
 {
     QStringList tips = {""};
     for(int i=0;i<COLS;i++)
@@ -51,7 +51,7 @@ void DataDefs::ReadLine(QString line)
     for(int i=2;i<ll.size();i++)
         ll[2].append(" "+ll.at(i));
 
-    _pureData.append(PureData{ll.mid(0, 2), tips});
+    return PureData{ll.mid(0, 2), tips};
 }
 
 QStringList DataDefs::AppendToFile()

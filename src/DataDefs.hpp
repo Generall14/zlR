@@ -23,7 +23,7 @@ public:
 
 protected:
     virtual QString AppendToFileL(QStringList str, int);
-    virtual void ReadLine(QString line);
+    virtual DataI::PureData ReadLine(QString line);
 
 private:
     static const QString znakiName;

@@ -61,7 +61,6 @@ public:
 
     QStringList GetNames();
 
-    /**Czyści strukturę danych.*/
     virtual void Clear();
 
     // Do tabeli
@@ -103,23 +102,25 @@ protected:
     QStringList _maxTxts; /**<Teksty które posłużą do oszacowania szerokości kolumny w tabeli.*/
     QList<bool> _editable; /**<Oznaczenie czy dana kolumna może być edytowana.*/
     QString _desc; /**<Opis dodany do pliku z konfiguracją.*/
+    QList<PureData> _minData; /**<Wymagane i domyślne dane dane.*/
 
 
     virtual QString AppendToFileL(QStringList str, int nr);
-    virtual void ReadLine(QString line);
+    virtual PureData ReadLine(QString line);
 
     const QString _sign; /**<Znacznik sekcji danych w pliku (//##_sign), dymbol kolejnych wpisów (#define _rown_0 ...
                              #define _rown_1 ...), nazwa w mapie w Data, nazwa w MAC_XXX.*/
+
+    bool _dirty = false;
 
 private:
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
 
     QStringList GetPieceOfFile(QString adr);
+    void ApplyRequiredData();
 
     static const int FS_OFF = 28;
     static const int FE_INC = 13;
-
-    bool _dirty = false;
 };
 
 #endif

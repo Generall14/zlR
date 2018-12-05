@@ -35,6 +35,7 @@ void DataI::Clear()
 {
     emit beginResetModel();
     _pureData.clear();
+    ApplyRequiredData();
     _dirty = true;
     emit endResetModel();
     emit Changed();
@@ -93,10 +94,43 @@ void DataI::FromFile(QString adr)
     emit beginResetModel();
     Clear();
     for(auto line: GetPieceOfFile(adr))
-        ReadLine(line);
+    {
+        bool found = false;
+        PureData temp = ReadLine(line);
+        for(int i=0;i<_pureData.size();i++)
+        {
+            if(!temp.data.at(0).compare(_pureData.at(i).data.at(0), Qt::CaseSensitive))
+            {
+                found = true;
+                _pureData[i] = temp;
+                break;
+            }
+        }
+        if(!found)
+            _pureData.append(temp);
+    }
     _dirty = true;
     emit endResetModel();
     emit Changed();
+}
+
+void DataI::ApplyRequiredData()
+{
+    for(auto dat: _minData)
+    {
+        bool found = false;
+        for(int i=0;i<_pureData.size();i++)
+        {
+            if(!dat.data.at(0).compare(_pureData.at(i).data.at(0), Qt::CaseSensitive))
+            {
+                found = true;
+                _dirty = true;
+                break;
+            }
+        }
+        if(!found)
+            _pureData.append(dat);
+    }
 }
 
 /**
@@ -176,7 +210,20 @@ void DataI::Remove(int index)
     if((index<0)||(index>=_pureData.size()))
         return;
     emit beginRemoveRows(QModelIndex(), index, index);
-    _pureData.removeAt(index);
+
+    QString n = _pureData.at(index).data.at(0);
+    bool req = false;
+    for(auto d: _minData)
+    {
+        if(!n.compare(d.data.at(0)))
+        {
+            req = true;
+            break;
+        }
+    }
+    if(!req)
+        _pureData.removeAt(index);
+
     _dirty = true;
     emit endRemoveRows();
     emit Changed();
@@ -244,6 +291,17 @@ Qt::ItemFlags DataI::flags(const QModelIndex & index) const
         return standard;
     if(_editable.at(index.column()))
         standard |= Qt::ItemIsEditable;
+    if(index.column()==0)
+    {
+        for(auto d: _minData)
+        {
+            if(!_pureData.at(index.row()).data.at(0).compare(d.data.at(0)))
+            {
+                standard &= ~Qt::ItemIsEditable;
+                break;
+            }
+        }
+    }
     return standard;
 }
 
@@ -253,6 +311,14 @@ bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
         return false;
     if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
         return false;
+    if(index.column()==0)
+    {
+        for(auto d: _minData)
+        {
+            if(!_pureData.at(index.row()).data.at(0).compare(d.data.at(0)))
+                return false;
+        }
+    }
     _pureData[index.row()].data[index.column()] = value.toString();
     _dirty = true;
     Check();
@@ -264,7 +330,7 @@ bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
  * Ładuje dane z linii pliku, przyjmuje dane w postaci:
  * '#define POMIJANY_ZNACZNIK VAL1 , VAL2 , ... , VAL<COLS>'
  */
-void DataI::ReadLine(QString line)
+DataI::PureData DataI::ReadLine(QString line)
 {
     QStringList tips = {""};
     for(int i=0;i<COLS;i++)
@@ -282,7 +348,7 @@ void DataI::ReadLine(QString line)
     QStringList ll = nline.split(",", QString::KeepEmptyParts);
     if(ll.size()!=COLS)
         throw std::runtime_error("DataI::ReadLine: coś jest nie tak z linią \""+line.toStdString()+"\"");
-    _pureData.append(PureData{ll, tips});
+    return PureData{ll, tips};
 }
 
 void DataI::ApplyDelegatesForTable(QTableView* table)

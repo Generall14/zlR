@@ -44,4 +44,7 @@ DataSection::DataSection(Data *data):
        " * KEEP         - KEEP or empty\r\n"
        " * NOLOAD       - NOLOAD or empty\r\n"
        " **********************************************************************************************************/";
+
+    _minData.append(ReadLine("#define SECTION_0 FUNC_RAM, ROM, RAM, DATA,,"));
+    _minData.append(ReadLine("#define SECTION_1 SRAM, SRAM, SRAM, NOINIT,,NOLOAD"));
 }

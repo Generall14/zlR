@@ -18,4 +18,17 @@ DataDReg::DataDReg(Data *data):
     _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMMMM"};
 
     _editable[0] = false;
+
+    _minData.append(ReadLine("#define STACK_REGION                        RAM"));
+    _minData.append(ReadLine("#define HEAP_REGION                         RAM"));
+    _minData.append(ReadLine("#define VECTORS_VMA_REGION                  ROM"));
+    _minData.append(ReadLine("#define VECTORS_LMA_REGION                  ROM"));
+    _minData.append(ReadLine("#define AFTERVECTORS_VMA_REGION             ROM"));
+    _minData.append(ReadLine("#define AFTERVECTORS_LMA_REGION             ROM"));
+    _minData.append(ReadLine("#define RODATA_VMA_REGION                   ROM"));
+    _minData.append(ReadLine("#define RODATA_LMA_REGION                   ROM"));
+    _minData.append(ReadLine("#define TEXT_VMA_REGION                     ROM"));
+    _minData.append(ReadLine("#define TEXT_LMA_REGION                     ROM"));
+    _minData.append(ReadLine("#define DATA_VMA_REGION                     RAM"));
+    _minData.append(ReadLine("#define DATA_LMA_REGION                     ROM"));
 }

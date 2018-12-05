@@ -12,4 +12,7 @@ DataDStck::DataDStck(Data *data):
     _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMMMM"};
 
     _editable[0] = false;
+
+    _minData.append(ReadLine("#define MAIN_STACK_SIZE 1024"));
+    _minData.append(ReadLine("#define PROCESS_STACK_SIZE 1024"));
 }
