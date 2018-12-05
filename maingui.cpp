@@ -23,6 +23,10 @@
 #include <QFontMetrics>
 #include <math.h>
 #include <QVariant>
+#include <QToolButton>
+#include <QIcon>
+#include <QStyle>
+#include <QCommonStyle>
 #include "mtv.hpp"
 
 MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString oadr, QWidget *parent):
@@ -94,6 +98,29 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     static_cast<QBoxLayout*>(GB->layout())->addLayout(BL);
 
     BL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Maximum, QSizePolicy::Expanding));
+
+    QHBoxLayout* TL = new QHBoxLayout();
+    BL->addLayout(TL);
+    QToolButton* tbtn = new QToolButton();
+    tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_ArrowUp));
+    auto fu = [d, TBV](){
+        auto idx = TBV->currentIndex();
+        if(d->Up(TBV->currentIndex().row()))
+            idx = idx.sibling(idx.row()-1, idx.column());
+        TBV->setCurrentIndex(idx);};
+    connect(tbtn, &QToolButton::clicked, fu);
+    TL->addWidget(tbtn);
+
+    tbtn = new QToolButton();
+    tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_ArrowDown));
+    auto fd = [d, TBV](){
+        auto idx = TBV->currentIndex();
+        if(d->Down(TBV->currentIndex().row()))
+            idx = idx.sibling(idx.row()+1, idx.column());
+        TBV->setCurrentIndex(idx);};
+    connect(tbtn, &QToolButton::clicked, fd);
+    TL->addWidget(tbtn);
+
     QPushButton* btn = new QPushButton("Dodaj");
     connect(btn, &QPushButton::clicked, d.data(), &DataRegion::Add);
     BL->addWidget(btn);

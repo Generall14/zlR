@@ -75,6 +75,8 @@ public slots:
     void Add();
     void Remove(int index);
     void Check();
+    bool Up(int index);
+    bool Down(int index);
 
 signals:
     /**Informuje o zmianie danych.*/
