@@ -113,7 +113,9 @@ void Data::Make(QString temp, QString out)
     file.close();
 
     Macro::ProcessAll(sl, this); // makra
-    //dynamic_cast<DataDefs*>(_def.data())->ProcessAll(sl); // #define
+    dynamic_cast<DataDefs*>(GetByName("").data())->ProcessAll(sl); // #define
+    dynamic_cast<DataDefs*>(GetByName("DREG").data())->ProcessAll(sl);
+    dynamic_cast<DataDefs*>(GetByName("DSTCK").data())->ProcessAll(sl);
     OtherShitSolver::DoAllRequiredShit(sl); // reszta pierdół
 
     if(out.isEmpty())
