@@ -24,6 +24,8 @@ DataI::DataI(QString sign, QStringList header, Data *data):
         _validators.append(nullptr);
     while(_maxTxts.size()<COLS)
         _maxTxts.append("nullptr");
+    while(_editable.size()<COLS)
+        _editable.append(true);
 }
 
 /**
@@ -53,6 +55,8 @@ QStringList DataI::GetPieceOfFile(QString adr)
 
     QStringList sl;
     bool found = false;
+    if(_sign.isEmpty())
+        found = true;
     QTextStream ts(&file);
     while(!ts.atEnd())
     {
@@ -227,7 +231,9 @@ Qt::ItemFlags DataI::flags(const QModelIndex & index) const
     Qt::ItemFlags standard = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
     if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
         return standard;
-    return Qt::ItemIsEditable|standard;
+    if(_editable.at(index.column()))
+        standard |= Qt::ItemIsEditable;
+    return standard;
 }
 
 bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)

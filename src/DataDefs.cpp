@@ -6,7 +6,7 @@
 #include <iostream>
 
 DataDefs::DataDefs(Data *data):
-    DataI("CONST", {"NAME", "VAL"}, data)
+    DataI("", {"NAME", "VAL"}, data)
 {
     _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
 

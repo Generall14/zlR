@@ -96,11 +96,13 @@ protected:
 
     const int COLS; /**<Liczba kolumn z danymi.*/
     QList<PureData> _pureData; /**<Przechowywane dane.*/
-    QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dla kolumn*/
-    QList<QSharedPointer<QValidator> > _validators; /**<Lista validatorów dla kolumn*/
     Data* _datPtr = nullptr;
 
+    QList<QSharedPointer<QItemDelegate> > _delegats; /**<Lista delegatów dla kolumn*/
+    QList<QSharedPointer<QValidator> > _validators; /**<Lista validatorów dla kolumn*/
     QStringList _maxTxts; /**<Teksty które posłużą do oszacowania szerokości kolumny w tabeli.*/
+    QList<bool> _editable; /**<Oznaczenie czy dana kolumna może być edytowana.*/
+
 
     virtual QString AppendToFileL(QStringList str, int nr);
     virtual void ReadLine(QString line);
