@@ -5,8 +5,8 @@
 #include <QColor>
 #include <iostream>
 
-DataDefs::DataDefs(Data *data):
-    DataI("", {"NAME", "VAL"}, data)
+DataDefs::DataDefs(Data* data, QString sign, QStringList header):
+    DataI(sign, header, data)
 {
     _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
 
@@ -57,7 +57,8 @@ void DataDefs::ReadLine(QString line)
 QStringList DataDefs::AppendToFile()
 {
     QStringList temp;
-    temp.append("\r\n\r\n//##"+_sign);
+    if(!_sign.isEmpty())
+        temp.append("\r\n\r\n//##"+_sign);
 
 
     for(int i=0;i<_pureData.size();i++)

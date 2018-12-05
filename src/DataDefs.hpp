@@ -15,7 +15,7 @@ class DataDefs : public DataI
 {
     Q_OBJECT
 public:
-    DataDefs(Data* data);
+    DataDefs(Data* data, QString sign="", QStringList header={"NAME", "VAL"});
 
     virtual QStringList AppendToFile();
 

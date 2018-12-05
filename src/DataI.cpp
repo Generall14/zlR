@@ -58,6 +58,7 @@ QStringList DataI::GetPieceOfFile(QString adr)
     if(_sign.isEmpty())
         found = true;
     QTextStream ts(&file);
+    bool ignorenext = false;
     while(!ts.atEnd())
     {
         QString line = ts.readLine();
@@ -68,8 +69,15 @@ QStringList DataI::GetPieceOfFile(QString adr)
             else if(line.startsWith("//##"+_sign, Qt::CaseInsensitive))
                 found = true;
         }
+        if(found && line.startsWith("#ifndef", Qt::CaseInsensitive))
+            ignorenext = true;
         if(found && line.startsWith("#define", Qt::CaseInsensitive))
-            sl.append(line);
+        {
+            if(ignorenext)
+                ignorenext = false;
+            else
+                sl.append(line);
+        }
     }
 
     file.close();
@@ -99,7 +107,8 @@ QStringList DataI::AppendToFile()
 {
     QStringList temp;
 
-    temp.append("\r\n\r\n//##"+_sign);
+    if(!_sign.isEmpty())
+        temp.append("\r\n\r\n//##"+_sign);
 
     QString tempS = "/**";
     while(tempS.size()<FS_OFF)

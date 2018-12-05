@@ -7,6 +7,7 @@
 #include <src/Macro.hpp>
 #include <src/OtherShitSolver.hpp>
 #include <src/DataI.hpp>
+#include <src/DataDReg.hpp>
 #include <QFileInfo>
 
 Data::Data()
@@ -22,6 +23,10 @@ Data::Data()
     QSharedPointer<DataI> _def = QSharedPointer<DataDefs>(new DataDefs(this), &QObject::deleteLater);
     connect(_def.data(), &DataDefs::Changed, this, &Data::CheckAll);
     _dats[_def->getMyName()] = _def;
+
+    QSharedPointer<DataI> _dre = QSharedPointer<DataDReg>(new DataDReg(this), &QObject::deleteLater);
+    connect(_dre.data(), &DataDefs::Changed, this, &Data::CheckAll);
+    _dats[_dre->getMyName()] = _dre;
 
     Clear();
 }
@@ -70,7 +75,7 @@ void Data::Save(QString adr)
     QFileInfo fi(file);
     QString def = QString(fi.baseName()+"."+fi.completeSuffix()).replace(".", "_").toUpper();
     sl.append("#ifndef "+def);
-    sl.append("#define "+def);
+    sl.append("#define "+def+"\r\n");
 
     for(auto it = _dats.begin();it!=_dats.end();it++)
         sl.append(it.value()->AppendToFile());
