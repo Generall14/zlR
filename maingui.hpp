@@ -35,6 +35,9 @@ private:
 
     static const int MAX_TITLE_LENGTH = 40;
 
+    const QStringList _noEdits = {"DREG"}; /**<Lista nazw sekcji dla których nie zostaną dodane przyciski edycji.*/
+    const QStringList _noTable = {"DSTCK", ""}; /**<Lista nazw sekcji dla których nie zostanie dodana tabela.*/
+
 private slots:
     void Save();
     void SaveAs();

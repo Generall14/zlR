@@ -56,6 +56,12 @@ void MainGUI::InitGUI()
 
 void MainGUI::AppendTable(QSharedPointer<DataI> d)
 {
+    for(auto s: _noTable)
+    {
+        if(!s.compare(d->getMyName()))
+            return;
+    }
+
     QGroupBox* GB = new QGroupBox(d->getMyName());
     this->centralWidget()->layout()->addWidget(GB);
     GB->setLayout(new QHBoxLayout());
@@ -77,6 +83,12 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
                                                         QFontMetrics(QApplication::font()).width(hd)));
     }
     TBV->verticalHeader()->hide();
+
+    for(auto s: _noEdits)
+    {
+        if(!s.compare(d->getMyName()))
+            return;
+    }
 
     QVBoxLayout* BL = new QVBoxLayout();
     static_cast<QBoxLayout*>(GB->layout())->addLayout(BL);
