@@ -6,8 +6,8 @@
 struct args
 {
     QString iadr; /**<Adres wejściowego pliku danych.*/
-    QString tadr; /**<Adres pliku szalonu.*/
-    QString oadr; /**<Adres pliku wyjściowego.*/
+    QString tadr="template.ld"; /**<Adres pliku szalonu.*/
+    QString oadr="out.ld"; /**<Adres pliku wyjściowego.*/
     bool quiet = false; /**<Bez GUI.*/
     bool check = false; /**<Tylko sprawdzenie.*/
     bool help = false; /**<Wyświetl pomoc programu.*/

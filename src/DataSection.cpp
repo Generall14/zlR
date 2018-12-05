@@ -46,5 +46,4 @@ DataSection::DataSection(Data *data):
        " **********************************************************************************************************/";
 
     _minData.append(ReadLine("#define SECTION_0 FUNC_RAM, ROM, RAM, DATA,,"));
-    _minData.append(ReadLine("#define SECTION_1 SRAM, SRAM, SRAM, NOINIT,,NOLOAD"));
 }

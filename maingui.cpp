@@ -141,6 +141,7 @@ void MainGUI::InitMenu()
     QMenu* mPlik = new QMenu("&Plik");
 
     QAction* aClrD = new QAction("&Nowy", mPlik);
+    aClrD->setShortcut(QKeySequence::New);
     connect(aClrD, &QAction::triggered, [this](){_dat->Clear();});
     mPlik->addAction(aClrD);
 
@@ -214,7 +215,7 @@ void MainGUI::SaveAs()
     QString fileName = QFileDialog::getSaveFileName(this,
                                 "Podaj plik z definicjami danych do zapisu",
                                 _currentFile,
-                                "C header files (*.h);;All files (*)");
+                                "Memory configuration file (*.memcfg);;C header files (*.h);;All files (*)");
 
     if (!fileName.isEmpty())
     {
@@ -229,7 +230,7 @@ void MainGUI::Open()
     QString fileName = QFileDialog::getOpenFileName(this,
                                 "Podaj plik z definicjami danych do wczytania",
                                 _currentFile,
-                                "C header files (*.h);;All files (*)");
+                                "Memory configuration file (*.memcfg);;C header files (*.h);;All files (*)");
 
     if (!fileName.isEmpty())
     {
