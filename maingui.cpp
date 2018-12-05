@@ -100,6 +100,30 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
 void MainGUI::InitMenu()
 {
     QMenu* mPlik = new QMenu("&Plik");
+
+    QAction* aClrD = new QAction("&Nowy", mPlik);
+    connect(aClrD, &QAction::triggered, [this](){_dat->Clear();});
+    mPlik->addAction(aClrD);
+
+    mPlik->addSeparator();
+
+    QAction* aOp = new QAction("&Otwórz", mPlik);
+    aOp->setShortcut(QKeySequence::Open);
+    connect(aOp, &QAction::triggered, this, &MainGUI::Open);
+    mPlik->addAction(aOp);
+
+    QAction* aSv = new QAction("&Zapisz", mPlik);
+    aSv->setShortcut(QKeySequence::Save);
+    connect(aSv, &QAction::triggered, this, &MainGUI::Save);
+    mPlik->addAction(aSv);
+
+    QAction* aSvA = new QAction("Zapisz &jako...", mPlik);
+    aSvA->setShortcut(QKeySequence::SaveAs);
+    connect(aSvA, &QAction::triggered, this, &MainGUI::SaveAs);
+    mPlik->addAction(aSvA);
+
+    mPlik->addSeparator();
+
     QAction* aCl = new QAction("&Zamknij", mPlik);
     aCl->setShortcut(QKeySequence::Close);
     connect(aCl, &QAction::triggered, this, &MainGUI::close);
@@ -109,29 +133,6 @@ void MainGUI::InitMenu()
 
 
     QMenu* mDane = new QMenu("&Dane");
-
-    QAction* aClrD = new QAction("Wy&czyść dane...", mDane);
-    connect(aClrD, &QAction::triggered, [this](){_dat->Clear();});
-    mDane->addAction(aClrD);
-
-    mDane->addSeparator();
-
-    QAction* aOp = new QAction("&Otwórz", mDane);
-    aOp->setShortcut(QKeySequence::Open);
-    connect(aOp, &QAction::triggered, this, &MainGUI::Open);
-    mDane->addAction(aOp);
-
-    QAction* aSv = new QAction("&Zapisz", mDane);
-    aSv->setShortcut(QKeySequence::Save);
-    connect(aSv, &QAction::triggered, this, &MainGUI::Save);
-    mDane->addAction(aSv);
-
-    QAction* aSvA = new QAction("Zapisz &jako...", mDane);
-    aSvA->setShortcut(QKeySequence::SaveAs);
-    connect(aSvA, &QAction::triggered, this, &MainGUI::SaveAs);
-    mDane->addAction(aSvA);
-
-    mDane->addSeparator();
 
     QAction* aClr = new QAction("&Przetwórz szablon", mDane);
     connect(aClr, &QAction::triggered, this, &MainGUI::Make);

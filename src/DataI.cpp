@@ -110,6 +110,8 @@ QStringList DataI::AppendToFile()
     if(!_sign.isEmpty())
         temp.append("\r\n\r\n//##"+_sign);
 
+    temp.append(_desc);
+
     QString tempS = "/**";
     while(tempS.size()<FS_OFF)
         tempS.append(" ");

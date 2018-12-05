@@ -102,6 +102,7 @@ protected:
     QList<QSharedPointer<QValidator> > _validators; /**<Lista validatorów dla kolumn*/
     QStringList _maxTxts; /**<Teksty które posłużą do oszacowania szerokości kolumny w tabeli.*/
     QList<bool> _editable; /**<Oznaczenie czy dana kolumna może być edytowana.*/
+    QString _desc; /**<Opis dodany do pliku z konfiguracją.*/
 
 
     virtual QString AppendToFileL(QStringList str, int nr);

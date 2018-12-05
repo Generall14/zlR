@@ -1,13 +1,19 @@
 #include "DataDReg.hpp"
 #include <src/delegat/LEDelegate.hpp>
 #include <src/validator/ValidateName.hpp>
+#include <src/validator/ValidateContainsOther.hpp>
+#include <src/delegat/RegDelegate.hpp>
+#include <src/Data.hpp>
 
 DataDReg::DataDReg(Data *data):
     DataDefs(data, "DREG", {"NAME", "VAL"})
 {
     _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
+    _validators[1]=(QSharedPointer<QValidator>(new ValidateContainsOther("NAME",
+                                                                         _datPtr->GetByName("REGION").data())));
 
     _delegats[0]=QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(0).data()));
+    _delegats[1]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
 
     _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMMMM"};
 

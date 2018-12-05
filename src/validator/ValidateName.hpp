@@ -18,7 +18,7 @@ class NameValidator : public QValidator
 {
     Q_OBJECT
 public:
-    NameValidator(QString name, DataI* dat, QObject* parent = nullptr);
+    NameValidator(QString name, DataI* dat, int maxSize=32, QObject* parent = nullptr);
 
     virtual State validate(QString &input, int&i) const;
 
@@ -26,6 +26,7 @@ private:
     static const QString znakiName;
     QString _name;
     DataI* _dat;
+    int _maxSize;
 };
 
 #endif

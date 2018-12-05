@@ -22,4 +22,18 @@ DataRegion::DataRegion(Data *data):
     _delegats[3]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(3).data())));
 
     _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "RWX", "0x00000000", "666M"};
+
+    _desc = "/**********************************************************************************************************\r\n"
+            " *\r\n"
+            " * Max number of regions 20 <0..19>\r\n"
+            " *\r\n"
+            " **********************************************************************************************************/";
+}
+
+QVariant DataRegion::data(const QModelIndex &index, int role) const
+{
+    if(index.column() == 3 && role == Qt::TextAlignmentRole)
+        return Qt::AlignRight;
+    else
+        return DataI::data(index, role);
 }

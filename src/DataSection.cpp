@@ -30,4 +30,18 @@ DataSection::DataSection(Data *data):
     _delegats[5]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
 
     _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMM", "MMMMMM", "MMMMMM", "M", "M"};
+
+    _desc =
+       "/**********************************************************************************************************\r\n"
+       " * USER SECTIONS DEFINITION\r\n"
+       " *\r\n"
+       " * Possible parameters:\r\n"
+       " * NAME         - unique name of section\r\n"
+       " * LMA_ADDR     - defined region name\r\n"
+       " * VMA_ADDR     - defined region name\r\n"
+       " * TYPE         - DATA, BSS, NOINIT\r\n"
+       " *                DATA - like data section, BSS - like bss section, NOINIT - not initialized data\r\n"
+       " * KEEP         - KEEP or empty\r\n"
+       " * NOLOAD       - NOLOAD or empty\r\n"
+       " **********************************************************************************************************/";
 }

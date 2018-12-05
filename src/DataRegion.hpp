@@ -17,6 +17,8 @@ class DataRegion : public DataI
     Q_OBJECT
 public:
     DataRegion(Data* data);
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 };
 
 #endif

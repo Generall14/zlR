@@ -4,10 +4,11 @@
 
 const QString NameValidator::znakiName = "0123456789ABCDEFGHIJKLNMOPRSTUVWXYZ_";
 
-NameValidator::NameValidator(QString name, DataI *dat, QObject* parent):
+NameValidator::NameValidator(QString name, DataI *dat, int maxSize, QObject* parent):
     QValidator(parent),
     _name(name),
-    _dat(dat)
+    _dat(dat),
+    _maxSize(maxSize)
 {
 }
 
@@ -21,6 +22,9 @@ QValidator::State NameValidator::validate(QString &input, int& i) const
 
     if(!input.isEmpty())
     {
+        if(input.size()>_maxSize)
+            state += "Zbyt długa nazwa. ";
+
         for(auto sign: input)
         {
             if(!znakiName.contains(sign, Qt::CaseInsensitive))
