@@ -474,11 +474,11 @@ bool DataI::Up(int index)
 {
     if((index<1)||(index>_pureData.size()-1))
         return false;
-    emit beginInsertRows(QModelIndex(), _pureData.size()-1, _pureData.size()-1);
+    emit beginResetModel();
     auto temp = _pureData.at(index-1);
     _pureData[index-1] = _pureData.at(index);
     _pureData[index] = temp;
-    emit endInsertRows();
+    emit endResetModel();
     return true;
 }
 
@@ -486,11 +486,11 @@ bool DataI::Down(int index)
 {
     if((index<0)||(index>_pureData.size()-2))
         return false;
-    emit beginInsertRows(QModelIndex(), _pureData.size()-1, _pureData.size()-1);
+    emit beginResetModel();
     auto temp = _pureData.at(index+1);
     _pureData[index+1] = _pureData.at(index);
     _pureData[index] = temp;
-    emit endInsertRows();
+    emit endResetModel();
     return true;
 }
 

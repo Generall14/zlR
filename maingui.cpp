@@ -162,7 +162,7 @@ QGroupBox* MainGUI::InitAdrGUI()
 
     ML->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
 
-    QPushButton* btn = new QPushButton("ODPAL!");
+    QPushButton* btn = new QPushButton("OGIEŃ!");
     btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     connect(btn, &QPushButton::clicked, this, &MainGUI::Make);
     ML->addWidget(btn);
