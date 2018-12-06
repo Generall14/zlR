@@ -53,23 +53,25 @@ $ELSIF[WARUNEK]
 $ELSE
 ...ble ble ble...
 $ENDIF
-Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako stringi w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]). Każde ze słów kluczowych $IF, $ELSIF, $ELSE, $ENDIF musi się znajdować z osobnej lini (na jej początku), wszelkie dane z tej lini znajdujące się poza instrukcją zostaną pominięte.
+Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako stringi w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]) Wszystkie spacje z wnętrza nawiasów warunku zostaną usunięte. Każde ze słów kluczowych $IF, $ELSIF, $ELSE, $ENDIF musi się znajdować z osobnej lini (na jej początku), wszelkie dane z tej lini znajdujące się poza instrukcją zostaną pominięte.
 
 
 
 4. Warunkowe wpychanie w nawiasy realizowane jest za pomocą instrukcji:
-$BRA[VAL]jakiś tam tekst$ENDB
-, gdzie VAL jest jednocześnie warunkiem i wartością wstawianą przed nawiasem. Jeżeli VAL w procesie podmian stałych stanie się wartością pustą - nawiasy nie zostaną wstawione. Instrukcje $BRA[...] i $ENDB muszą się znajdować w jednej linii.
+$BRA[COND][FUN]jakiś tam tekst$ENDB
+, gdzie:
+ - COND jest warunkiem zamknięcia tekstu w nawias,
+ - FUN tekstem dodanym przed nawias jeżeli wartość COND zwraca true, FUN może być pustym tekstem.
 
 Przykład 1:
 config.h: #define VAL
-template.ld: $BRA[VAL]jakiś tam tekst$ENDB
+template.ld: $BRA[VAL][fun]jakiś tam tekst$ENDB
 linker.ld: jakiś tam tekst
 
 Przykład 2:
 config.h: #define VAL xyz
-template.ld: $BRA[VAL]jakiś tam tekst$ENDB
-linker.ld: xyz(jakiś tam tekst)
+template.ld: $BRA[VAL][fun]jakiś tam tekst$ENDB
+linker.ld: fun(jakiś tam tekst)
 
 
 

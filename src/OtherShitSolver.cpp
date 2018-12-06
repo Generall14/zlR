@@ -1,5 +1,6 @@
 #include "OtherShitSolver.hpp"
 #include <stdexcept>
+#include <QDebug>
 
 const QStringList OtherShitSolver::RELS = {"==", "!=", ">=", "<=", ">", "<"};
 
@@ -20,7 +21,7 @@ void OtherShitSolver::DoAllRequiredShit(QStringList& text)
 void OtherShitSolver::SolveBrackets(QStringList& text)
 {
     bool found = true;
-    int fi, si, li;
+    int fi, si, li, sib, lib;
     while(found)
     {
         found = false;
@@ -33,16 +34,25 @@ void OtherShitSolver::SolveBrackets(QStringList& text)
             if(si<0)
                 throw std::runtime_error("OtherShitSolver::SolveBrackets: brak domknięcia nawiasu w \""+
                                          text.at(l).toStdString()+"\"");
-            li = text.at(l).indexOf("$ENDB", si);
+            sib = text.at(l).indexOf("[", si);
+            if(sib!=(si+1))
+                throw std::runtime_error("OtherShitSolver::SolveBrackets: brak drugiego argumentu w \""+
+                                         text.at(l).toStdString()+"\"");
+            lib = text.at(l).indexOf("]", sib);
+            if(lib<0)
+                throw std::runtime_error("OtherShitSolver::SolveBrackets: brak domknięcia nawiasu drugiego argumentu w \""+
+                                         text.at(l).toStdString()+"\"");
+            li = text.at(l).indexOf("$ENDB", sib);
             if(li<0)
                 throw std::runtime_error("OtherShitSolver::SolveBrackets: brak symbolu $ENDB w \""+
                                          text.at(l).toStdString()+"\"");
-            QString cond, meat;
+            QString cond, meat, fun;
             cond = text.at(l).mid(fi+5, si-fi-5);
-            meat = text.at(l).mid(si+1, li-si-1);
+            fun = text.at(l).mid(sib+1, lib-sib-1);
+            meat = text.at(l).mid(lib+1, li-lib-1);
             text[l].remove(fi, li-fi+5);
             if(GetBoleanValue(cond))
-                text[l].insert(fi, cond+"("+meat+")");
+                text[l].insert(fi, fun+"("+meat+")");
             else
                 text[l].insert(fi, meat);
             found = true;
