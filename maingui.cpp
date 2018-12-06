@@ -88,11 +88,16 @@ void MainGUI::InitGUI()
     GBL->addLayout(VB);
     _lestack = new QLineEdit();
     _lestack->setValidator(new QIntValidator(8, 65535));
+    connect(_lestack, SIGNAL(editingFinished()), this, SLOT(StoreStacks()));
     VB->addWidget(_lestack);
     _lepstack = new QLineEdit();
     _lepstack->setValidator(new QIntValidator(8, 65535));
+    connect(_lepstack, SIGNAL(editingFinished()), this, SLOT(StoreStacks()));
     VB->addWidget(_lepstack);
     VB->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding, QSizePolicy::Expanding));
+
+    connect(_dat->GetByName("DSTCK").data(), &DataI::Changed, this, &MainGUI::LoadStacks);
+    LoadStacks();
 }
 
 void MainGUI::InitAdrGUI()
@@ -426,4 +431,18 @@ void MainGUI::Make()
     {
         QMessageBox::critical(this, "ERROR", "Coś się zesrało: "+QString(e.what()));
     }
+}
+
+void MainGUI::LoadStacks()
+{
+    DataI* d = _dat->GetByName("DSTCK").data();
+    _lestack->setText(d->data(d->index(0, 1)).toString());
+    _lepstack->setText(d->data(d->index(1, 1)).toString());
+}
+
+void MainGUI::StoreStacks()
+{
+    DataI* d = _dat->GetByName("DSTCK").data();
+    d->setData(d->index(0, 1), QVariant(_lestack->text()));
+    d->setData(d->index(1, 1), QVariant(_lepstack->text()));
 }

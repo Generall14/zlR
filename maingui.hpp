@@ -58,6 +58,9 @@ private slots:
     void About();
     void Make();
     void Manual();
+
+    void LoadStacks();
+    void StoreStacks();
 };
 
 #endif // MAINGUI_HPP
