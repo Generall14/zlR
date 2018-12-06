@@ -25,7 +25,7 @@ public:
 
 private:
     void InitGUI();
-    void InitAdrGUI();
+    QGroupBox *InitAdrGUI();
     QGroupBox* AppendTable(QSharedPointer<DataI> d);
     void InitMenu();
 
@@ -37,7 +37,7 @@ private:
 
     void UpdTitle();
 
-    static const int MAX_TITLE_LENGTH = 40;
+    static const int MAX_TITLE_LENGTH = 52;
 
     const QStringList _noEdits = {"DREG"}; /**<Lista nazw sekcji dla których nie zostaną dodane przyciski edycji.*/
     const QStringList _noTable = {"DSTCK", ""}; /**<Lista nazw sekcji dla których nie zostanie dodana tabela.*/

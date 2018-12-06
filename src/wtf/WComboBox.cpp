@@ -6,7 +6,7 @@ WComboBox::WComboBox(QWidget *parent):
     _tmr = new QTimer();
     connect(_tmr, SIGNAL(timeout()), this, SLOT(tim()));
     _tmr->setSingleShot(true);
-//    _tmr->start(25);
+    _tmr->start(25);
 }
 
 WComboBox::~WComboBox()

@@ -48,16 +48,17 @@ MainGUI::~MainGUI()
 
 void MainGUI::InitGUI()
 {
-    this->window()->resize(800, 600);
+    this->window()->resize(1240, 750);
+    this->setFixedSize(1140, 750);
 
     this->setCentralWidget(new QWidget());
     this->centralWidget()->setLayout(new QVBoxLayout());
 
-    InitAdrGUI();
-
     QHBoxLayout* ML = new QHBoxLayout();
     static_cast<QBoxLayout*>(this->centralWidget()->layout())->addLayout(ML);
 
+    QHBoxLayout* TL = new QHBoxLayout();
+    static_cast<QBoxLayout*>(this->centralWidget()->layout())->addLayout(TL);
     auto map = _dat->GetMap();
     for(auto it = map.begin();it!=map.end();it++)
     {
@@ -67,14 +68,27 @@ void MainGUI::InitGUI()
             if(!it.value()->getMyName().compare("DREG", Qt::CaseSensitive))
                 ML->addWidget(gb);
             else
-                this->centralWidget()->layout()->addWidget(gb);
+            {
+                TL->addWidget(gb);
+                auto x = gb->sizePolicy();
+                if(!it.value()->getMyName().compare("SECTION", Qt::CaseSensitive))
+                    x.setHorizontalStretch(10);
+                else if(!it.value()->getMyName().compare("REGION", Qt::CaseSensitive))
+                    x.setHorizontalStretch(8);
+                gb->setSizePolicy(x);
+            }
         }
     }
+
+    QVBoxLayout* GGL = new QVBoxLayout();
+    ML->addLayout(GGL);
+
+    GGL->addWidget(InitAdrGUI());
 
     QGroupBox* GB = new QGroupBox("DSTCK");
     QHBoxLayout* GBL = new QHBoxLayout();
     GB->setLayout(GBL);
-    ML->addWidget(GB);
+    GGL->addWidget(GB);
 
     QVBoxLayout* VB = new QVBoxLayout();
     GBL->addLayout(VB);
@@ -98,9 +112,11 @@ void MainGUI::InitGUI()
 
     connect(_dat->GetByName("DSTCK").data(), &DataI::Changed, this, &MainGUI::LoadStacks);
     LoadStacks();
+
+    GGL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding, QSizePolicy::Expanding));
 }
 
-void MainGUI::InitAdrGUI()
+QGroupBox* MainGUI::InitAdrGUI()
 {
     QGroupBox* GB = new QGroupBox("Pliki");
     this->centralWidget()->layout()->addWidget(GB);
@@ -128,11 +144,11 @@ void MainGUI::InitAdrGUI()
 
     SL = new QVBoxLayout();
     ML->addLayout(SL);
-    QLabel* lab = new QLabel("Plik danych: ");
+    QLabel* lab = new QLabel("Dane: ");
     SL->addWidget(lab);
-    lab = new QLabel("Plik szablonu: ");
+    lab = new QLabel("Szablon: ");
     SL->addWidget(lab);
-    lab = new QLabel("Plik wyjściowy: ");
+    lab = new QLabel("Wyjście: ");
     SL->addWidget(lab);
 
     SL = new QVBoxLayout();
@@ -150,6 +166,8 @@ void MainGUI::InitAdrGUI()
     btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     connect(btn, &QPushButton::clicked, this, &MainGUI::Make);
     ML->addWidget(btn);
+
+    return GB;
 }
 
 QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
@@ -161,7 +179,7 @@ QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
     }
 
     QGroupBox* GB = new QGroupBox(d->getMyName());
-    GB->setLayout(new QHBoxLayout());
+    GB->setLayout(new QVBoxLayout());
 
     mQTableView* TBV = new mQTableView();
     TBV->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -192,13 +210,11 @@ QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
             return GB;
     }
 
-    QVBoxLayout* BL = new QVBoxLayout();
+    QHBoxLayout* BL = new QHBoxLayout();
     static_cast<QBoxLayout*>(GB->layout())->addLayout(BL);
 
-    BL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Maximum, QSizePolicy::Expanding));
+    BL->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
 
-    QHBoxLayout* TL = new QHBoxLayout();
-    BL->addLayout(TL);
     QToolButton* tbtn = new QToolButton();
     tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_ArrowUp));
     auto fu = [d, TBV](){
@@ -207,7 +223,7 @@ QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
             idx = idx.sibling(idx.row()-1, idx.column());
         TBV->setCurrentIndex(idx);};
     connect(tbtn, &QToolButton::clicked, fu);
-    TL->addWidget(tbtn);
+    BL->addWidget(tbtn);
 
     tbtn = new QToolButton();
     tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_ArrowDown));
@@ -217,7 +233,7 @@ QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
             idx = idx.sibling(idx.row()+1, idx.column());
         TBV->setCurrentIndex(idx);};
     connect(tbtn, &QToolButton::clicked, fd);
-    TL->addWidget(tbtn);
+    BL->addWidget(tbtn);
 
     QPushButton* btn = new QPushButton("Dodaj");
     connect(btn, &QPushButton::clicked, d.data(), &DataRegion::Add);
@@ -371,9 +387,21 @@ void MainGUI::UpdTitle()
         temp.append(" )");
     }
     this->setWindowTitle(temp);
-    _liadr->setText(_currentFile);
-    _ltadr->setText(_currentTempFile);
-    _loadr->setText(_currentOutFile);
+
+    temp = _currentFile;
+    if(temp.size()>(MAX_TITLE_LENGTH+3))
+        temp = "..."+temp.right(MAX_TITLE_LENGTH);
+    _liadr->setText(temp);
+
+    temp = _currentTempFile;
+    if(temp.size()>(MAX_TITLE_LENGTH+3))
+        temp = "..."+temp.right(MAX_TITLE_LENGTH);
+    _ltadr->setText(temp);
+
+    temp = _currentOutFile;
+    if(temp.size()>(MAX_TITLE_LENGTH+3))
+        temp = "..."+temp.right(MAX_TITLE_LENGTH);
+    _loadr->setText(temp);
 }
 
 void MainGUI::About()

@@ -29,7 +29,7 @@ DataSection::DataSection(Data *data):
     _delegats[4]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "KEEP")));
     _delegats[5]=(QSharedPointer<QItemDelegate>(new BTypeDelegate(this, "NOLOAD")));
 
-    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMM", "MMMMMM", "MMMMMM", "M", "M"};
+    _maxTxts = QStringList{"MMMMMMMMMMMM", "MMMMM", "MMMMM", "MMMMM", "M", "M"};
 
     _iEditable[1] = true;
     _iEditable[2] = true;
