@@ -55,14 +55,49 @@ void MainGUI::InitGUI()
 
     InitAdrGUI();
 
+    QHBoxLayout* ML = new QHBoxLayout();
+    static_cast<QBoxLayout*>(this->centralWidget()->layout())->addLayout(ML);
+
     auto map = _dat->GetMap();
     for(auto it = map.begin();it!=map.end();it++)
-        AppendTable(it.value());
+    {
+        QGroupBox* gb = AppendTable(it.value());
+        if(gb!=nullptr)
+        {
+            if(!it.value()->getMyName().compare("DREG", Qt::CaseSensitive))
+                ML->addWidget(gb);
+            else
+                this->centralWidget()->layout()->addWidget(gb);
+        }
+    }
+
+    QGroupBox* GB = new QGroupBox("DSTCK");
+    QHBoxLayout* GBL = new QHBoxLayout();
+    GB->setLayout(GBL);
+    ML->addWidget(GB);
+
+    QVBoxLayout* VB = new QVBoxLayout();
+    GBL->addLayout(VB);
+    QLabel* lab = new QLabel("MAIN_STACK_SIZE");
+    VB->addWidget(lab);
+    lab = new QLabel("PROCESS_STACK_SIZE");
+    VB->addWidget(lab);
+    VB->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding, QSizePolicy::Expanding));
+
+    VB = new QVBoxLayout();
+    GBL->addLayout(VB);
+    _lestack = new QLineEdit();
+    _lestack->setValidator(new QIntValidator(8, 65535));
+    VB->addWidget(_lestack);
+    _lepstack = new QLineEdit();
+    _lepstack->setValidator(new QIntValidator(8, 65535));
+    VB->addWidget(_lepstack);
+    VB->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding, QSizePolicy::Expanding));
 }
 
 void MainGUI::InitAdrGUI()
 {
-    QGroupBox* GB = new QGroupBox("d->getMyName()");
+    QGroupBox* GB = new QGroupBox("Pliki");
     this->centralWidget()->layout()->addWidget(GB);
     QHBoxLayout* ML = new QHBoxLayout();
     GB->setLayout(ML);
@@ -112,16 +147,15 @@ void MainGUI::InitAdrGUI()
     ML->addWidget(btn);
 }
 
-void MainGUI::AppendTable(QSharedPointer<DataI> d)
+QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
 {
     for(auto s: _noTable)
     {
         if(!s.compare(d->getMyName()))
-            return;
+            return nullptr;
     }
 
     QGroupBox* GB = new QGroupBox(d->getMyName());
-    this->centralWidget()->layout()->addWidget(GB);
     GB->setLayout(new QHBoxLayout());
 
     mQTableView* TBV = new mQTableView();
@@ -150,7 +184,7 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     for(auto s: _noEdits)
     {
         if(!s.compare(d->getMyName()))
-            return;
+            return GB;
     }
 
     QVBoxLayout* BL = new QVBoxLayout();
@@ -193,6 +227,8 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     connect(btn, &QPushButton::clicked, uf);
     connect(TBV, &mQTableView::delete_req, uf);
     BL->addWidget(btn);
+
+    return GB;
 }
 
 void MainGUI::InitMenu()

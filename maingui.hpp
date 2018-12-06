@@ -10,6 +10,8 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QLineEdit>
+#include <QGroupBox>
 
 class Data;
 class DataI;
@@ -24,7 +26,7 @@ public:
 private:
     void InitGUI();
     void InitAdrGUI();
-    void AppendTable(QSharedPointer<DataI> d);
+    QGroupBox* AppendTable(QSharedPointer<DataI> d);
     void InitMenu();
 
     QSharedPointer<Data> _dat;
@@ -43,6 +45,9 @@ private:
     QLabel* _liadr = nullptr;
     QLabel* _ltadr = nullptr;
     QLabel* _loadr = nullptr;
+
+    QLineEdit* _lestack = nullptr;
+    QLineEdit* _lepstack = nullptr;
 
 private slots:
     void Save();
