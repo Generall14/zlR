@@ -53,9 +53,63 @@ void MainGUI::InitGUI()
     this->setCentralWidget(new QWidget());
     this->centralWidget()->setLayout(new QVBoxLayout());
 
+    InitAdrGUI();
+
     auto map = _dat->GetMap();
     for(auto it = map.begin();it!=map.end();it++)
         AppendTable(it.value());
+}
+
+void MainGUI::InitAdrGUI()
+{
+    QGroupBox* GB = new QGroupBox("d->getMyName()");
+    this->centralWidget()->layout()->addWidget(GB);
+    QHBoxLayout* ML = new QHBoxLayout();
+    GB->setLayout(ML);
+
+
+    QVBoxLayout* SL = new QVBoxLayout();
+    ML->addLayout(SL);
+    QToolButton* tbtn = new QToolButton();
+    tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_DialogOpenButton));
+    connect(tbtn, &QToolButton::clicked, this, &MainGUI::Open);
+    SL->addWidget(tbtn);
+
+    tbtn = new QToolButton();
+    tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_DialogOpenButton));
+    connect(tbtn, &QToolButton::clicked, this, &MainGUI::GetTemplate);
+    SL->addWidget(tbtn);
+
+    tbtn = new QToolButton();
+    tbtn->setIcon(QCommonStyle().standardIcon(QStyle::SP_DialogOpenButton));
+    connect(tbtn, &QToolButton::clicked, this, &MainGUI::GetOutput);
+    SL->addWidget(tbtn);
+
+
+    SL = new QVBoxLayout();
+    ML->addLayout(SL);
+    QLabel* lab = new QLabel("Plik danych: ");
+    SL->addWidget(lab);
+    lab = new QLabel("Plik szablonu: ");
+    SL->addWidget(lab);
+    lab = new QLabel("Plik wyjściowy: ");
+    SL->addWidget(lab);
+
+    SL = new QVBoxLayout();
+    ML->addLayout(SL);
+    _liadr = new QLabel("-");
+    SL->addWidget(_liadr);
+    _ltadr = new QLabel("-");
+    SL->addWidget(_ltadr);
+    _loadr = new QLabel("-");
+    SL->addWidget(_loadr);
+
+    ML->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+
+    QPushButton* btn = new QPushButton("ODPAL!");
+    btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    connect(btn, &QPushButton::clicked, this, &MainGUI::Make);
+    ML->addWidget(btn);
 }
 
 void MainGUI::AppendTable(QSharedPointer<DataI> d)
@@ -245,6 +299,24 @@ void MainGUI::Open()
     }
 }
 
+void MainGUI::GetTemplate()
+{
+    _currentTempFile = QFileDialog::getOpenFileName(this,
+                                "Podaj plik szablonu",
+                                _currentTempFile,
+                                "Linker files (*.ld);;All files (*)");
+    UpdTitle();
+}
+
+void MainGUI::GetOutput()
+{
+    _currentOutFile = QFileDialog::getSaveFileName(this,
+                                "Podaj plik wynikowy",
+                                _currentOutFile,
+                                "Linker files (*.ld);;All files (*)");
+    UpdTitle();
+}
+
 void MainGUI::UpdTitle()
 {
     QString temp = "zlR";
@@ -258,6 +330,9 @@ void MainGUI::UpdTitle()
         temp.append(" )");
     }
     this->setWindowTitle(temp);
+    _liadr->setText(_currentFile);
+    _ltadr->setText(_currentTempFile);
+    _loadr->setText(_currentOutFile);
 }
 
 void MainGUI::About()
@@ -296,22 +371,16 @@ void MainGUI::Manual()
 
 void MainGUI::Make()
 {
-    QString templateFile = QFileDialog::getOpenFileName(this,
-                                "Podaj plik szablonu",
-                                _currentTempFile,
-                                "Linker files (*.ld);;All files (*)");
-    if(templateFile.isEmpty())
+    if(_currentTempFile.isEmpty())
+        GetTemplate();
+    if(_currentTempFile.isEmpty())
         return;
 
-    QString outputFile = QFileDialog::getSaveFileName(this,
-                                "Podaj plik wynikowy",
-                                _currentOutFile,
-                                "Linker files (*.ld);;All files (*)");
-    if(outputFile.isEmpty())
+    if(_currentOutFile.isEmpty())
+        GetOutput();
+    if(_currentOutFile.isEmpty())
         return;
 
-    _currentTempFile = templateFile;
-    _currentOutFile = outputFile;
     try
     {
         _dat->Make(_currentTempFile, _currentOutFile);

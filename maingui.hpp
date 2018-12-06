@@ -9,6 +9,7 @@
   */
 
 #include <QMainWindow>
+#include <QLabel>
 
 class Data;
 class DataI;
@@ -22,6 +23,7 @@ public:
 
 private:
     void InitGUI();
+    void InitAdrGUI();
     void AppendTable(QSharedPointer<DataI> d);
     void InitMenu();
 
@@ -38,10 +40,16 @@ private:
     const QStringList _noEdits = {"DREG"}; /**<Lista nazw sekcji dla których nie zostaną dodane przyciski edycji.*/
     const QStringList _noTable = {"DSTCK", ""}; /**<Lista nazw sekcji dla których nie zostanie dodana tabela.*/
 
+    QLabel* _liadr = nullptr;
+    QLabel* _ltadr = nullptr;
+    QLabel* _loadr = nullptr;
+
 private slots:
     void Save();
     void SaveAs();
     void Open();
+    void GetTemplate();
+    void GetOutput();
     void About();
     void Make();
     void Manual();
