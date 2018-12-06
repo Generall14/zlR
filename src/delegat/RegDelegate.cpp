@@ -1,6 +1,7 @@
 #include "RegDelegate.hpp"
 #include <QComboBox>
 #include <src/DataI.hpp>
+#include <src/wtf/WComboBox.hpp>
 
 /**
  * @param region - wskaźnik na obiekt z którego zostaną odczytane nazwy struktur.
@@ -16,14 +17,14 @@ RegDelegate::RegDelegate(QObject *parent, DataI *region):
  */
 QWidget *RegDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem&, const QModelIndex&) const
 {
-    QComboBox* editor = new QComboBox(parent);
+    WComboBox* editor = new WComboBox(parent);
     editor->addItems(_reg->GetNames());
     return editor;
 }
 
 void RegDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QComboBox* le = static_cast<QComboBox*>(editor);
+    WComboBox* le = static_cast<WComboBox*>(editor);
     QString val = index.model()->data(index, Qt::DisplayRole).toString();
     le->setCurrentText(val);
 }

@@ -19,6 +19,8 @@ DataDReg::DataDReg(Data *data):
 
     _editable[0] = false;
 
+    _iEditable[1] = true;
+
     _minData.append(ReadLine("#define STACK_REGION                        RAM"));
     _minData.append(ReadLine("#define HEAP_REGION                         RAM"));
     _minData.append(ReadLine("#define VECTORS_VMA_REGION                  ROM"));

@@ -59,6 +59,7 @@ public:
     QString getMyName() const;
     QStringList getMaxTxts() const;
     void SetLock(bool lock);
+    bool IsInstandEdit(int column) const;
 
     QStringList GetNames();
 
@@ -106,6 +107,7 @@ protected:
     QList<bool> _editable; /**<Oznaczenie czy dana kolumna może być edytowana.*/
     QString _desc; /**<Opis dodany do pliku z konfiguracją.*/
     QList<PureData> _minData; /**<Wymagane i domyślne dane dane.*/
+    QList<bool> _iEditable;
 
 
     virtual QString AppendToFileL(QStringList str, int nr);

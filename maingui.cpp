@@ -88,6 +88,11 @@ void MainGUI::AppendTable(QSharedPointer<DataI> d)
     }
     TBV->verticalHeader()->hide();
 
+    connect(TBV->selectionModel(), &QItemSelectionModel::currentChanged, [d, TBV](const QModelIndex &current, const QModelIndex &){
+        if(d->IsInstandEdit(current.column()))
+            TBV->edit(current);
+    });
+
     for(auto s: _noEdits)
     {
         if(!s.compare(d->getMyName()))

@@ -26,6 +26,8 @@ DataI::DataI(QString sign, QStringList header, Data *data):
         _maxTxts.append("nullptr");
     while(_editable.size()<COLS)
         _editable.append(true);
+    while(_iEditable.size()<COLS)
+        _iEditable.append(false);
 }
 
 /**
@@ -497,4 +499,9 @@ void DataI::SetLock(bool lock)
     _lock = lock;
     if(lock)
         _dirty = true;
+}
+
+bool DataI::IsInstandEdit(int column) const
+{
+    return _iEditable.at(column);
 }

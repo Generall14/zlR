@@ -31,6 +31,10 @@ DataSection::DataSection(Data *data):
 
     _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMM", "MMMMMM", "MMMMMM", "M", "M"};
 
+    _iEditable[1] = true;
+    _iEditable[2] = true;
+    _iEditable[3] = true;
+
     _desc =
        "/**********************************************************************************************************\r\n"
        " * USER SECTIONS DEFINITION\r\n"

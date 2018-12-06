@@ -43,7 +43,8 @@ SOURCES += \
     src/validator/ValidateContainsOther.cpp \
     src/validator/ValidateContainsConst.cpp \
     src/DataDReg.cpp \
-    src/DataDStck.cpp
+    src/DataDStck.cpp \
+    src/wtf/WComboBox.cpp
 
 HEADERS += \
         maingui.hpp \
@@ -67,7 +68,8 @@ HEADERS += \
     src/validator/ValidateContainsOther.hpp \
     src/validator/ValidateContainsConst.hpp \
     src/DataDReg.hpp \
-    src/DataDStck.hpp
+    src/DataDStck.hpp \
+    src/wtf/WComboBox.hpp
 
 RESOURCES += \
     res.qrc
