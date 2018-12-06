@@ -62,6 +62,8 @@ void MainGUI::InitGUI()
     auto map = _dat->GetMap();
     for(auto it = map.begin();it!=map.end();it++)
     {
+        connect((*it).data(), &DataI::Changed, this, &MainGUI::Changed);
+
         QGroupBox* gb = AppendTable(it.value());
         if(gb!=nullptr)
         {
@@ -324,6 +326,8 @@ void MainGUI::Save()
         _dat->Save(_currentFile);
     else
         SaveAs();
+    _changed = false;
+    UpdTitle();
 }
 
 void MainGUI::SaveAs()
@@ -337,7 +341,6 @@ void MainGUI::SaveAs()
     {
         _currentFile = fileName;
         Save();
-        UpdTitle();
     }
 }
 
@@ -352,6 +355,7 @@ void MainGUI::Open()
     {
         _currentFile = fileName;
         _dat->Load(fileName);
+        _changed = false;
         UpdTitle();
     }
 }
@@ -376,22 +380,17 @@ void MainGUI::GetOutput()
 
 void MainGUI::UpdTitle()
 {
-    QString temp = "zlR";
-    if(!_currentFile.isEmpty())
-    {
-        temp.append(" ( ");
-        if(_currentFile.size()>(MAX_TITLE_LENGTH+3))
-            temp.append("..."+_currentFile.right(MAX_TITLE_LENGTH));
-        else
-            temp.append(_currentFile);
-        temp.append(" )");
-    }
-    this->setWindowTitle(temp);
-
-    temp = _currentFile;
+    QString temp = _currentFile;
     if(temp.size()>(MAX_TITLE_LENGTH+3))
         temp = "..."+temp.right(MAX_TITLE_LENGTH);
+    if(_changed)
+        temp.append(" *");
     _liadr->setText(temp);
+
+    QString tempw = "zlR";
+    if(!_currentFile.isEmpty())
+        tempw.append(" ( "+temp+" )");
+    this->setWindowTitle(tempw);
 
     temp = _currentTempFile;
     if(temp.size()>(MAX_TITLE_LENGTH+3))
@@ -473,4 +472,34 @@ void MainGUI::StoreStacks()
     DataI* d = _dat->GetByName("DSTCK").data();
     d->setData(d->index(0, 1), QVariant(_lestack->text()));
     d->setData(d->index(1, 1), QVariant(_lepstack->text()));
+}
+
+void MainGUI::Changed()
+{
+    _changed = true;
+    UpdTitle();
+}
+
+void MainGUI::closeEvent(QCloseEvent *event)
+{
+    if(!_changed)
+    {
+        event->accept();
+        return;
+    }
+    QMessageBox::StandardButton resBtn = QMessageBox::question(this, "zlR",
+                                                                "Dane zostały zmieniony, czy zapisać plik \""+_currentFile+"\"?",
+                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if(resBtn == QMessageBox::Yes)
+    {
+        Save();
+        event->accept();
+    }
+    else if(resBtn == QMessageBox::No)
+    {
+        event->accept();
+    }
+    else
+        event->ignore();
 }

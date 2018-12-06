@@ -8,13 +8,12 @@
  ******************************************************************************
  */
 
-#ifndef TST_H
-#define TST_H
+#ifndef TST2_H
+#define TST2_H
 
 
-//##CONST
-#define MAIN_STACK_SIZE                     1024
-#define PROCESS_STACK_SIZE                  1024
+
+//##DREG
 #define STACK_REGION                        CCM_RAM
 #define HEAP_REGION                         RAM
 #define VECTORS_VMA_REGION                  ROM
@@ -31,8 +30,18 @@
 #define BSS_LMA_REGION                      RAM
 
 
+//##DSTCK
+#define MAIN_STACK_SIZE                     1024
+#define PROCESS_STACK_SIZE                  1024
+
+
 //##REGION
-/**                         Nazwa           Prawa        Adres        Rozmiar   */
+/**********************************************************************************************************
+ *
+ * Max number of regions 20 <0..19>
+ *
+ **********************************************************************************************************/
+/**                         NAME            RIGHTS       ADR          SIZE   */
 #define REGION_0            ROM           , RX         , 0x08000000 , 2M
 #define REGION_1            RAM           , RWX        , 0x20000000 , 112k
 #define REGION_2            RAM1          , RWX        , 0x2001C000 , 16k
@@ -44,9 +53,21 @@
 
 
 //##SECTION
-/**                         Nazwa           LMA_ADDR     VMA_ADDR     TYPE         KEEP         NOLOAD   */
+/**********************************************************************************************************
+ * USER SECTIONS DEFINITION
+ *
+ * Possible parameters:
+ * NAME         - unique name of section
+ * LMA_ADDR     - defined region name
+ * VMA_ADDR     - defined region name
+ * TYPE         - DATA, BSS, NOINIT
+ *                DATA - like data section, BSS - like bss section, NOINIT - not initialized data
+ * KEEP         - KEEP or empty
+ * NOLOAD       - NOLOAD or empty
+ **********************************************************************************************************/
+/**                         NAME            LMA_ADDR     VMA_ADDR     TYPE         KEEP         NOLOAD   */
 #define SECTION_0           FUNC_RAM      , ROM        , RAM        , DATA       ,            , 
-#define SECTION_1           SRAM          , SRAM       , SRAM       , NOINIT     ,            , NOLOAD
+#define SECTION_1           SRAM          , SRAM       , SRAM       , NOINIT     ,            , YES
 
 
-#endif /* TST_H */
+#endif /* TST2_H */

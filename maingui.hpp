@@ -37,7 +37,7 @@ private:
 
     void UpdTitle();
 
-    static const int MAX_TITLE_LENGTH = 52;
+    static const int MAX_TITLE_LENGTH = 48;
 
     const QStringList _noEdits = {"DREG"}; /**<Lista nazw sekcji dla których nie zostaną dodane przyciski edycji.*/
     const QStringList _noTable = {"DSTCK", ""}; /**<Lista nazw sekcji dla których nie zostanie dodana tabela.*/
@@ -49,6 +49,8 @@ private:
     QLineEdit* _lestack = nullptr;
     QLineEdit* _lepstack = nullptr;
 
+    bool _changed = false;
+
 private slots:
     void Save();
     void SaveAs();
@@ -58,9 +60,12 @@ private slots:
     void About();
     void Make();
     void Manual();
+    void Changed();
 
     void LoadStacks();
     void StoreStacks();
+
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MAINGUI_HPP
