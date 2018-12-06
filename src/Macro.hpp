@@ -29,6 +29,7 @@ private:
     QStringList _expanded;
     QStringList ExpandSingle(int i);
     QStringList ExpandAll();
+    QStringList Justify(QStringList text);
 
     QString _name;
     QStringList _text;

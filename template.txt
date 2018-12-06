@@ -41,7 +41,10 @@ nie zadziała (nie gwarantuję, że program taki błąd wychwyci, możliwe jest 
 
 W pierwszym kroku wszystkie makra są ładowane, dopiero później są rozwijane - nie ma tu problemu definicji i deklaracji jak w c.
 
-Instrukcja $MAC[NAZWA], zostanie zignorowany gdy makro o nazwie NAZWA nie zostanie zdefiniowany.
+Instrukcja $MAC[NAZWA], zostanie zignorowany gdy makro o nazwie NAZWA nie zostanie zdefiniowana.
+
+
+2b. Wewnątrz makr można używać znaczników $T do wyrównywania tekstu. Wszystkie miejsca oznaczone $T zostaną wyrównane spacjami do jednej kolumny (wielokrotność czwórki), można wstawiać kilka znaczników $T w jednej linii, wspólnie wyrównywane są i-te wystąpienia tego znacznika. Liczba wystąpień $T nie musi się zgadzać w kolejnych liniach.
 
 
 

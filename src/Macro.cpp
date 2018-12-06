@@ -3,6 +3,8 @@
 #include <src/DataI.hpp>
 #include <src/DataSection.hpp>
 #include <src/DataRegion.hpp>
+#include <QList>
+#include <QDebug>
 
 /**
  * Konstruktor.
@@ -11,9 +13,16 @@
  */
 Macro::Macro(QStringList text, Data *data)
 {
-    QString t = text.at(0).mid(7);
-    t = t.split(" ", QString::SkipEmptyParts).at(0);
-    _data = data->GetByName(t).data();
+    QString t0 = text.at(0).mid(7);
+    QString t = t0.split(" ", QString::SkipEmptyParts).at(0);
+    try
+    {
+        _data = data->GetByName(t).data();
+    }
+    catch(std::runtime_error)
+    {
+        throw std::runtime_error("Macro::Macro: brak makra dla \""+t0.toStdString()+"\"");
+    }
 
     QStringList ll = text.at(0).split(" ", QString::SkipEmptyParts);
     if(ll.size()<2)
@@ -103,7 +112,9 @@ QList<Macro> Macro::LoadMacros(QStringList& text, Data* data)
 bool Macro::Apply(QStringList& text)
 {
     if(_expanded.isEmpty())
-        _expanded = ExpandAll();
+    {
+        _expanded = Justify(ExpandAll());
+    }
     if(_expanded.isEmpty())
         return false;
 
@@ -186,4 +197,41 @@ QStringList Macro::ExpandAll()
     for(int i=0;i<_data->rowCount();i++)
         temp.append(ExpandSingle(i));
     return temp;
+}
+
+/**
+ * Wyrównuje tekst według znaczników $T.
+ */
+QStringList Macro::Justify(QStringList text)
+{
+    if(text.isEmpty())
+        return text;
+    QList<int> _pos;
+    while(_pos.size()<text.size())
+        _pos.append(-1);
+    int max, diff;
+    while(true)
+    {
+        for(int i=0;i<_pos.size();i++)
+        {
+            if((_pos[i]=text.at(i).indexOf("$T", Qt::CaseSensitive))>=0)
+                text[i].remove(_pos[i], 2);
+        }
+
+        max = *(std::max_element(_pos.begin(), _pos.end()));
+        if(max<0)
+            break;
+
+        while(max%4)
+            max++;
+        for(int i=0;i<_pos.size();i++)
+        {
+            if(_pos.at(i)==-1)
+                continue;
+            diff = max-_pos.at(i);
+            while(diff--)
+                text[i].insert(_pos.at(i), " ");
+        }
+    }
+    return text;
 }
