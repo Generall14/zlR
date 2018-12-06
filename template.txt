@@ -15,7 +15,7 @@ $MACRO_TYPE NAZWA
 $ENDM
 , gdzie TYPE jest typem struktury (obecnie tylko REGION, SECTION), NAZWA jest identyfikatorem makra (nie mogą się powtarzać).
 
-Do pól lokalnych odnosi się za pomocą instrukcji $LOC(L_L), gdzie L_L jest nazwą składowej lokalnej struktury (SECTION={NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD}, REGION={NAME, RIGHTS, ADR, SIZE}), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. Znaczniki $MACRO_SECTION NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
+Do pól lokalnych odnosi się za pomocą instrukcji $LOC[L_L], gdzie L_L jest nazwą składowej lokalnej struktury (SECTION={NAME, LMA_ADDR, VMA_ADDR, TYPE, KEEP, NOLOAD}, REGION={NAME, RIGHTS, ADR, SIZE}), taki znacznik zostanie podmieniony na wartość zawartą w atrybucie lokalnym. Znaczniki $MACRO_SECTION NAZWA i $ENDM muszą się znajdować na początku lini, wszystkie za nimi do końca linii zostaną zignorowane.
 
 W miejscu pojewienia się instrukcji $MAC[NAZWA] makro zostanie rozwinięte po kolei dla wszystkich zdefiniowanych struktur danego typu.
 
@@ -89,11 +89,17 @@ Każdy krok jest tak długo powtarzany aż się z wszystkiego wystrzela, ale po 
 =====================================================================
 Definicje różnych typów danych muszą być oznaczone znacznikami, np.:
 
-... Jakieś tam nieistotne dane
-//##CONST
-... Definicje zwykłych stałych
-#define MAIN_STACK_SIZE                     1024
-#define PROCESS_STACK_SIZE                  1024
+... Jakieś tam nieistotne dane i definicje
+#define KIKOWA_STALA KIJOWA_WARTOSC
+...
+... Wartości stosów
+//##DSTCK
+#define MAIN_STACK_SIZE                     666
+#define PROCESS_STACK_SIZE                  666
+... Wartości do wyboru z regionów
+//##DREG
+#define STACK_REGION                        CCM_RAM
+#define HEAP_REGION                         RAM
 ...
 //##REGION
 ... Definicje sekcji typu REGION
@@ -108,4 +114,4 @@ Definicje różnych typów danych muszą być oznaczone znacznikami, np.:
 #define SECTION_1           SRAM          , SRAM       , SRAM       , NOINIT     ,            , NOLOAD
 ...
 
-Czytane z pliku będą tylko linie popprzedzone znacznikiem //##JAKISTAMCOSTAM oraz rozpoczynający się #define.
+Czytane z pliku będą tylko linie poprzedzone znacznikiem //##JAKISTAMCOSTAM oraz rozpoczynający się #define.

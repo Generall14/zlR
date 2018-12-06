@@ -4,6 +4,8 @@
 #include <iostream>
 #include <QMessageBox>
 #include <support.hpp>
+#include <src/OtherShitSolver.hpp>
+#include <qdebug.h>
 
 int main(int argc, char *argv[])
 {

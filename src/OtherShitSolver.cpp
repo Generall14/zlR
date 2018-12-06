@@ -142,6 +142,9 @@ bool OtherShitSolver::SolveNextIfs(QStringList& text)
  */
 bool OtherShitSolver::GetBoleanValue(QString cond)
 {
+    while(cond.indexOf(" ")>-1)
+        cond.remove(" ");
+
     if(cond.isEmpty())
         return false;
 
