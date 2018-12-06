@@ -19,9 +19,9 @@ DataI::DataI(QString sign, QStringList header, Data *data):
     _header(header)
 {
     while(_delegats.size()<COLS)
-        _delegats.append(nullptr);
+        _delegats.append(QSharedPointer<QItemDelegate>(nullptr));
     while(_validators.size()<COLS)
-        _validators.append(nullptr);
+        _validators.append(QSharedPointer<QValidator>(nullptr));
     while(_maxTxts.size()<COLS)
         _maxTxts.append("nullptr");
     while(_editable.size()<COLS)

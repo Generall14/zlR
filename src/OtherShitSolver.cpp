@@ -1,4 +1,5 @@
 #include "OtherShitSolver.hpp"
+#include <stdexcept>
 
 const QStringList OtherShitSolver::RELS = {"==", "!=", ">=", "<=", ">", "<"};
 
