@@ -350,7 +350,6 @@ void MainGUI::Open()
                                 "Podaj plik z definicjami danych do wczytania",
                                 _currentFile,
                                 "Memory configuration file (*.memcfg);;C header files (*.h);;All files (*)");
-
     if (!fileName.isEmpty())
     {
         _currentFile = fileName;
