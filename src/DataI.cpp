@@ -372,7 +372,7 @@ void DataI::ApplyDelegatesForTable(QTableView* table)
     for(int i=0;i<COLS;i++)
     {
         if(_delegats.at(i).data()==nullptr)
-            _delegats[i] = QSharedPointer<QItemDelegate>(new LEDelegate(this));
+            continue;//_delegats[i] = QSharedPointer<QItemDelegate>(new LEDelegate(this));
         table->setItemDelegateForColumn(i, _delegats.at(i).data());
     }
 }

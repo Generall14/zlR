@@ -17,6 +17,10 @@ class DataSection : public DataI
     Q_OBJECT
 public:
     DataSection(Data *data);
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    Qt::ItemFlags flags(const QModelIndex & index) const;
 };
 
 #endif
