@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <QDebug>
 
-const QStringList OtherShitSolver::RELS = {"==", "!=", ">=", "<=", ">", "<"};
+const QStringList OtherShitSolver::RELS = {"==", "!=", ">=", "<=", ">", "<", "!"};
 
 /**
  * Wykonje wszystkie przewidziane w tym obiekcie czynności na wskazanym pliku:
@@ -189,6 +189,8 @@ bool OtherShitSolver::GetBoleanValue(QString cond)
         return splited.at(0).compare(splited.at(1))>0;
     else if(!rel.compare("<"))
         return splited.at(0).compare(splited.at(1))<0;
+    else if(!rel.compare("!"))
+        return splited.at(1).isEmpty();
 
     return true;
 }

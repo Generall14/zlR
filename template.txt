@@ -56,7 +56,7 @@ $ELSIF[WARUNEK]
 $ELSE
 ...ble ble ble...
 $ENDIF
-Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako stringi w konwencji CaseSensitive. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]) Wszystkie spacje z wnętrza nawiasów warunku zostaną usunięte. Każde ze słów kluczowych $IF, $ELSIF, $ELSE, $ENDIF musi się znajdować z osobnej lini (na jej początku), wszelkie dane z tej lini znajdujące się poza instrukcją zostaną pominięte.
+Warunek może być pojedynczym tekstem (pusty string zostanie potraktowany jako fałsz, każdy inny jako prawda, rozwijanie warunków następuje po rozwinięciu wszystkich stałych) lub dwoma tekstami rozdzielonymi instrukcją relacji (==, !=, >=, <=, >, <), wartości porównywane są jako stringi w konwencji CaseSensitive. Możliwe jest zanegowanie pojedynczego słowa symbolem "!", np $IF[!COND], w takim przypadku warunek zostanie spełniony jeżeli COND jest fałszywe. UWAGA! Wstawienie nierozpoznanegj instrukcji relacji spowoduje potraktowanie całego warunku jako pojedynczego słowa (np. A=B) co zawsze zostanie odczytane jako prawda. Warunki nie mogą być łączone (np. $IF[A==B==C]) Wszystkie spacje z wnętrza nawiasów warunku zostaną usunięte. Każde ze słów kluczowych $IF, $ELSIF, $ELSE, $ENDIF musi się znajdować z osobnej lini (na jej początku), wszelkie dane z tej lini znajdujące się poza instrukcją zostaną pominięte.
 
 
 

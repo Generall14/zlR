@@ -9,7 +9,7 @@
 #include <iostream>
 
 DataRegion::DataRegion(Data *data):
-    DataI("REGION", {"NAME", "RIGHTS", "ADR", "SIZE"}, data)
+    DataI("REGION", {"NAME", "RIGHTS", "ADRESS", "SIZE"}, data)
 {
     _validators[0]=(QSharedPointer<QValidator>(new NameValidator("NAME", this)));
     _validators[1]=(QSharedPointer<QValidator>(new RWXValidator()));

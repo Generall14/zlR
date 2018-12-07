@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>help.txt</file>
-		<file>template.txt</file>
+        <file>template.txt</file>
+        <file>ikona.ico</file>
     </qresource>
 </RCC>

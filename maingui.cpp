@@ -51,6 +51,8 @@ void MainGUI::InitGUI()
     this->window()->resize(1240, 750);
     this->setFixedSize(1140, 750);
 
+    this->setWindowIcon(QIcon(":/ikona.ico"));
+
     this->setCentralWidget(new QWidget());
     this->centralWidget()->setLayout(new QVBoxLayout());
 
@@ -200,6 +202,8 @@ QGroupBox* MainGUI::AppendTable(QSharedPointer<DataI> d)
                                                         QFontMetrics(QApplication::font()).width(hd)));
     }
     TBV->verticalHeader()->hide();
+    TBV->horizontalHeader()->setStretchLastSection(true);
+
 
     connect(TBV->selectionModel(), &QItemSelectionModel::currentChanged, [d, TBV](const QModelIndex &current, const QModelIndex &){
         if(d->IsInstandEdit(current.column()))
