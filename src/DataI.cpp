@@ -208,10 +208,15 @@ QString DataI::AppendToFileL(QStringList str, int nr)
 void DataI::Add()
 {
     emit beginInsertRows(QModelIndex(), _pureData.size()-1, _pureData.size()-1);
-    QStringList tips = {""};
-    for(int i=0;i<COLS;i++)
-        tips.append("");
-    _pureData.append(PureData{tips, tips});
+    if(_defaultAddReadLine.isEmpty())
+    {
+        QStringList tips = {""};
+        for(int i=0;i<COLS;i++)
+            tips.append("");
+        _pureData.append(PureData{tips, tips});
+    }
+    else
+        _pureData.append(ReadLine(_defaultAddReadLine));
     _dirty=true;
     emit endInsertRows();
     emit Changed();

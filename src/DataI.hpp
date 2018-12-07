@@ -110,6 +110,7 @@ protected:
     QList<bool> _iEditable;
     bool _otemplate = false; /**<Jeżeli true - wartości z _minData będą mogły być zmienione.*/
     int _minCnt = -1; /**<Minimalna liczba pozycji danych, -1 oznacze brak ograniczenia.*/
+    QString _defaultAddReadLine;
 
 
     virtual QString AppendToFileL(QStringList str, int nr);

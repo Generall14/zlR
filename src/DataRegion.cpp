@@ -32,6 +32,8 @@ DataRegion::DataRegion(Data *data):
     _minData.append(ReadLine("#define REGION_0 ROM , RX , 0x08000000 , 1k"));
     _minData.append(ReadLine("#define REGION_1 RAM , RWX , 0x20000000 , 1k"));
 
+    _defaultAddReadLine = "#define REGION_0 X , RX , 0x08000000 , 1k";
+
     _otemplate = true;
     _minCnt = 1;
 }
