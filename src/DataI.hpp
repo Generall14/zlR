@@ -108,6 +108,8 @@ protected:
     QString _desc; /**<Opis dodany do pliku z konfiguracją.*/
     QList<PureData> _minData; /**<Wymagane i domyślne dane dane.*/
     QList<bool> _iEditable;
+    bool _otemplate = false; /**<Jeżeli true - wartości z _minData będą mogły być zmienione.*/
+    int _minCnt = -1; /**<Minimalna liczba pozycji danych, -1 oznacze brak ograniczenia.*/
 
 
     virtual QString AppendToFileL(QStringList str, int nr);
@@ -123,7 +125,7 @@ private:
     const QStringList _header; /**<Lista nagłówków dla każdej kolumny w tabeli.*/
 
     QStringList GetPieceOfFile(QString adr);
-    void ApplyRequiredData();
+    void ApplyRequiredData(bool force=false);
 
     static const int FS_OFF = 28;
     static const int FE_INC = 13;

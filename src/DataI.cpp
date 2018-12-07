@@ -37,7 +37,7 @@ void DataI::Clear()
 {
     emit beginResetModel();
     _pureData.clear();
-    ApplyRequiredData();
+    ApplyRequiredData(true);
     _dirty = true;
     emit endResetModel();
     emit Changed();
@@ -117,8 +117,10 @@ void DataI::FromFile(QString adr)
     emit Changed();
 }
 
-void DataI::ApplyRequiredData()
+void DataI::ApplyRequiredData(bool force)
 {
+    if((!force)&&_otemplate)
+        return;
     bool erreq = false;
     if(!_pureData.isEmpty())
         erreq = true;
@@ -226,12 +228,17 @@ void DataI::Remove(int index)
 
     QString n = _pureData.at(index).data.at(0);
     bool req = false;
-    for(auto d: _minData)
+    if((_minCnt>-1)&&(_pureData.size()<=_minCnt))
+        req = true;
+    if(!_otemplate)
     {
-        if(!n.compare(d.data.at(0)))
+        for(auto d: _minData)
         {
-            req = true;
-            break;
+            if(!n.compare(d.data.at(0)))
+            {
+                req = true;
+                break;
+            }
         }
     }
     if(!req)
@@ -304,7 +311,7 @@ Qt::ItemFlags DataI::flags(const QModelIndex & index) const
         return standard;
     if(_editable.at(index.column()))
         standard |= Qt::ItemIsEditable;
-    if(index.column()==0)
+    if((index.column()==0)&&!_otemplate)
     {
         for(auto d: _minData)
         {
@@ -324,7 +331,7 @@ bool DataI::setData(const QModelIndex & index, const QVariant & value, int role)
         return false;
     if((index.column()<0)||(index.row()<0)||(index.column()>=COLS)||(index.row()>=_pureData.size()))
         return false;
-    if(index.column()==0)
+    if((index.column()==0)&&!_otemplate)
     {
         for(auto d: _minData)
         {
