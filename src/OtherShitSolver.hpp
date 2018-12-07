@@ -25,7 +25,7 @@ private:
     static void SolveBrackets(QStringList& text);
 
     static void SolveIfs(QStringList& text);
-    static bool SolveNextIfs(QStringList& text);
+    static bool SolveNextIfs(QStringList& text, int start=0);
 
     static bool GetBoleanValue(QString cond);
 

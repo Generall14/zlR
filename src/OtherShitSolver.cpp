@@ -70,7 +70,7 @@ void OtherShitSolver::SolveIfs(QStringList& text)
     while(SolveNextIfs(text)){}
 }
 
-bool OtherShitSolver::SolveNextIfs(QStringList& text)
+bool OtherShitSolver::SolveNextIfs(QStringList& text, int start)
 {
     QList<ifSection> ifs;
     bool found = false;
@@ -78,7 +78,7 @@ bool OtherShitSolver::SolveNextIfs(QStringList& text)
     int li=-1, sl=-1, ll=-1;
     QString lcond;
 
-    for(int l=0;l<text.size();l++)
+    for(int l=start;l<text.size();l++)
     {
         if(!started)
         {
@@ -96,6 +96,8 @@ bool OtherShitSolver::SolveNextIfs(QStringList& text)
         }
         else
         {
+            if(text.at(l).startsWith("$IF["))
+                return SolveNextIfs(text, l);
             if(text.at(l).startsWith("$ELSIF["))
             {
                 li = text.at(l).indexOf("]");
