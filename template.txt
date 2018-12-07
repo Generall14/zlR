@@ -5,7 +5,7 @@
 
 
 
-1. Proste definicje (#define NAME VAL) są zastępowane w sposób analogiczny jak przez preprocesor gcc.
+1. Proste definicje (#define NAME VAL) są wstawiane w znacznikach $[NAME].
 
 
 

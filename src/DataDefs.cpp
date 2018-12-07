@@ -82,7 +82,7 @@ int DataDefs::ExpandSingle(int i, QStringList& text)
     if((i<0)||(i>=_pureData.size()))
         throw std::runtime_error("DataDefs::ExpandSingle: index out of range");
     int founds = 0;
-    QString before = _pureData.at(i).data[0];
+    QString before = "$["+_pureData.at(i).data[0]+"]";
     QString after = _pureData.at(i).data[1];
 
     int fi;
