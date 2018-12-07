@@ -128,25 +128,14 @@ bool Macro::Apply(QStringList& text)
         if(li<0)
             throw std::runtime_error("Macro::Apply: brak domknięcia nawiasu w \""+
                                      text.at(i).toStdString()+"\"");
-        QString pre, su, name;
+        QString name;
         name = text.at(i).mid(fi+5, li-fi-5);
         if(name.compare(_name))
             continue;
-        pre = text.at(i).mid(0, fi);
-        su = text.at(i).mid(li+1);
-        text[i].remove(fi, li-fi+1);
+        text.removeAt(i--);
 
-        if(_expanded.size()==1)
-            text[i] = pre+_expanded.at(0)+su;
-        else
-        {
-            text[i] = pre+_expanded.at(0);
-            for(int k=_expanded.size()-1;k>0;k--)
-            {
-                text.insert(i+1, _expanded.at(k)+su);
-                su.clear();
-            }
-        }
+        for(int k=_expanded.size()-1;k>=0;k--)
+            text.insert(i+1, _expanded.at(k));
         return true;
     }
 

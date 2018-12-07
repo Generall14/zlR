@@ -15,7 +15,7 @@ DataDReg::DataDReg(Data *data):
     _delegats[0]=QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(0).data()));
     _delegats[1]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
 
-    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMMMM"};
+    _maxTxts = QStringList{"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM", "MMMMMMMMMMMM"};
 
     _editable[0] = false;
 

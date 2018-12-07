@@ -5,8 +5,9 @@
 #-------------------------------------------------
 
 QT       += core gui
-CONFIG += -std=c++17
-MAKEFLAGS += CXX=g++-8 CXXFLAGS+=-std=c++17 CXXFLAGS+=-fPIC
+CONFIG += c++11
+#CONFIG += -std=c++17
+#MAKEFLAGS += CXX=g++-8 CXXFLAGS+=-std=c++17 CXXFLAGS+=-fPIC
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

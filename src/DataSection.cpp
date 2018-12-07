@@ -28,7 +28,7 @@ DataSection::DataSection(Data *data):
     _delegats[2]=(QSharedPointer<QItemDelegate>(new RegDelegate(this, _datPtr->GetByName("REGION").data())));
     _delegats[3]=(QSharedPointer<QItemDelegate>(new TypeDelegate(this, vals)));
 
-    _maxTxts = QStringList{"MMMMMMMMMMMM", "MMMMM", "MMMMM", "MMMMM", "", ""};
+    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "MMMMMMMMMMMM", "MMMMMMMMMMMM", "MMMMM", "", ""};
 
     _iEditable[1] = true;
     _iEditable[2] = true;
