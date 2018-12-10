@@ -36,6 +36,10 @@ MainGUI::MainGUI(QSharedPointer<Data> dat, QString iadr, QString tadr, QString o
     _currentTempFile(tadr),
     _currentOutFile(oadr)
 {
+//    QFont font("Courier New");
+//    font.setStyleHint(QFont::Monospace);
+//    QApplication::setFont(font);
+
     InitGUI();
     InitMenu();
     UpdTitle();
@@ -49,7 +53,7 @@ MainGUI::~MainGUI()
 void MainGUI::InitGUI()
 {
     this->window()->resize(1240, 750);
-    this->setFixedSize(1140, 750);
+    this->setFixedSize(1140, 810);
 
     this->setWindowIcon(QIcon(":/ikona.ico"));
 
@@ -69,18 +73,18 @@ void MainGUI::InitGUI()
         QGroupBox* gb = AppendTable(it.value());
         if(gb!=nullptr)
         {
+            auto x = gb->sizePolicy();
             if(!it.value()->getMyName().compare("DREG", Qt::CaseSensitive))
                 ML->addWidget(gb);
             else
             {
                 TL->addWidget(gb);
-                auto x = gb->sizePolicy();
                 if(!it.value()->getMyName().compare("SECTION", Qt::CaseSensitive))
-                    x.setHorizontalStretch(10);
+                    x.setHorizontalStretch(100);
                 else if(!it.value()->getMyName().compare("REGION", Qt::CaseSensitive))
-                    x.setHorizontalStretch(8);
-                gb->setSizePolicy(x);
+                    x.setHorizontalStretch(65);
             }
+            gb->setSizePolicy(x);
         }
     }
 

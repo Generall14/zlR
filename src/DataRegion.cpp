@@ -21,7 +21,7 @@ DataRegion::DataRegion(Data *data):
     _delegats[2]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(2).data())));
     _delegats[3]=(QSharedPointer<QItemDelegate>(new LEDelegate(this, _validators.at(3).data())));
 
-    _maxTxts = QStringList{"MMMMMMMMMMMMMMMM", "RWX", "0x00000000", "666M"};
+    _maxTxts = QStringList{"MMMMMMMMMMMMMMMMMMMMM", "RWXM", "0x00000000M", "666M"};
 
     _desc = "/**********************************************************************************************************\r\n"
             " *\r\n"
@@ -41,7 +41,7 @@ DataRegion::DataRegion(Data *data):
 QVariant DataRegion::data(const QModelIndex &index, int role) const
 {
     if(index.column() == 3 && role == Qt::TextAlignmentRole)
-        return Qt::AlignRight;
+        return (Qt::AlignRight+Qt::AlignVCenter);
     else
         return DataI::data(index, role);
 }
