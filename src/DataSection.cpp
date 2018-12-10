@@ -55,7 +55,7 @@ DataSection::DataSection(Data *data):
 
     _otemplate = true;
 
-    _defaultAddReadLine = "#define SECTION_0 X, ROM, RAM, DATA,,";
+    _defaultAddReadLine = "#define SECTION_0 SEC, ROM, RAM, DATA,,";
 }
 
 QVariant DataSection::data(const QModelIndex &index, int role) const

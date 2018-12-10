@@ -123,6 +123,16 @@ void Data::Make(QString temp, QString out)
     dynamic_cast<DataDefs*>(GetByName("DSTCK").data())->ProcessAll(sl);
     OtherShitSolver::DoAllRequiredShit(sl); // reszta pierdół
 
+    for(int i = sl.size()-2;i>=0;i--)
+    {
+        QString a = sl.at(i);
+        QString b = sl.at(i+1);
+        a.remove(" ");
+        b.remove(" ");
+        if((a.isEmpty())&&(b.isEmpty()))
+            sl.removeAt(i);
+    }
+
     if(out.isEmpty())
         return;
 

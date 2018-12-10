@@ -216,7 +216,33 @@ void DataI::Add()
         _pureData.append(PureData{tips, tips});
     }
     else
-        _pureData.append(ReadLine(_defaultAddReadLine));
+    {
+        auto temp = ReadLine(_defaultAddReadLine);
+        QString current;
+        int in = -1;
+        while(1)
+        {
+            bool found = false;
+            in++;
+            current = temp.data.at(0);
+            if(in>0)
+                current += "_"+QString::number(in);
+            for(auto a: _pureData)
+            {
+                if(!current.compare(a.data.at(0), Qt::CaseSensitive))
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found)
+            {
+                temp.data[0] = current;
+                _pureData.append(temp);
+                break;
+            }
+        }
+    }
     _dirty=true;
     emit endInsertRows();
     emit Changed();
