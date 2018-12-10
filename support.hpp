@@ -6,8 +6,8 @@
 struct args
 {
     QString iadr; /**<Adres wejściowego pliku danych.*/
-    QString tadr="template.ld"; /**<Adres pliku szalonu.*/
-    QString oadr="out.ld"; /**<Adres pliku wyjściowego.*/
+    QString tadr; /**<Adres pliku szalonu.*/
+    QString oadr; /**<Adres pliku wyjściowego.*/
     bool quiet = false; /**<Bez GUI.*/
     bool check = false; /**<Tylko sprawdzenie.*/
     bool help = false; /**<Wyświetl pomoc programu.*/
@@ -18,5 +18,8 @@ struct args
 args readArgs(QApplication &a);
 int run(QApplication &ap, args r);
 [[ noreturn ]] void displayAndQuit(QString file);
+
+static const QString DEFAULT_TEMPLATE = "template.ld";
+static const QString DEFAULT_OUTPUT = "out.ld";
 
 #endif

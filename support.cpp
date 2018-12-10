@@ -6,6 +6,7 @@
 #include <maingui.hpp>
 #include <QFile>
 #include <QDebug>
+#include <QDir>
 
 /**
  * Czyta argumenty programu i zwraca wypełnioną strukturę args.
@@ -65,6 +66,29 @@ int run(QApplication &ap, args r)
     QSharedPointer<Data> dat = QSharedPointer<Data>(new Data(r.iadr), &QObject::deleteLater);
     if(r.check)
         return 0;
+
+    if(r.tadr.isEmpty())
+    {
+        if(r.iadr.isEmpty())
+            r.tadr = QApplication::applicationDirPath()+"/"+DEFAULT_TEMPLATE;
+        else
+        {
+            r.tadr = QDir(r.iadr).absolutePath()+"/"+DEFAULT_TEMPLATE;
+            if(!QFile(r.tadr).exists())
+                r.tadr = QApplication::applicationDirPath()+"/"+DEFAULT_TEMPLATE;
+        }
+    }
+    if(r.oadr.isEmpty())
+    {
+        if(r.iadr.isEmpty())
+            r.oadr = QApplication::applicationDirPath()+"/"+DEFAULT_OUTPUT;
+        else
+        {
+            r.oadr = QDir(r.iadr).absolutePath()+"/"+DEFAULT_OUTPUT;
+            if(!QFile(r.oadr).exists())
+                r.oadr = QApplication::applicationDirPath()+"/"+DEFAULT_OUTPUT;
+        }
+    }
 
     if((r.quiet)||(r.verifyT))
     {
