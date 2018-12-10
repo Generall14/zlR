@@ -80,14 +80,7 @@ int run(QApplication &ap, args r)
     }
     if(r.oadr.isEmpty())
     {
-        if(r.iadr.isEmpty())
-            r.oadr = QApplication::applicationDirPath()+"/"+DEFAULT_OUTPUT;
-        else
-        {
-            r.oadr = QDir(r.iadr).absolutePath()+"/"+DEFAULT_OUTPUT;
-            if(!QFile(r.oadr).exists())
-                r.oadr = QApplication::applicationDirPath()+"/"+DEFAULT_OUTPUT;
-        }
+        r.oadr = DEFAULT_OUTPUT;
     }
 
     if((r.quiet)||(r.verifyT))
