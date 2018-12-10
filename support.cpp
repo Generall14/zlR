@@ -73,8 +73,8 @@ int run(QApplication &ap, args r)
             r.tadr = QApplication::applicationDirPath()+"/"+DEFAULT_TEMPLATE;
         else
         {
-            r.tadr = QDir(r.iadr).absolutePath()+"/"+DEFAULT_TEMPLATE;
-            if(!QFile(r.tadr).exists())
+            r.tadr = QFileInfo(r.iadr).absolutePath()+"/"+DEFAULT_TEMPLATE;
+            if(!QFileInfo(r.tadr).exists())
                 r.tadr = QApplication::applicationDirPath()+"/"+DEFAULT_TEMPLATE;
         }
     }
